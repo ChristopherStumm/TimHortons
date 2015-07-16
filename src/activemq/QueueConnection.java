@@ -82,5 +82,30 @@ public class QueueConnection {
 		}
 		
 		_log.debug("Listener active.");
+		
+		_log.debug("Starting to craete second listener");
+		
+		Session opcSession = null;
+		Destination opcDestination = null;
+		
+		try{
+			
+			opcSession = _con.createSession(false, Session.AUTO_ACKNOWLEDGE);
+			opcDestination = opcSession.createTopic("m_opcitems");
+		} catch (JMSException e){
+			e.printStackTrace();
+		}
+		
+		MessageConsumer consumerOPC;
+		try{
+			consumerOPC = opcSession.createConsumer(opcDestination);
+			consumerOPC.setMessageListener(new OPCDataListener());
+			
+			_con.start();
+		} catch (JMSException e){
+			e.printStackTrace();
+		}
+		
+		_log.debug("Second Listener Active");
 	}	
 }

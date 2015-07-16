@@ -1,20 +1,8 @@
 package activemq;
 
-import java.io.File;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-
-import model.ERPData;
-import model.StatusUpdate;
-
 import org.apache.camel.CamelContext;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.converter.jaxb.JaxbDataFormat;
 import org.apache.camel.impl.DefaultCamelContext;
-import org.w3c.dom.Node;
 
 /**
  * This demonstrates how to connect to the queue using apache camel. NOTE:
@@ -37,28 +25,14 @@ public class QueueConnectionUsingCamel {
 
 	public void run() {
 		CamelContext context = new DefaultCamelContext();
-		JaxbDataFormat jaxb = new JaxbDataFormat();
-		JaxbDataFormat jaxStatus = new JaxbDataFormat();
 
-		try {
-			jaxb.setContext(JAXBContext.newInstance(ERPData.class));
-			jaxStatus.setContext(JAXBContext.newInstance(StatusUpdate.class));
-		} catch (JAXBException e1) {
-			e1.printStackTrace();
-		}
-        
-		
 		try {
 			context.addRoutes(new RouteBuilder() {
 
 				@Override
 				public void configure() throws Exception {
-					from("activemq:topic:m_orders").to("stream:out");
-					from("activemq:topic:m_opcitems").to("stream:out");
-//					Unmarshaller unmarshaller = jaxStatus.getContext().createUnmarshaller();
-//					StatusUpdate sUpdate = (StatusUpdate) unmarshaller.unmarshal((Node) from("activemq:topic:m_opcitems"));
-//
-//					System.out.println(sUpdate);
+					from("activemq:topic:m_orders").to("mock:erpData");
+					from("activemq:topic:m_opcitems").to("mock:status");
 				}
 			});
 
