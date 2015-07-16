@@ -78,8 +78,8 @@ public class ERPDataListener implements MessageListener {
 			System.out.println("---------------");
 			
 			//push into database
-			Connection conn = main.DatabaseConn.getDatabaseConn();
-			writeToDatabase(conn, tempERPDate);
+			//Connection conn = main.DatabaseConn.getDatabaseConn();
+			//writeToDatabase(conn, tempERPDate);
 			
 		} catch (JMSException e) {
 			e.printStackTrace();

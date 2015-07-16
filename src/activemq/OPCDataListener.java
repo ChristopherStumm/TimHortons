@@ -49,6 +49,10 @@ public class OPCDataListener implements MessageListener {
 			System.out.println("Zeitpunkt der Meldung: "
 					+ tempStatus.getTimestamp());
 			System.out.println("Wert: " + tempStatus.getValue());
+			if (tempStatus.getItemName().contains("Lichtschranke")) 
+			{
+				//opticalFeedback(tempStatus);
+			}
 			System.out.println("-----");
 		} catch (JMSException e) {
 			// TODO Auto-generated catch block
@@ -58,6 +62,11 @@ public class OPCDataListener implements MessageListener {
 			e.printStackTrace();
 		}
 
+	}
+
+	private void opticalFeedback(OPCDataItem tempStatus) {
+		String[] tempArray = tempStatus.getItemName().split(" ");
+		
 	}
 
 }
