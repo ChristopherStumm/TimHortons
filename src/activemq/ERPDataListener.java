@@ -1,8 +1,8 @@
 package activemq;
 
-import java.io.ObjectInputStream.GetField;
 import java.io.StringReader;
-import java.io.StringWriter;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -50,7 +50,6 @@ public class ERPDataListener implements MessageListener {
 
 		System.out.println();
 		TextMessage tmpMessage = null;
-		ERPData tmpData;
 		if (arg0 instanceof TextMessage) {
 			tmpMessage = (TextMessage) arg0;
 		} else {
@@ -69,21 +68,36 @@ public class ERPDataListener implements MessageListener {
 		try {
 			StringReader reader = new StringReader(tmpMessage.getText());
 			tempERPDate = (ERPData) _unmarshaller.unmarshal(reader);
+			System.out.println();
 			System.out.println("Kunde: " + tempERPDate.getCustomerNumber());
 			System.out.println("Material: " + tempERPDate.getMaterialNumber());
 			System.out
 					.println("Bestellnummer: " + tempERPDate.getOrderNumber());
 			System.out.println("Zeitpunkt der Bestellung: "
 					+ tempERPDate.getTimeStamp());
+			System.out.println("---------------");
+			
+			//push into database
+			Connection conn = main.DatabaseConn.getDatabaseConn();
+			writeToDatabase(conn, tempERPDate);
+			
 		} catch (JMSException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		// Do something with the erp data!
-
+	}
+	
+	private void writeToDatabase(Connection conn, ERPData data){
+		if(conn != null){
+			try {
+				conn.createStatement()
+				.executeQuery("BLABLA");
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}else{
+			System.out.println("Error writing to database");
+		}
 	}
 }
