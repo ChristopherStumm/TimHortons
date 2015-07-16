@@ -1,21 +1,13 @@
 package main;
 
 import marshalling.DemoMarshalling;
-import model.ERPData;
-
-import org.apache.camel.CamelContext;
-import org.apache.camel.Exchange;
-import org.apache.camel.Processor;
-import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.converter.jaxb.JaxbDataFormat;
-import org.apache.camel.impl.DefaultCamelContext;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import esper.EsperTest;
+
 import activemq.QueueConnection;
 import activemq.QueueConnectionUsingCamel;
-import stateless4j.TestMachine;
+import esper.EsperTest;
 
 /**
  * Just comment out the code pieces you want.
