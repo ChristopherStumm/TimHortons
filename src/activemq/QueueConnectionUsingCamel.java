@@ -31,8 +31,8 @@ public class QueueConnectionUsingCamel {
 
 				@Override
 				public void configure() throws Exception {
-					from("activemq:topic:m_orders").to("stream:out");
-					from("activemq:topic:m_opcitems").to("stream:out");
+					from("activemq:topic:m_orders").to("mock:erpData");
+					from("activemq:topic:m_opcitems").to("mock:status");
 				}
 			});
 

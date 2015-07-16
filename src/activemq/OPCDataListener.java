@@ -31,21 +31,12 @@ public class OPCDataListener implements MessageListener {
 
 	@Override
 	public void onMessage(Message arg0) {
-
-		System.out.println("Got it");
-
 		TextMessage tmpMessage = null;
 		if (arg0 instanceof TextMessage) {
 			tmpMessage = (TextMessage) arg0;
 		} else {
 			System.out.println("Unknown format, marshalling aborted.");
 			return;
-		}
-
-		try {
-			System.out.println(tmpMessage.getText());
-		} catch (JMSException e) {
-			e.printStackTrace();
 		}
 
 		// Creating ERP-Object
@@ -58,6 +49,7 @@ public class OPCDataListener implements MessageListener {
 			System.out.println("Zeitpunkt der Meldung: "
 					+ tempStatus.getTimestamp());
 			System.out.println("Wert: " + tempStatus.getValue());
+			System.out.println("-----");
 		} catch (JMSException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
