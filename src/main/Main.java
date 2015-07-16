@@ -41,8 +41,8 @@ public class Main {
 		qc.run();
 
 		// State Machine
-		TestMachine t = new TestMachine();
-		t.run();
+		//TestMachine t = new TestMachine();
+		//t.run();
 
 		// Esper test
 		EsperTest esperTest = new EsperTest();

@@ -55,10 +55,6 @@ public class QueueConnectionUsingCamel {
 				public void configure() throws Exception {
 					from("activemq:topic:m_orders").to("stream:out");
 					from("activemq:topic:m_opcitems").to("stream:out");
-//					Unmarshaller unmarshaller = jaxStatus.getContext().createUnmarshaller();
-//					StatusUpdate sUpdate = (StatusUpdate) unmarshaller.unmarshal((Node) from("activemq:topic:m_opcitems"));
-//
-//					System.out.println(sUpdate);
 				}
 			});
 

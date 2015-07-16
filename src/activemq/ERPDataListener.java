@@ -1,5 +1,6 @@
 package activemq;
 
+import java.io.ObjectInputStream.GetField;
 import java.io.StringReader;
 import java.io.StringWriter;
 
@@ -27,13 +28,13 @@ public class ERPDataListener implements MessageListener {
 	private Logger _log = LogManager.getLogger(ERPDataListener.class);
 
 	private JAXBContext _ctx;
-	
-	private Unmarshaller _unmarshaller; 
+
+	private Unmarshaller _unmarshaller;
 
 	/**
 	 * Default Constructor
 	 */
-	public ERPDataListener()  {
+	public ERPDataListener() {
 		try {
 			_ctx = JAXBContext.newInstance(ERPData.class);
 			_unmarshaller = _ctx.createUnmarshaller();
@@ -46,23 +47,43 @@ public class ERPDataListener implements MessageListener {
 	@Override
 	public void onMessage(Message arg0) {
 		_log.debug("New ERP message arrived!");
-			
-		TextMessage tmpMessage= null; 
-		ERPData tmpData; 
+
+		System.out.println();
+		TextMessage tmpMessage = null;
+		ERPData tmpData;
 		if (arg0 instanceof TextMessage) {
-			tmpMessage = (TextMessage)arg0; 
+			tmpMessage = (TextMessage) arg0;
 		} else {
 			_log.warn("Unknown format, marshalling aborted.");
 			return;
 		}
-		
+
 		try {
 			_log.debug(tmpMessage.getText());
 		} catch (JMSException e) {
 			e.printStackTrace();
 		}
-		
-		//Do something with the erp data! 
-		
+
+		// Creating ERP-Object
+		ERPData tempERPDate = null;
+		try {
+			StringReader reader = new StringReader(tmpMessage.getText());
+			tempERPDate = (ERPData) _unmarshaller.unmarshal(reader);
+			System.out.println("Kunde: " + tempERPDate.getCustomerNumber());
+			System.out.println("Material: " + tempERPDate.getMaterialNumber());
+			System.out
+					.println("Bestellnummer: " + tempERPDate.getOrderNumber());
+			System.out.println("Zeitpunkt der Bestellung: "
+					+ tempERPDate.getTimeStamp());
+		} catch (JMSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// Do something with the erp data!
+
 	}
 }
