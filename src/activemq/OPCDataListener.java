@@ -17,7 +17,7 @@ public class OPCDataListener implements MessageListener {
 
 	private JAXBContext _ctx;
 	private Unmarshaller _unmarshaller;
-<<<<<<< .merge_file_a14208
+
 	private int drillHeatCount;
 	private int drillSpeedCount;
 	private int millHeatCount;
@@ -28,12 +28,10 @@ public class OPCDataListener implements MessageListener {
 
 	private double avgMiHeat;
 	private double avgMiSpeed;
-=======
+
 	int counter = 1;
-	
+
 	Identifier identifier = new Identifier();
-	
->>>>>>> .merge_file_a12468
 
 	/**
 	 * Default Constructor
@@ -74,39 +72,36 @@ public class OPCDataListener implements MessageListener {
 		try {
 			StringReader reader = new StringReader(tmpMessage.getText());
 			tempStatus = (OPCDataItem) _unmarshaller.unmarshal(reader);
+			opticalFeedback(tempStatus);
 			System.out.println("Item: " + tempStatus.getItemName());
 			System.out.println("Status: " + tempStatus.getStatus());
 			System.out.println("Zeitpunkt der Meldung: "
 					+ tempStatus.getTimestamp());
-<<<<<<< .merge_file_a14208
 			System.out.println("\tWert: " + tempStatus.getValue());
 			System.out.println();
-=======
 			System.out.println("Wert: " + tempStatus.getValue());
-			if (tempStatus.getItemName().contains("Lichtschranke")) 
-			{
-				//opticalFeedback(tempStatus);
+			if (tempStatus.getItemName().contains("Lichtschranke")) {
+				// opticalFeedback(tempStatus);
 			}
-			
-				if (tempStatus.getValue() instanceof Boolean){
-					System.out.println("ID: " +
-							identifier.processEventWithBoolean(tempStatus.getItemName(),
-							(boolean) tempStatus.getValue()));
-				}
-				if (tempStatus.getValue() instanceof Integer){
-					System.out.println("ID: " +
-							identifier.processEventWithoutBoolean
-							(tempStatus.getItemName()));
-				}
-				if (tempStatus.getValue() instanceof Double){
-					System.out.println("ID: " +
-							identifier.processEventWithoutBoolean
-							(tempStatus.getItemName()));
-				}
-			
-			
+
+			if (tempStatus.getValue() instanceof Boolean) {
+				System.out.println("ID: "
+						+ identifier.processEventWithBoolean(
+								tempStatus.getItemName(),
+								(boolean) tempStatus.getValue()));
+			}
+			if (tempStatus.getValue() instanceof Integer) {
+				System.out.println("ID: "
+						+ identifier.processEventWithoutBoolean(tempStatus
+								.getItemName()));
+			}
+			if (tempStatus.getValue() instanceof Double) {
+				System.out.println("ID: "
+						+ identifier.processEventWithoutBoolean(tempStatus
+								.getItemName()));
+			}
+
 			System.out.println("-----");
->>>>>>> .merge_file_a12468
 		} catch (JMSException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -117,7 +112,6 @@ public class OPCDataListener implements MessageListener {
 
 	}
 
-<<<<<<< .merge_file_a14208
 	private void opticalFeedback(OPCDataItem update) {
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~");
 		if (update.getItemName().contains("Lichtschranke")) {
@@ -141,7 +135,8 @@ public class OPCDataListener implements MessageListener {
 				System.out.println("Average: " + avgDrHeat);
 
 			} // Calculating average Drilling Speed
-			else if (update.getItemName().contains("Drilling Speed") && !update.getValue().toString().equals("0")) {
+			else if (update.getItemName().contains("Drilling Speed")
+					&& !update.getValue().toString().equals("0")) {
 
 				temp = (avgDrSpeed * drillSpeedCount + Double.valueOf(update
 						.getValue().toString())) / (drillSpeedCount + 1);
@@ -159,7 +154,8 @@ public class OPCDataListener implements MessageListener {
 				avgMiHeat = temp;
 				System.out.println("Average: " + avgMiHeat);
 
-			} else if (update.getItemName().contains("Milling Speed") && !update.getValue().toString().equals("0")) {
+			} else if (update.getItemName().contains("Milling Speed")
+					&& !update.getValue().toString().equals("0")) {
 
 				temp = (avgMiSpeed * millSpeedCount + Double.valueOf(update
 						.getValue().toString())) / (millSpeedCount + 1);
@@ -170,15 +166,11 @@ public class OPCDataListener implements MessageListener {
 
 		}
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~");
-=======
-	private void opticalFeedback(OPCDataItem tempStatus) {
-		String[] tempArray = tempStatus.getItemName().split(" ");
-		
+
 	}
-	
-	public void setIdentifier(Identifier identifier){
+
+	public void setIdentifier(Identifier identifier) {
 		this.identifier = identifier;
->>>>>>> .merge_file_a12468
 	}
 
 }
