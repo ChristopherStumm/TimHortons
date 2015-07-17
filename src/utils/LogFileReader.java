@@ -1,7 +1,14 @@
 package utils;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Iterator;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class LogFileReader {
 
@@ -20,9 +27,44 @@ public class LogFileReader {
 
 	public void readLatestFile() {
 		// TODO Dynamisch den Ordnerpfad wählen.
-		File folder = new File("C:/Users/Lucas.Schlemm/Desktop/Logs");
-		File[] listOfFiles = folder.listFiles();
 
+		String path = "C:/Users/Lucas.Schlemm/Desktop/Logs";
+		File[] files = readFiles(path);
+
+		FileReader reader = null;
+
+		try {
+			reader = new FileReader(path + "/" +  files[0].getName());
+			final JSONParser parser = new JSONParser();
+			final JSONObject json = (JSONObject) parser.parse(reader);
+
+			final String overallStatus = (String) json.get("overallStatus");
+			System.out.println("overallStatus: " + overallStatus);
+
+			final String ts_start = (String) json.get("ts_start");
+			System.out.println("ts_start: " + ts_start);
+
+			final String ts_stop = (String) json.get("ts_stop");
+			System.out.println("ts_stop: " + ts_stop);
+
+		} catch (IOException | ParseException e) {
+			e.printStackTrace();
+		} finally {
+			if (reader != null) {
+				try {
+					reader.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+	}
+	
+	private File[] readFiles(String path)
+	{
+		File folder = new File(path);
+		File[] listOfFiles = folder.listFiles();
 		for (int i = 0; i < listOfFiles.length; i++) {
 			if (listOfFiles[i].isFile()) {
 				System.out.println("File " + listOfFiles[i].getName());
@@ -30,12 +72,6 @@ public class LogFileReader {
 				System.out.println("Directory " + listOfFiles[i].getName());
 			}
 		}
-		
-		// Datei wird gelöscht
-		if(listOfFiles[0].delete()){
-			System.out.println(listOfFiles[0].getName() + " is deleted!");
-		}else{
-			System.out.println("Delete operation is failed.");
-		}
+		return listOfFiles;
 	}
 }
