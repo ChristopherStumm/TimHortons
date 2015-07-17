@@ -5,6 +5,7 @@ import marshalling.DemoMarshalling;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import ui.MainWindow;
 import activemq.QueueConnection;
 import activemq.QueueConnectionUsingCamel;
 import esper.EsperTest;
@@ -22,22 +23,24 @@ public class Main {
 	public static void main(String[] args) {
 
 		// JAXB Marshalling / Unmarshalling
-		DemoMarshalling demo = new DemoMarshalling();
-		demo.run();
+		//DemoMarshalling demo = new DemoMarshalling();
+		//demo.run();
 
 		// Message Queue Connection using JMS
-		QueueConnection q = new QueueConnection();
+		//QueueConnection q = new QueueConnection();
 
 		// Message Queue Connection using JMS via Apache Camel
-		QueueConnectionUsingCamel qc = new QueueConnectionUsingCamel();
-		qc.run();
+		//QueueConnectionUsingCamel qc = new QueueConnectionUsingCamel();
+		//qc.run();
 
 		// State Machine
 		//TestMachine t = new TestMachine();
 		//t.run();
 
 		// Esper test
-		EsperTest esperTest = new EsperTest();
-		esperTest.run();
+		//EsperTest esperTest = new EsperTest();
+		//esperTest.run();
+		
+		new MainWindow();
 	}
 }
