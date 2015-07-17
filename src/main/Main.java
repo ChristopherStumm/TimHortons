@@ -5,6 +5,7 @@ import marshalling.DemoMarshalling;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import ui.MainWindow;
 import activemq.QueueConnection;
 import activemq.QueueConnectionUsingCamel;
 import esper.EsperTest;
@@ -22,8 +23,8 @@ public class Main {
 	public static void main(String[] args) {
 
 		// JAXB Marshalling / Unmarshalling
-		DemoMarshalling demo = new DemoMarshalling();
-		demo.run();
+		// DemoMarshalling demo = new DemoMarshalling();
+		// demo.run();
 
 		// Message Queue Connection using JMS
 		QueueConnection q = new QueueConnection();
@@ -33,11 +34,18 @@ public class Main {
 		qc.run();
 
 		// State Machine
-		//TestMachine t = new TestMachine();
-		//t.run();
+		// TestMachine t = new TestMachine();
+		// t.run();
 
 		// Esper test
-		EsperTest esperTest = new EsperTest();
-		esperTest.run();
+		// EsperTest esperTest = new EsperTest();
+		// esperTest.run();
+
+		// TODO @Mattes Es ist möglich, einen Kommandozeilenbefehl aus Java
+		// heraus zu starten. Das wäre ganz cool, wenn wir nur das Java-Programm
+		// öffnen müssten und dann dort erst alles einstellen können und dann
+		// die Simulation auch von dort aus starten können. :)
+
+		new MainWindow();
 	}
 }

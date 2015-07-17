@@ -1,8 +1,6 @@
 package activemq;
 
 import java.io.StringReader;
-import java.sql.Connection;
-import java.sql.SQLException;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -13,21 +11,17 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import model.ERPData;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import utils.LogFileReader;
 
 import logic.Identifier;
 
 /**
- * The listener class takes new messages and unmarshalls them to Java Objects.
+ * This Listener listens for new ERPData messages.
  * 
- * @author julian
+ * @author lucas.schlemm
  *
  */
 public class ERPDataListener implements MessageListener {
-
-	private Logger _log = LogManager.getLogger(ERPDataListener.class);
 
 	private JAXBContext _ctx;
 
@@ -45,26 +39,18 @@ public class ERPDataListener implements MessageListener {
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
-		_log.debug("New data listener created.");
 	}
 
 	@Override
 	public void onMessage(Message arg0) {
-		_log.debug("New ERP message arrived!");
 
 		System.out.println();
 		TextMessage tmpMessage = null;
 		if (arg0 instanceof TextMessage) {
 			tmpMessage = (TextMessage) arg0;
 		} else {
-			_log.warn("Unknown format, marshalling aborted.");
+			System.err.println("Unknown format, marshalling aborted.");
 			return;
-		}
-
-		try {
-			_log.debug(tmpMessage.getText());
-		} catch (JMSException e) {
-			e.printStackTrace();
 		}
 
 		// Creating ERP-Object
@@ -83,29 +69,22 @@ public class ERPDataListener implements MessageListener {
 			System.out.println("ID: " + tempERPDate.getOrderNumber());
 			
 			System.out.println("---------------");
-			
-			//push into database
-			//Connection conn = main.DatabaseConn.getDatabaseConn();
-			//writeToDatabase(conn, tempERPDate);
-			
+
+			// push into database
+			// Connection conn = main.DatabaseConn.getDatabaseConn();
+			// writeToDatabase(conn, tempERPDate);
+
 		} catch (JMSException e) {
 			e.printStackTrace();
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	private void writeToDatabase(Connection conn, ERPData data){
-		if(conn != null){
-			try {
-				conn.createStatement()
-				.executeQuery("BLABLA");
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}else{
-			System.out.println("Error writing to database");
-		}
+
+		// Reading Log Files after a new order get's submitted.
+		// TODO @Lucas Pr�fung ob es der erste Durchlauf ist.
+		LogFileReader lfr = LogFileReader.getInstance();
+		lfr.readLatestFile();
+
 	}
 	
 	public void setIdentifier(Identifier identifier){
