@@ -17,6 +17,8 @@ import model.ERPData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import utils.LogFileReader;
+
 /**
  * The listener class takes new messages and unmarshalls them to Java Objects.
  * 
@@ -76,27 +78,28 @@ public class ERPDataListener implements MessageListener {
 			System.out.println("Zeitpunkt der Bestellung: "
 					+ tempERPDate.getTimeStamp());
 			System.out.println("---------------");
-			
-			//push into database
-			//Connection conn = main.DatabaseConn.getDatabaseConn();
-			//writeToDatabase(conn, tempERPDate);
-			
+
+			// push into database
+			// Connection conn = main.DatabaseConn.getDatabaseConn();
+			// writeToDatabase(conn, tempERPDate);
+
 		} catch (JMSException e) {
 			e.printStackTrace();
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
+		LogFileReader lfr = LogFileReader.getInstance();
+		lfr.readLatestFile();
 	}
-	
-	private void writeToDatabase(Connection conn, ERPData data){
-		if(conn != null){
+
+	private void writeToDatabase(Connection conn, ERPData data) {
+		if (conn != null) {
 			try {
-				conn.createStatement()
-				.executeQuery("BLABLA");
+				conn.createStatement().executeQuery("BLABLA");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}else{
+		} else {
 			System.out.println("Error writing to database");
 		}
 	}
