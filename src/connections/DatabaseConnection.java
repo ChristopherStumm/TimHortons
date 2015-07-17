@@ -30,6 +30,7 @@ public class DatabaseConnection {
 	public void saveProductInformation(String customerNumber, Gson order){
 		DB db = DatabaseConnection.getConnection();
 		DBCollection table = db.getCollection("bigdata");
+		String orderString = order.toString();
 		
 		//Check if object already exists
 		BasicDBObject searchQuery = new BasicDBObject().append("customerNumber", customerNumber);
@@ -39,11 +40,11 @@ public class DatabaseConnection {
 		if(!cursor.hasNext()){
 			BasicDBObject document = new BasicDBObject();
 			document.put("customerNumber", customerNumber);
-			document.put("orders", order);
+			document.put("orders", orderString);
 			table.insert(document);
 		}else{
 			BasicDBObject newDocument = new BasicDBObject();
-			newDocument.append("$addToSet", new BasicDBObject().append("orders", order));
+			newDocument.append("$addToSet", new BasicDBObject().append("orders", orderString));
 			table.update(searchQuery, newDocument);			
 		}
 
