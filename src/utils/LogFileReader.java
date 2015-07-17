@@ -1,14 +1,13 @@
 package utils;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Iterator;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import model.LogFile;
+
+import com.google.gson.Gson;
 
 public class LogFileReader {
 
@@ -31,38 +30,42 @@ public class LogFileReader {
 		String path = "C:/Users/Lucas.Schlemm/Desktop/Logs";
 		File[] files = readFiles(path);
 
-		FileReader reader = null;
+		Gson gson = new Gson();
 
 		try {
-			reader = new FileReader(path + "/" +  files[0].getName());
-			final JSONParser parser = new JSONParser();
-			final JSONObject json = (JSONObject) parser.parse(reader);
 
-			final String overallStatus = (String) json.get("overallStatus");
-			System.out.println("overallStatus: " + overallStatus);
+			System.out.println("Reading JSON from a file");
+			System.out.println("----------------------------");
 
-			final String ts_start = (String) json.get("ts_start");
-			System.out.println("ts_start: " + ts_start);
+			BufferedReader br = new BufferedReader(new FileReader(files[0]));
 
-			final String ts_stop = (String) json.get("ts_stop");
-			System.out.println("ts_stop: " + ts_stop);
+			// convert the json string back to object
+			LogFile logFile = gson.fromJson(br, LogFile.class);
 
-		} catch (IOException | ParseException e) {
+			System.out.println("a1: " + logFile.getA1());
+			System.out.println("a2: " + logFile.getA2());
+			System.out.println("b1: " + logFile.getB1());
+			System.out.println("b2: " + logFile.getB2());
+			System.out.println("em1: " + logFile.getEm1());
+			System.out.println("em2: " + logFile.getEm2());
+			System.out.println("overallStatus: " + logFile.getOverallStatus());
+			System.err.println("ts_start: " + logFile.getTs_start());
+			System.err.println("ts_stop: " + logFile.getTs_stop());
+			br.close();
+		} catch (IOException e) {
 			e.printStackTrace();
-		} finally {
-			if (reader != null) {
-				try {
-					reader.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
 		}
-		
+
+		if (files[0].delete()) {
+			System.out.println("Datei erfolgreich gelöscht..");
+		}
+		else
+		{
+			System.out.println("nicht erfolgreich gelöscht. Die kleine Hure...");
+		}
 	}
-	
-	private File[] readFiles(String path)
-	{
+
+	private File[] readFiles(String path) {
 		File folder = new File(path);
 		File[] listOfFiles = folder.listFiles();
 		for (int i = 0; i < listOfFiles.length; i++) {
