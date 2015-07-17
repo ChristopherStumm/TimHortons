@@ -44,14 +44,13 @@ public class OPCDataListener implements MessageListener {
 		try {
 			StringReader reader = new StringReader(tmpMessage.getText());
 			tempStatus = (OPCDataItem) _unmarshaller.unmarshal(reader);
-			System.out.println("Item: " + tempStatus.getItemName());
-			System.out.println("Status: " + tempStatus.getStatus());
-			System.out.println("Zeitpunkt der Meldung: "
+			opticalFeedback(tempStatus);
+			System.out.println("Details:");
+			System.out.println("\tItem: " + tempStatus.getItemName());
+			System.out.println("\tStatus: " + tempStatus.getStatus());
+			System.out.println("\tZeitpunkt der Meldung: "
 					+ tempStatus.getTimestamp());
-			System.out.println("Wert: " + tempStatus.getValue());
-			System.out.println("-----");
-			//opticalFeedback(tempStatus.getItemName(), tempStatus.getValue()
-				//	.toString());
+			System.out.println("\tWert: " + tempStatus.getValue());
 		} catch (JMSException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -62,23 +61,20 @@ public class OPCDataListener implements MessageListener {
 
 	}
 
-	private void opticalFeedback(String name, String value) {
-
-		if (name.contains("Lichtschranke")) {
-			String[] tempArray = name.split(" ");
-			String output = "";
-			for (int i = 0; i < 5; i++) {
-				if (Integer.getInteger(tempArray[1]) == i + 1
-						&& value.equals("true")) {
-					output += "0";
-				} else {
-					output += "-";
-				}
+	private void opticalFeedback(OPCDataItem update) {
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~");
+		if (update.getItemName().contains("Lichtschranke")) {
+			if (update.getValue().toString().equals("false")) {
+				System.out.println("Product enters: " + update.getItemName());
+			} else {
+				System.out.println("Product leaves: " + update.getItemName());
 			}
-			System.out.println(output);
-		} else {
-			System.out.println("-----");
+		} else if (update.getItemName().contains("Milling")
+				|| update.getItemName().contains("Drilling")) {
+			System.out.println(update.getItemName() + " updated: "
+					+ update.getValue().toString());
 		}
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~");
 	}
 
 }
