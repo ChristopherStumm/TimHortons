@@ -11,11 +11,15 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import model.OPCDataItem;
+import logic.*;
 
 public class OPCDataListener implements MessageListener {
 
 	private JAXBContext _ctx;
 	private Unmarshaller _unmarshaller;
+	int counter = 1;
+	Identifier identifier = new Identifier();
+	
 
 	/**
 	 * Default Constructor
@@ -53,6 +57,22 @@ public class OPCDataListener implements MessageListener {
 			{
 				//opticalFeedback(tempStatus);
 			}
+			if (tempStatus.getItemName().equals("Lichtschranke 1") && tempStatus.getValue().equals(false)){
+				identifier.createProduct("Product " + counter);
+				System.out.println("ID: Product " + counter);
+				counter++;
+			} else {
+				if (tempStatus.getValue() instanceof Boolean){
+					System.out.println(identifier.processEventWithBoolean(tempStatus.getItemName(),
+							(boolean) tempStatus.getValue()));
+				}
+				if (tempStatus.getValue() instanceof Integer){
+					System.out.println(
+							identifier.processEventWithoutBoolean
+							(tempStatus.getItemName()));
+				}
+			}
+			
 			System.out.println("-----");
 		} catch (JMSException e) {
 			// TODO Auto-generated catch block
