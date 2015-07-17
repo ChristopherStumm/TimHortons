@@ -42,6 +42,14 @@ public class ERPDataListener implements MessageListener {
 
 		System.out.println();
 		TextMessage tmpMessage = null;
+
+		System.out.println("New Order has arrived");
+		System.out.println("Trying to read log file of last order...");
+		// Reading Log Files after a new order get's submitted.
+		// TODO @Lucas Pr�fung ob es der erste Durchlauf ist.
+		LogFileReader lfr = LogFileReader.getInstance();
+		lfr.readLatestFile();
+
 		if (arg0 instanceof TextMessage) {
 			tmpMessage = (TextMessage) arg0;
 		} else {
@@ -54,6 +62,7 @@ public class ERPDataListener implements MessageListener {
 		try {
 			StringReader reader = new StringReader(tmpMessage.getText());
 			tempERPDate = (ERPData) _unmarshaller.unmarshal(reader);
+
 			System.out.println();
 			System.out.println("Kunde: " + tempERPDate.getCustomerNumber());
 			System.out.println("Material: " + tempERPDate.getMaterialNumber());
@@ -72,11 +81,6 @@ public class ERPDataListener implements MessageListener {
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
-
-		// Reading Log Files after a new order get's submitted.
-		// TODO @Lucas Pr�fung ob es der erste Durchlauf ist.
-		LogFileReader lfr = LogFileReader.getInstance();
-		lfr.readLatestFile();
 
 	}
 }
