@@ -17,6 +17,8 @@ import model.ERPData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import logic.Identifier;
+
 /**
  * The listener class takes new messages and unmarshalls them to Java Objects.
  * 
@@ -30,6 +32,8 @@ public class ERPDataListener implements MessageListener {
 	private JAXBContext _ctx;
 
 	private Unmarshaller _unmarshaller;
+	
+	Identifier identifier;
 
 	/**
 	 * Default Constructor
@@ -75,6 +79,9 @@ public class ERPDataListener implements MessageListener {
 					.println("Bestellnummer: " + tempERPDate.getOrderNumber());
 			System.out.println("Zeitpunkt der Bestellung: "
 					+ tempERPDate.getTimeStamp());
+			identifier.createProduct(tempERPDate.getOrderNumber());
+			System.out.println("ID: " + tempERPDate.getOrderNumber());
+			
 			System.out.println("---------------");
 			
 			//push into database
@@ -99,5 +106,9 @@ public class ERPDataListener implements MessageListener {
 		}else{
 			System.out.println("Error writing to database");
 		}
+	}
+	
+	public void setIdentifier(Identifier identifier){
+		this.identifier = identifier;
 	}
 }

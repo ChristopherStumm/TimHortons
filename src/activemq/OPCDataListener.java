@@ -18,6 +18,7 @@ public class OPCDataListener implements MessageListener {
 	private JAXBContext _ctx;
 	private Unmarshaller _unmarshaller;
 	int counter = 1;
+	
 	Identifier identifier = new Identifier();
 	
 
@@ -57,21 +58,23 @@ public class OPCDataListener implements MessageListener {
 			{
 				//opticalFeedback(tempStatus);
 			}
-			if (tempStatus.getItemName().equals("Lichtschranke 1") && tempStatus.getValue().equals(false)){
-				identifier.createProduct("Product " + counter);
-				System.out.println("ID: Product " + counter);
-				counter++;
-			} else {
+			
 				if (tempStatus.getValue() instanceof Boolean){
-					System.out.println(identifier.processEventWithBoolean(tempStatus.getItemName(),
+					System.out.println("ID: " +
+							identifier.processEventWithBoolean(tempStatus.getItemName(),
 							(boolean) tempStatus.getValue()));
 				}
 				if (tempStatus.getValue() instanceof Integer){
-					System.out.println(
+					System.out.println("ID: " +
 							identifier.processEventWithoutBoolean
 							(tempStatus.getItemName()));
 				}
-			}
+				if (tempStatus.getValue() instanceof Double){
+					System.out.println("ID: " +
+							identifier.processEventWithoutBoolean
+							(tempStatus.getItemName()));
+				}
+			
 			
 			System.out.println("-----");
 		} catch (JMSException e) {
@@ -87,6 +90,10 @@ public class OPCDataListener implements MessageListener {
 	private void opticalFeedback(OPCDataItem tempStatus) {
 		String[] tempArray = tempStatus.getItemName().split(" ");
 		
+	}
+	
+	public void setIdentifier(Identifier identifier){
+		this.identifier = identifier;
 	}
 
 }
