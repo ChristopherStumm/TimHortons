@@ -13,6 +13,8 @@ import javax.xml.bind.Unmarshaller;
 import model.ERPData;
 import utils.LogFileReader;
 
+import logic.Identifier;
+
 /**
  * This Listener listens for new ERPData messages.
  * 
@@ -24,6 +26,8 @@ public class ERPDataListener implements MessageListener {
 	private JAXBContext _ctx;
 
 	private Unmarshaller _unmarshaller;
+	
+	Identifier identifier;
 
 	/**
 	 * Default Constructor
@@ -61,6 +65,9 @@ public class ERPDataListener implements MessageListener {
 					.println("Bestellnummer: " + tempERPDate.getOrderNumber());
 			System.out.println("Zeitpunkt der Bestellung: "
 					+ tempERPDate.getTimeStamp());
+			identifier.createProduct(tempERPDate.getOrderNumber());
+			System.out.println("ID: " + tempERPDate.getOrderNumber());
+			
 			System.out.println("---------------");
 
 			// push into database
@@ -78,5 +85,9 @@ public class ERPDataListener implements MessageListener {
 		LogFileReader lfr = LogFileReader.getInstance();
 		lfr.readLatestFile();
 
+	}
+	
+	public void setIdentifier(Identifier identifier){
+		this.identifier = identifier;
 	}
 }

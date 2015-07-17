@@ -12,6 +12,7 @@ public class Product {
 	Product(String id){
 		this.id = id;
 		station = 0;
+		System.out.println(id + " was created with Station " + station);
 	}
 	
 	public int getStation(){
