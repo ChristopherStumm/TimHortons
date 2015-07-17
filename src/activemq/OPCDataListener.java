@@ -11,11 +11,13 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import model.OPCDataItem;
+import logic.*;
 
 public class OPCDataListener implements MessageListener {
 
 	private JAXBContext _ctx;
 	private Unmarshaller _unmarshaller;
+<<<<<<< .merge_file_a14208
 	private int drillHeatCount;
 	private int drillSpeedCount;
 	private int millHeatCount;
@@ -26,6 +28,12 @@ public class OPCDataListener implements MessageListener {
 
 	private double avgMiHeat;
 	private double avgMiSpeed;
+=======
+	int counter = 1;
+	
+	Identifier identifier = new Identifier();
+	
+>>>>>>> .merge_file_a12468
 
 	/**
 	 * Default Constructor
@@ -66,14 +74,39 @@ public class OPCDataListener implements MessageListener {
 		try {
 			StringReader reader = new StringReader(tmpMessage.getText());
 			tempStatus = (OPCDataItem) _unmarshaller.unmarshal(reader);
-			opticalFeedback(tempStatus);
-			System.out.println("Details:");
-			System.out.println("\tItem: " + tempStatus.getItemName());
-			System.out.println("\tStatus: " + tempStatus.getStatus());
-			System.out.println("\tZeitpunkt der Meldung: "
+			System.out.println("Item: " + tempStatus.getItemName());
+			System.out.println("Status: " + tempStatus.getStatus());
+			System.out.println("Zeitpunkt der Meldung: "
 					+ tempStatus.getTimestamp());
+<<<<<<< .merge_file_a14208
 			System.out.println("\tWert: " + tempStatus.getValue());
 			System.out.println();
+=======
+			System.out.println("Wert: " + tempStatus.getValue());
+			if (tempStatus.getItemName().contains("Lichtschranke")) 
+			{
+				//opticalFeedback(tempStatus);
+			}
+			
+				if (tempStatus.getValue() instanceof Boolean){
+					System.out.println("ID: " +
+							identifier.processEventWithBoolean(tempStatus.getItemName(),
+							(boolean) tempStatus.getValue()));
+				}
+				if (tempStatus.getValue() instanceof Integer){
+					System.out.println("ID: " +
+							identifier.processEventWithoutBoolean
+							(tempStatus.getItemName()));
+				}
+				if (tempStatus.getValue() instanceof Double){
+					System.out.println("ID: " +
+							identifier.processEventWithoutBoolean
+							(tempStatus.getItemName()));
+				}
+			
+			
+			System.out.println("-----");
+>>>>>>> .merge_file_a12468
 		} catch (JMSException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -84,6 +117,7 @@ public class OPCDataListener implements MessageListener {
 
 	}
 
+<<<<<<< .merge_file_a14208
 	private void opticalFeedback(OPCDataItem update) {
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~");
 		if (update.getItemName().contains("Lichtschranke")) {
@@ -136,6 +170,15 @@ public class OPCDataListener implements MessageListener {
 
 		}
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~");
+=======
+	private void opticalFeedback(OPCDataItem tempStatus) {
+		String[] tempArray = tempStatus.getItemName().split(" ");
+		
+	}
+	
+	public void setIdentifier(Identifier identifier){
+		this.identifier = identifier;
+>>>>>>> .merge_file_a12468
 	}
 
 }

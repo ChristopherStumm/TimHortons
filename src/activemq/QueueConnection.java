@@ -11,6 +11,8 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import logic.Identifier;
+
 public class QueueConnection {
 
 	/**
@@ -27,6 +29,8 @@ public class QueueConnection {
 	 * Log instance 
 	 */
 	private Logger _log; 
+	
+	Identifier identifier = new Identifier();
 	
 	
 	/**
@@ -73,7 +77,9 @@ public class QueueConnection {
 		try {
 			
 			consumerERP = session.createConsumer(erpDestination); 
-			consumerERP.setMessageListener(new ERPDataListener());
+			ERPDataListener erpListener = new ERPDataListener();
+			erpListener.setIdentifier(identifier);
+			consumerERP.setMessageListener(erpListener);
 		
 			//Start listening on the connection.
 			_con.start();
@@ -99,7 +105,9 @@ public class QueueConnection {
 		MessageConsumer consumerOPC;
 		try{
 			consumerOPC = opcSession.createConsumer(opcDestination);
-			consumerOPC.setMessageListener(new OPCDataListener());
+			OPCDataListener opcListener = new OPCDataListener();
+			opcListener.setIdentifier(identifier);
+			consumerOPC.setMessageListener(opcListener);
 			
 			_con.start();
 		} catch (JMSException e){
