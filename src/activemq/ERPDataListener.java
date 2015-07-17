@@ -77,27 +77,12 @@ public class ERPDataListener implements MessageListener {
 					+ tempERPDate.getTimeStamp());
 			System.out.println("---------------");
 			
-			//push into database
-			Connection conn = main.DatabaseConn.getDatabaseConn();
-			writeToDatabase(conn, tempERPDate);
+
 			
 		} catch (JMSException e) {
 			e.printStackTrace();
 		} catch (JAXBException e) {
 			e.printStackTrace();
-		}
-	}
-	
-	private void writeToDatabase(Connection conn, ERPData data){
-		if(conn != null){
-			try {
-				conn.createStatement()
-				.executeQuery("BLABLA");
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}else{
-			System.out.println("Error writing to database");
 		}
 	}
 }

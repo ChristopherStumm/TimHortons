@@ -57,7 +57,16 @@ public class OPCDataListener implements MessageListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println("Mattes lutscht Kinderpimmel....");
+		neueMethode();
+	}
 
+	private void neueMethode() {
+		// TODO Auto-generated method stub
+		for (int i = 0; i < 20; i++) {
+			System.out.print("-");
+		}
+		System.out.println();
 	}
 
 }
