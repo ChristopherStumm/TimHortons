@@ -50,6 +50,8 @@ public class OPCDataListener implements MessageListener {
 					+ tempStatus.getTimestamp());
 			System.out.println("Wert: " + tempStatus.getValue());
 			System.out.println("-----");
+			//opticalFeedback(tempStatus.getItemName(), tempStatus.getValue()
+				//	.toString());
 		} catch (JMSException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -57,16 +59,26 @@ public class OPCDataListener implements MessageListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("Mattes lutscht Kinderpimmel....");
-		neueMethode();
+
 	}
 
-	private void neueMethode() {
-		// TODO Auto-generated method stub
-		for (int i = 0; i < 20; i++) {
-			System.out.print("-");
+	private void opticalFeedback(String name, String value) {
+
+		if (name.contains("Lichtschranke")) {
+			String[] tempArray = name.split(" ");
+			String output = "";
+			for (int i = 0; i < 5; i++) {
+				if (Integer.getInteger(tempArray[1]) == i + 1
+						&& value.equals("true")) {
+					output += "0";
+				} else {
+					output += "-";
+				}
+			}
+			System.out.println(output);
+		} else {
+			System.out.println("-----");
 		}
-		System.out.println();
 	}
 
 }
