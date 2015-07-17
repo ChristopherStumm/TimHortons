@@ -1,8 +1,6 @@
 package activemq;
 
 import java.io.StringReader;
-import java.sql.Connection;
-import java.sql.SQLException;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -13,10 +11,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import model.ERPData;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import utils.LogFileReader;
 
 /**
@@ -80,21 +74,9 @@ public class ERPDataListener implements MessageListener {
 		}
 
 		// Reading Log Files after a new order get's submitted.
-		// TODO @Lucas Prüfung ob es der erste Durchlauf ist.
+		// TODO @Lucas Prï¿½fung ob es der erste Durchlauf ist.
 		LogFileReader lfr = LogFileReader.getInstance();
 		lfr.readLatestFile();
 
-	}
-
-	private void writeToDatabase(Connection conn, ERPData data) {
-		if (conn != null) {
-			try {
-				conn.createStatement().executeQuery("BLABLA");
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		} else {
-			System.out.println("Error writing to database");
-		}
 	}
 }
