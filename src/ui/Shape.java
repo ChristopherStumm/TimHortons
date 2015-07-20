@@ -36,12 +36,11 @@ public abstract class Shape extends JComponent {
 		} else {
 			this.setDeactive();
 		}
-
 	}
 
 	public int getStation() {
 		// return identifier.getStatus(); // oder direkt in update meth im
-		// abgleuch
+		// abgleich
 		return 0;
 	}
 

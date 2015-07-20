@@ -1,6 +1,8 @@
 package ui;
 // Imports
 import java.awt.*;
+import java.util.ArrayList;
+
 //import java.awt.event.*;
 import javax.swing.*;
 // import javax.swing.border.Border;
@@ -15,6 +17,13 @@ public class UI extends JFrame implements ListSelectionListener {
 	private JList listbox;
 	private JScrollPane scrollPane;
 	private DefaultListModel model;
+	
+	protected ArrayList<String> listData;
+	
+//	= { "Product 1", "Product 2", "Product 3",
+//			"Product 4", "Product 1", "Product 2", "Product 3",
+//			"Product 4", "Product 1", "Product 2", "Product 3",
+//			"Product 4", "Product 1", "Product 2", "Product 3", "Product 4" };
 
 	// Other shapes need to be instanced here as well
 	Rect r1;
@@ -30,13 +39,7 @@ public class UI extends JFrame implements ListSelectionListener {
 		topPanel = new JPanel();
 		topPanel.setLayout(new BorderLayout());
 		getContentPane().add(topPanel, BorderLayout.WEST);
-
-		// Create some items to add to the list
-		String listData[] = { "Product 1", "Product 2", "Product 3",
-				"Product 4", "Product 1", "Product 2", "Product 3",
-				"Product 4", "Product 1", "Product 2", "Product 3",
-				"Product 4", "Product 1", "Product 2", "Product 3", "Product 4" };
-
+		
 		// Create a new listbox control
 
 		model = new DefaultListModel();
@@ -48,8 +51,8 @@ public class UI extends JFrame implements ListSelectionListener {
 
 		// adding elements
 
-		for (int i = 0; i < listData.length; i++) {
-			model.addElement(listData[i]);
+		for (int i = 0; i < listData.size(); i++) {
+			model.addElement(listData.get(i));
 		}
 
 		drawPanel = new JPanel();
@@ -103,12 +106,25 @@ public class UI extends JFrame implements ListSelectionListener {
 
 		int index = listbox.getSelectedIndex();
 		System.out.println(model.getElementAt(index));
-
+		// switch to product that should be shown
 	}
 	
+	
+	// getProduct
 	public void update(){
 		
-		// kriege eine arraylist
-		
+		for(int i = 0; i < listData.size(); i++){
+			if(getProduct().equals(listData.get(i))){
+				listData.set(i, null);
+			} else {
+				listData.add(getProduct());
+			}
+		}
+	}
+	
+	public String getProduct(){
+		// 
+		// return getProduct();
+		return null;
 	}
 }
