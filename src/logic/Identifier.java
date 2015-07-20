@@ -187,7 +187,7 @@ ArrayList<Product> productList = new ArrayList<>();
 			
 				DatabaseConnection.saveProductInformation(productList.get(i).getCustomerNumber(), productString);
 				
-				productList.remove(i);
+				//productList.remove(i);
 			}
 		//}
 	}
