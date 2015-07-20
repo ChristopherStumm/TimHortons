@@ -65,7 +65,7 @@ public class ExecutivePanel extends JPanel{
 		
 		JPanel chartPanel = graphicsFactory.getProductFailureBarchart();
 		centerContainer.add(chartPanel);
-		centerContainer.invalidate();
+		this.updateUI();
 	}
 	
 	void handleSecondEvent(){
@@ -74,6 +74,7 @@ public class ExecutivePanel extends JPanel{
 		JTable table = graphicsFactory.getFailureTable();
 		JScrollPane scrollPane = new JScrollPane(table);
 		centerContainer.add(scrollPane);
+		this.updateUI();
 	}
 
 }
