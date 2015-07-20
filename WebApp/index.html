@@ -1,72 +1,68 @@
 <!DOCTYPE html>
 <html ng-app="TimHortons">
-
 <head>
-    <title>Tim Hortons</title>
+	<title>Tim Hortons</title>
 
-    <!-- Einbinden von CSS um Aussehen zu normalisieren -->
-    <link rel="stylesheet" href="css/normalize.css" />
-    <link rel="stylesheet" href="components/mobile-angular-ui-base.min.css" />
-    <link rel="stylesheet" href="components/mobile-angular-ui-hover.min.css" />
-    <link rel="stylesheet" href="components/mobile-angular-ui-desktop.min.css" />
-    <link rel="stylesheet" href="components/font-awesome.min.css" />
+	<!-- Einbinden von CSS um Aussehen zu normalisieren -->
+	<link rel="stylesheet" href="css/normalize.css"/>
+	<link rel="stylesheet" href="components/mobile-angular-ui-base.min.css" />
+	<link rel="stylesheet" href="components/mobile-angular-ui-hover.min.css" />
+	<link rel="stylesheet" href="components/mobile-angular-ui-desktop.min.css" />
+	<link rel="stylesheet" href="components/font-awesome.min.css" />
 
-    <!-- Einbinden der individuellen Anpassungen -->
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
-    <link rel="stylesheet" type="text/css" href="dashboard/dashboard.css" />
-    <link rel="stylesheet" type="text/css" href="ana1/ana1.css" />
+	<!-- Einbinden der individuellen Anpassungen -->
+	<link rel="stylesheet" type="text/css" href="css/style.css"/>
+	<link rel="stylesheet" type="text/css" href="dashboard/dashboard.css"/>
+	<link rel="stylesheet" type="text/css" href="ana1/ana1.css"/>
+	<link rel="stylesheet" type="text/css" href="ana2/ana2.css"/>
 
-    <!-- Einbinden der angular Bibliotheken -->
-    <script src="components/angular.js"></script>
-    <script src="components/angular-route.js"></script>
-    <script src="components/mobile-angular-ui.js"></script>
-    <script src="components/d3.min.js"></script>
+	<!-- Einbinden der angular Bibliotheken -->
+	<script src="components/angular.js"></script>
+	<script src="components/angular-route.js"></script>
+	<script src="components/mobile-angular-ui.js"></script>
+	<script src="components/d3.min.js"></script>
 
-    <!-- Einbinden der Angular Applikation -->
-    <script type="text/javascript" src="app.js"></script>
-    <script type="text/javascript" src="dashboard/dashboard.js"></script>
-    <script type="text/javascript" src="ana1/ana1.js"></script>
-    <script type="text/javascript" src="services/d3.js"></script>
-    <script type="text/javascript" src="directives/d3Basic.js"></script>>
+	<!-- Einbinden der Angular Applikation -->
+	<script type="text/javascript" src="app.js"></script>
+	<script type="text/javascript" src="dashboard/dashboard.js"></script>
+	<script type="text/javascript" src="services/d3.js"></script>
+	<script type="text/javascript" src="directives/d3Basic.js"></script>
+
+	<script type="text/javascript" src="ana1/ana1.js"></script>
+	<script type="text/javascript" src="ana2/ana2.js"></script>
 
 </head>
 <!-- Zuweisen des Controllers -->
-
 <body ng-controller="GeneralController as generalCtrl">
 
-    <!-- Einbinden der Sidebar -->
-    <div ng-include="'sidebar.html'" class="sidebar sidebar-left" toggleable parent-active-class="sidebar-left-in" id="menuBar"></div>
+	<!-- Einbinden der Sidebar -->
+	<div ng-include="'sidebar.html'" class="sidebar sidebar-left" toggleable parent-active-class="sidebar-left-in" id="menuBar"></div>
 
-    <!-- Container für die App -->
-    <div class="app">
+	<!-- Container für die App -->
+	<div class="app">
 
-        <!-- Navigationsleiste am oberen Rand -->
-        <div class="navbar navbar-app navbar-absolute-top">
+		<!-- Navigationsleiste am oberen Rand -->
+		<div class="navbar navbar-app navbar-absolute-top">
 
-            <!-- Anzeigen der oberen Navigationsleiste -->
-            <div class="navbar-brand navbar-brand-center" yield-to="title">
-                <span>Tim Hortons</span>
-            </div>
+			<!-- Anzeigen der oberen Navigationsleiste -->
+			<div class="navbar-brand navbar-brand-center" yield-to="title">
+				<span>Tim Hortons</span>
+			</div>
 
-            <!-- Menubutton mit Funktionalität -->
-            <div class="btn-group pull-left">
-                <div ui-toggle="sidebarLeft" class="btn sidebar-toggle">
-                    <i class="fa fa-bars"></i> Menu
-                </div>
-            </div>
+			<!-- Menubutton mit Funktionalität -->
+			<div class="btn-group pull-left">
+				<div ui-toggle="sidebarLeft" class="btn sidebar-toggle">
+					<i class="fa fa-bars"></i> Menu
+				</div>
+			</div>
 
-        </div>
+		</div>
 
-        <!-- Container zum Einbinden der jeweiligen Seiten -->
-        <div class="app-body">
-            <!-- Container zur Anzeige von PopUps in der App -->
-            <div id="popup" class="">
-                <!-- PopUp Meldung -->
-            </div>
-            <ng-view class="app-content scrollable-content"></ng-view>
-        </div>
+		<!-- Container zum Einbinden der jeweiligen Seiten -->
+		<div class="app-body">
+			<ng-view class="app-content scrollable-content"></ng-view>
+		</div>
 
-    </div>
+	</div>
 </body>
-
 </html>
