@@ -19,6 +19,21 @@
         <d3-bars data="d3Data" label="name" on-click="d3OnClick(item)"></d3-bars>
         <br/>
         <br/>
+
+        <accordion close-others="oneAtATime">
+            <accordion-group heading="Static Header, initially expanded" is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
+                This content is straight in the template.
+            </accordion-group>
+
+            <accordion-group is-open="status.open">
+                <accordion-heading>
+                    I can have markup, too! <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+                </accordion-heading>
+                This is just some content to illustrate fancy headings.
+            </accordion-group>
+        </accordion>
+
+        <!---
         <span>First Item</span>
         <input type="text" ng-model="d3Data[0].score"></input>
         <br/>
@@ -27,10 +42,8 @@
         <br/>
         <span>Third Item</span>
         <input type="text" ng-model="d3Data[2].score"></input>
+--->
 
-        <d3-line <!--- <div linear-chart chart-data="salesData">
+
     </div>
-    --->
-
-</div>
 </div>
