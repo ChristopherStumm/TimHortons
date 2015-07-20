@@ -15,6 +15,7 @@ public class OPCDataItem<T> {
     private String itemName;
 
     private long timestamp;
+    
 
     /**
      * Default empty constructor needed for JAXB marshalling / unmarshalling

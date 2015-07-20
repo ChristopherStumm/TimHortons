@@ -62,17 +62,19 @@ public class OPCDataListener implements MessageListener {
 				if (tempStatus.getValue() instanceof Boolean){
 					System.out.println("ID: " +
 							identifier.processEventWithBoolean(tempStatus.getItemName(),
-							(boolean) tempStatus.getValue()));
+							(boolean) tempStatus.getValue(),
+							tempStatus));
 				}
 				if (tempStatus.getValue() instanceof Integer){
 					System.out.println("ID: " +
 							identifier.processEventWithoutBoolean
-							(tempStatus.getItemName()));
+							(tempStatus.getItemName(), tempStatus)
+							);
 				}
 				if (tempStatus.getValue() instanceof Double){
 					System.out.println("ID: " +
 							identifier.processEventWithoutBoolean
-							(tempStatus.getItemName()));
+							(tempStatus.getItemName(), tempStatus));
 				}
 			
 			

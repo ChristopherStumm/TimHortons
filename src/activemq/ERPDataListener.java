@@ -65,7 +65,7 @@ public class ERPDataListener implements MessageListener {
 					.println("Bestellnummer: " + tempERPDate.getOrderNumber());
 			System.out.println("Zeitpunkt der Bestellung: "
 					+ tempERPDate.getTimeStamp());
-			identifier.createProduct(tempERPDate.getOrderNumber());
+			identifier.createProduct(tempERPDate);
 			System.out.println("ID: " + tempERPDate.getOrderNumber());
 			
 			System.out.println("---------------");

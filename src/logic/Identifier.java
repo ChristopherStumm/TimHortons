@@ -2,22 +2,27 @@ package logic;
 
 import java.util.ArrayList;
 
+import com.google.gson.Gson;
+
+import model.ERPData;
+import model.OPCDataItem;
+
 public class Identifier {
-ArrayList<Product> productList = new ArrayList();
-	public void createProduct(String id){
+ArrayList<Product> productList = new ArrayList<>();
+	public void createProduct(ERPData erpData){
 		boolean alreadyCreated = false;
 		for (int i = 0; i < productList.size(); i++){
-			if (productList.get(i).getId().equals(id)){
+			if (productList.get(i).getId().equals(erpData.getMaterialNumber())){
 				alreadyCreated = true;
 			}
 		}
 		if (!alreadyCreated){
-		Product product = new Product(id);
+		Product product = new Product(erpData);
 		productList.add(product);
 		}
 	}
 	
-	public String processEventWithoutBoolean(String itemName){
+	public String processEventWithoutBoolean(String itemName, OPCDataItem item){
 		int stationId;
 		switch(itemName){
 			case "Milling Speed":
@@ -36,11 +41,11 @@ ArrayList<Product> productList = new ArrayList();
 				stationId = -1;
 				break;
 		}
-		String id = findOutId(stationId, true);
+		String id = findOutId(stationId, true, item);
 		return id;
 	}
 	
-	public String processEventWithBoolean(String itemName, boolean finished){
+	public String processEventWithBoolean(String itemName, boolean finished, OPCDataItem item){
 		int stationId;
 		if (finished){
 		switch(itemName){
@@ -98,12 +103,12 @@ ArrayList<Product> productList = new ArrayList();
 		}
 		}
 		
-		String id = findOutId(stationId, finished);
+		String id = findOutId(stationId, finished, item);
 		return id;
 	}
 	
 	
-	private String findOutId(int stationOfEvent, boolean finished){
+	private String findOutId(int stationOfEvent, boolean finished, OPCDataItem item){
 		int index = -1;
 		for (int i=0; i < productList.size(); i++){
 			if (stationOfEvent != 6 && stationOfEvent != 10){
@@ -125,8 +130,12 @@ ArrayList<Product> productList = new ArrayList();
 		
 		if (index != -1){
 			productList.get(index).setStation(stationOfEvent);
+			productList.get(index).addOPCData(item);
 			if (stationOfEvent == 14){
 				//Hier Schnittstelle zu Datenbank hin
+				//Zu Gson konvertieren und Chris für DB schicken
+				Gson dbGson = new Gson();
+				productList.remove(index);
 			}
 			return productList.get(index).getId();
 		}	else {
