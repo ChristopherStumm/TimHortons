@@ -52,6 +52,11 @@ public class ERPDataListener implements MessageListener {
 			System.err.println("Unknown format, marshalling aborted.");
 			return;
 		}
+		
+		LogFileReader lfr = LogFileReader.getInstance();
+		lfr.setIdentifier(identifier);
+		lfr.readLatestFile();
+		System.err.println(identifier.toString());
 
 		// Creating ERP-Object
 		ERPData tempERPDate = null;
@@ -82,8 +87,7 @@ public class ERPDataListener implements MessageListener {
 
 		// Reading Log Files after a new order get's submitted.
 		// TODO @Lucas Pr�fung ob es der erste Durchlauf ist.
-		LogFileReader lfr = LogFileReader.getInstance();
-		lfr.readLatestFile();
+
 
 	}
 	

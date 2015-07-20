@@ -1,11 +1,8 @@
 package logic;
 
 import java.util.ArrayList;
-import java.lang.Object.*;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.mongodb.util.JSON;
 
 import connections.DatabaseConnection;
 import model.ERPData;
@@ -13,6 +10,21 @@ import model.LogFile;
 import model.OPCDataItem;
 
 public class Identifier {
+	
+	private static Identifier instance = null;
+
+	protected Identifier() {
+		// Exists only to defeat instantiation.
+	}
+
+	public static Identifier getInstance() {
+		if (instance == null) {
+			instance = new Identifier();
+		}
+		return instance;
+	}
+	
+	
 ArrayList<Product> productList = new ArrayList<>();
 	public void createProduct(ERPData erpData){
 		boolean alreadyCreated = false;
@@ -134,9 +146,12 @@ ArrayList<Product> productList = new ArrayList<>();
 		
 		
 		if (index != -1){
+			if (productList.get(index).getStation() != 24){
 			productList.get(index).setStation(stationOfEvent);
+			}
 			productList.get(index).notifyObservers();
 			productList.get(index).addOPCData(item);
+			System.out.println(productList.size());
 			return productList.get(index).getId();
 		}	else {
 			System.out.println("Product could not be identified. Sorry!");
@@ -146,9 +161,13 @@ ArrayList<Product> productList = new ArrayList<>();
 		}
 	
 	public void finishProduct(LogFile logFile){
+		System.out.println("Product will now upload data to database");
+		System.out.println(productList.size());
+		System.err.println(this.toString());
 		for (int i=0; i < productList.size(); i++){
-			if (productList.get(i).getStation()==14){
+			//if (productList.get(i).getStation()==14){
 				Product product = productList.get(i);
+				System.out.println(product.toString());
 				//Daten ins Product schreiben
 				product.a1 = logFile.getA1();
 				product.a2 = logFile.getA2();
@@ -170,7 +189,7 @@ ArrayList<Product> productList = new ArrayList<>();
 				
 				productList.remove(i);
 			}
-		}
+		//}
 	}
 	
 }

@@ -70,7 +70,7 @@ public class LogFileReader {
 				
 				System.out.println("\nReading of the log file was successfull \n");
 				// Closing of the BufferedReader
-				Identifier id = new Identifier();
+				Identifier id = Identifier.getInstance();
 				id.finishProduct(logFile);
 				br.close();
 			}
@@ -107,6 +107,8 @@ public class LogFileReader {
 	}
 	
 	public void setIdentifier(Identifier identifier){
+		if (identifier == null){
 		this.identifier = identifier;
+		}
 	}
 }
