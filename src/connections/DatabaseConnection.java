@@ -27,7 +27,7 @@ public class DatabaseConnection {
 		return db;
 	}
 	
-	public void saveProductInformation(String customerNumber, Gson order){
+	public static void saveProductInformation(String customerNumber, String order){
 		DB db = DatabaseConnection.getConnection();
 		DBCollection table = db.getCollection("bigdata");
 		String orderString = order.toString();
