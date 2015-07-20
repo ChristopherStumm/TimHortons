@@ -1,15 +1,19 @@
 package connections;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import model.ERPData;
 
 import com.google.gson.Gson;
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.util.JSON;
 
@@ -33,23 +37,31 @@ public class DatabaseConnection {
 		DBCollection table = db.getCollection("bigdata");
 		System.out.println(order);
 		
-		JSON test = new JSON();
-
-		
+		JSON orderAsJson = new JSON();
+				
 		//Check if object already exists
 		BasicDBObject searchQuery = new BasicDBObject().append("customerNumber", customerNumber);
 		DBCursor cursor = table.find(searchQuery);
 		
 		//Create new Object on DB
 		if(!cursor.hasNext()){
-			BasicDBObject document = new BasicDBObject();
-			document.put("customerNumber", customerNumber);
-			document.put("orders", test.parse(order));
-			table.insert(document);
+			BasicDBObject customer = new BasicDBObject();
+			customer.put("customerNumber", customerNumber);
+			
+			
+			BasicDBList orders = new BasicDBList();			
+			orders.add(orderAsJson.parse(order));	
+			customer.put("orders", orders);
+
+			table.insert(customer);
+			
 		}else{
-			BasicDBObject newDocument = new BasicDBObject();
-			newDocument.append("$addToSet", new BasicDBObject().append("orders", test.parse(order)));
-			table.update(searchQuery, newDocument);			
+			
+			DBObject customer = cursor.next();
+			BasicDBList orders= (BasicDBList) customer.get("orders");
+			
+			orders.add(orderAsJson.parse(order));
+			table.save(customer);			
 		}
 
 	}
