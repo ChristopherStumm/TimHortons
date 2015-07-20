@@ -27,11 +27,11 @@ public class Main {
 		// demo.run();
 
 		// Message Queue Connection using JMS
-		QueueConnection q = new QueueConnection();
+		//QueueConnection q = new QueueConnection();
 
 		// Message Queue Connection using JMS via Apache Camel
-		QueueConnectionUsingCamel qc = new QueueConnectionUsingCamel();
-		qc.run();
+		//QueueConnectionUsingCamel qc = new QueueConnectionUsingCamel();
+		//qc.run();
 
 		// State Machine
 		// TestMachine t = new TestMachine();
@@ -41,10 +41,10 @@ public class Main {
 		// EsperTest esperTest = new EsperTest();
 		// esperTest.run();
 
-		// TODO @Mattes Es ist möglich, einen Kommandozeilenbefehl aus Java
-		// heraus zu starten. Das wäre ganz cool, wenn wir nur das Java-Programm
-		// öffnen müssten und dann dort erst alles einstellen können und dann
-		// die Simulation auch von dort aus starten können. :)
+		// TODO @Mattes Es ist mï¿½glich, einen Kommandozeilenbefehl aus Java
+		// heraus zu starten. Das wï¿½re ganz cool, wenn wir nur das Java-Programm
+		// ï¿½ffnen mï¿½ssten und dann dort erst alles einstellen kï¿½nnen und dann
+		// die Simulation auch von dort aus starten kï¿½nnen. :)
 
 		new MainWindow();
 	}

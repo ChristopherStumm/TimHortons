@@ -8,7 +8,7 @@ public class OperativePanel extends JPanel{
 	
 	public OperativePanel(){
 		this.setVisible(true);
-		this.setBackground(Color.BLUE);
+		this.setBackground(Color.GRAY);
 	}
 
 }

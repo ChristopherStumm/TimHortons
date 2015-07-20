@@ -2,6 +2,7 @@ package ui;
 
 import java.awt.MenuBar;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 import javax.swing.ButtonGroup;
@@ -17,26 +18,30 @@ import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 
-public class MainWindow extends JFrame{
+public class MainWindow extends JFrame implements ActionListener{
 	
-	JMenuBar menuBar;
-	JMenu menu, submenu;
-	JMenuItem menuItem;
-	JRadioButtonMenuItem rbMenuItem;
-	JCheckBoxMenuItem cbMenuItem;
+	private JMenuBar menuBar;
+	private JMenu menu, submenu;
+	private JMenuItem menuItem;
+	private JMenuItem startProductionMenuItem;
+	private JMenuItem startConfigurationMenuItem;
+	private JRadioButtonMenuItem rbMenuItem;
+	private JCheckBoxMenuItem cbMenuItem;
 	
 	
 	
 	public MainWindow(){
         this.setSize(900, 600);
         setLocationRelativeTo(null);
-        this.setVisible(true);
         this.setTitle("Dingleberry");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         System.out.println("Window shown");
         
         setupLayout();
         setupMenubar();
+        this.setVisible(true);
+        //this.invalidate();
+        //repaint();
 	}
 
 	private void setupMenubar() {
@@ -51,10 +56,19 @@ public class MainWindow extends JFrame{
 		menuBar.add(menu);
 
 		//a group of JMenuItems
-		menuItem = new JMenuItem("A text-only menu item");
-		menuItem.getAccessibleContext().setAccessibleDescription(
+		startProductionMenuItem = new JMenuItem("Start production process");
+		startProductionMenuItem.getAccessibleContext().setAccessibleDescription(
 		        "This doesn't really do anything");
-		menu.add(menuItem);
+		startProductionMenuItem.setAccelerator(KeyStroke.getKeyStroke(
+		        KeyEvent.VK_S, ActionEvent.ALT_MASK));
+		startProductionMenuItem.addActionListener(this);
+		menu.add(startProductionMenuItem);
+		
+		startConfigurationMenuItem = new JMenuItem("Start production config");
+		startConfigurationMenuItem.addActionListener(this);
+		menu.add(startConfigurationMenuItem);
+		
+		
 
 		menuItem = new JMenuItem("Both text and icon",
 		                         new ImageIcon("images/middle.gif"));
@@ -111,12 +125,21 @@ public class MainWindow extends JFrame{
 	private void setupLayout() {
 		JTabbedPane tabbedPane = new JTabbedPane();
 
-		JComponent panel1 = new ExecutivePanel();
+		JComponent panel1 = new OperativePanel();
 
-		JComponent panel2 = new OperativePanel();
+		JComponent panel2 = new ExecutivePanel();
 		tabbedPane.addTab("Operative View", panel1);
 		tabbedPane.addTab("Executive View", panel2);
 		
 		this.add(tabbedPane);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == startProductionMenuItem){
+			System.out.println("Production started");
+		}else if(e.getSource() == startConfigurationMenuItem){
+			System.out.println("Configuration started");
+		}
 	}
 }
