@@ -29,7 +29,7 @@ public abstract class Shape extends JComponent {
 		repaint();
 	}
 
-	public void update() {
+	public void updateShape() {
 		// getStatus() // int zurück bei vincent
 		if (getStation() == shapeID) {
 			this.setActive();

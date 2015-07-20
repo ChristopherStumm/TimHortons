@@ -9,6 +9,7 @@ import com.mongodb.util.JSON;
 
 import connections.DatabaseConnection;
 import model.ERPData;
+import model.LogFile;
 import model.OPCDataItem;
 
 public class Identifier {
@@ -134,18 +135,8 @@ ArrayList<Product> productList = new ArrayList<>();
 		
 		if (index != -1){
 			productList.get(index).setStation(stationOfEvent);
+			productList.get(index).notifyObservers();
 			productList.get(index).addOPCData(item);
-			if (stationOfEvent == 14){
-				//Hier Schnittstelle zu Datenbank hin
-				//Zu Gson konvertieren und Chris für DB schicken
-				Gson dbGson = new Gson();
-				
-				String productString = dbGson.toJson(productList.get(index));
-			
-				DatabaseConnection.saveProductInformation(productList.get(index).getCustomerNumber(), productString);
-				
-				productList.remove(index);
-			}
 			return productList.get(index).getId();
 		}	else {
 			System.out.println("Product could not be identified. Sorry!");
@@ -154,5 +145,32 @@ ArrayList<Product> productList = new ArrayList<>();
 			
 		}
 	
+	public void finishProduct(LogFile logFile){
+		for (int i=0; i < productList.size(); i++){
+			if (productList.get(i).getStation()==14){
+				Product product = productList.get(i);
+				//Daten ins Product schreiben
+				product.a1 = logFile.getA1();
+				product.a2 = logFile.getA2();
+				product.b1 = logFile.getB1();
+				product.b2 = logFile.getB2();
+				product.em1 = logFile.getEm1();
+				product.em2 = logFile.getEm2();
+				product.overallStatus = logFile.getOverallStatus();
+				product.ts_start = logFile.getTs_start();
+				product.ts_stop = logFile.getTs_stop();
+				
+				//Hier Schnittstelle zu Datenbank hin
+				//Zu Gson konvertieren und Chris für DB schicken
+				Gson dbGson = new Gson();
+				
+				String productString = dbGson.toJson(productList.get(i));
+			
+				DatabaseConnection.saveProductInformation(productList.get(i).getCustomerNumber(), productString);
+				
+				productList.remove(i);
+			}
+		}
+	}
 	
 }

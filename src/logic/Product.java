@@ -1,5 +1,6 @@
 package logic;
 
+import java.awt.Shape;
 import java.util.ArrayList;
 
 import model.ERPData;
@@ -10,11 +11,23 @@ public class Product {
 	private int customerNumber;
 	private String orderNumber;
 	
+	float a1;
+	float a2;
+	float b1;
+	float b2;
+	float em1;
+	float em2;
+	String overallStatus;
+	long ts_start;
+	long ts_stop;
+	
 	//for Database
 	private long startTime;
 	private long endTime;
 	private int materialNumber;
 	private ArrayList<OPCDataItem> data = new ArrayList<>();
+	
+	ArrayList<Shape> observerList = new ArrayList<Shape>();
 	
 	public String getId() {
 		return orderNumber;
@@ -49,6 +62,21 @@ public class Product {
 	
 	public int getCustomerNumber() {
 		return customerNumber;
+	}
+	
+	public void attach(Shape s){
+		observerList.add(s);
+	}
+	
+	public void detach(Shape s){
+		observerList.remove(s);
+	}
+	
+	public void notifyObservers(){
+		for (int i = 0; i < observerList.size(); i++){
+			Shape shape = observerList.get(i);
+			//shape.updateShape();
+		}
 	}
 
 
