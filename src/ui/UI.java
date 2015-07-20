@@ -50,6 +50,8 @@ public class UI extends JFrame implements ListSelectionListener {
 		topPanel.add(scrollPane, BorderLayout.WEST);
 
 		// adding elements
+		
+		listData = new ArrayList<String>();
 
 		for (int i = 0; i < listData.size(); i++) {
 			model.addElement(listData.get(i));

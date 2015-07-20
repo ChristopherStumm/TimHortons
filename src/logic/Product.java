@@ -1,8 +1,9 @@
 package logic;
 
-import java.awt.Shape;
+
 import java.util.ArrayList;
 
+import ui.Shape;
 import model.ERPData;
 import model.OPCDataItem;
 
@@ -41,6 +42,10 @@ public class Product {
 		System.out.println(erpData.getOrderNumber() + " was created with Station " + station);
 	}
 	
+	public Product(){
+		
+	}
+	
 	public int getStation(){
 		return station;
 	}
@@ -75,6 +80,7 @@ public class Product {
 	public void notifyObservers(){
 		for (int i = 0; i < observerList.size(); i++){
 			Shape shape = observerList.get(i);
+			shape.update();
 			//shape.updateShape();
 		}
 	}

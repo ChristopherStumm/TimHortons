@@ -1,22 +1,24 @@
 package ui;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
+import logic.Product;
 
 public abstract class Shape extends JComponent {
 
 	private static int shapeID = 0;
 
-	// protected Identifier identifier;
+	protected Product prod;
 	protected Color color = Color.BLACK;
 
 	public Shape() {
 		shapeID++;
-		// identifier = new Identifier();
-		// identifier.attach(this);
+		prod = new Product();
+		prod.attach(this);
 	}
 
 	public void setActive() {
@@ -31,7 +33,7 @@ public abstract class Shape extends JComponent {
 
 	public void update() {
 		// getStatus() // int zurück bei vincent
-		if (getStation() == shapeID) {
+		if (prod.getStation() == shapeID) {
 			this.setActive();
 		} else {
 			this.setDeactive();
