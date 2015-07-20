@@ -1,6 +1,7 @@
 'use strict';
 
-var url = "http://personalchef.ddns.net:3001/test/"
+//var url = "http://personalchef.ddns.net:3001/test/"
+var url = "data.json"
 var app = angular.module('timHortons.Dashboard', ['ngRoute'])
 
 .config(['$routeProvider',
