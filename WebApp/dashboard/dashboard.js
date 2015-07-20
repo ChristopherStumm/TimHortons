@@ -11,5 +11,10 @@ angular.module('timHortons.Dashboard', ['ngRoute'])
 }])
 
 .controller('DashboardController', ['$scope', function($scope){
-	
+	$scope.title = "DemoCtrl";
+	$scope.d3Data = [
+	{name: "Greg", score:98},
+	{name: "Ari", score:96},
+	{name: "Loser", score: 48}
+	];
 }])
