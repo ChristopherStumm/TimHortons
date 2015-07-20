@@ -19,7 +19,7 @@ public class OPCDataListener implements MessageListener {
 	private Unmarshaller _unmarshaller;
 	int counter = 1;
 	
-	Identifier identifier = new Identifier();
+	Identifier identifier = Identifier.getInstance();
 	
 
 	/**
@@ -54,6 +54,7 @@ public class OPCDataListener implements MessageListener {
 			System.out.println("Zeitpunkt der Meldung: "
 					+ tempStatus.getTimestamp());
 			System.out.println("Wert: " + tempStatus.getValue());
+			System.err.println(identifier.toString());
 			if (tempStatus.getItemName().contains("Lichtschranke")) 
 			{
 				//opticalFeedback(tempStatus);

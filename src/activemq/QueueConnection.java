@@ -30,7 +30,7 @@ public class QueueConnection {
 	 */
 	private Logger _log; 
 	
-	Identifier identifier = new Identifier();
+	Identifier identifier = Identifier.getInstance();
 	
 	
 	/**
