@@ -11,6 +11,7 @@ import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.MongoClient;
+import com.mongodb.util.JSON;
 
 public class DatabaseConnection {	
 	
@@ -27,10 +28,13 @@ public class DatabaseConnection {
 		return db;
 	}
 	
-	public static void saveProductInformation(String customerNumber, String order){
+	public static void saveProductInformation(int customerNumber, String order){
 		DB db = DatabaseConnection.getConnection();
 		DBCollection table = db.getCollection("bigdata");
-		String orderString = order.toString();
+		System.out.println(order);
+		
+		JSON test = new JSON();
+
 		
 		//Check if object already exists
 		BasicDBObject searchQuery = new BasicDBObject().append("customerNumber", customerNumber);
@@ -40,11 +44,11 @@ public class DatabaseConnection {
 		if(!cursor.hasNext()){
 			BasicDBObject document = new BasicDBObject();
 			document.put("customerNumber", customerNumber);
-			document.put("orders", orderString);
+			document.put("orders", test.parse(order));
 			table.insert(document);
 		}else{
 			BasicDBObject newDocument = new BasicDBObject();
-			newDocument.append("$addToSet", new BasicDBObject().append("orders", orderString));
+			newDocument.append("$addToSet", new BasicDBObject().append("orders", test.parse(order)));
 			table.update(searchQuery, newDocument);			
 		}
 

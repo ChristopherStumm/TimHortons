@@ -7,7 +7,7 @@ import model.OPCDataItem;
 
 public class Product {
 	private int station;
-	
+	private int customerNumber;
 	private String orderNumber;
 	
 	//for Database
@@ -23,6 +23,7 @@ public class Product {
 	Product(ERPData erpData){
 		this.orderNumber = erpData.getOrderNumber();
 		this.materialNumber = erpData.getMaterialNumber();
+		this.customerNumber = erpData.getCustomerNumber();
 		station = 0;
 		System.out.println(erpData.getOrderNumber() + " was created with Station " + station);
 	}
@@ -46,5 +47,9 @@ public class Product {
 	}
 	
 	
+	public int getCustomerNumber() {
+		return customerNumber;
+	}
+
 
 }
