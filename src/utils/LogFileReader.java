@@ -9,6 +9,8 @@ import model.LogFile;
 
 import com.google.gson.Gson;
 
+import logic.Identifier;
+
 /**
  * This file reader get's the latest log file, reads it and deletes it
  * afterwards.
@@ -17,6 +19,8 @@ import com.google.gson.Gson;
  *
  */
 public class LogFileReader {
+	
+	Identifier identifier;
 
 	private static LogFileReader instance = null;
 
@@ -39,7 +43,7 @@ public class LogFileReader {
 
 		// TODO @Mattes Dynamisch den Ordnerpfad wählen.
 		
-		String path = "C:/Users/Lucas.Schlemm/Desktop/Logs";
+		String path = "C:/Users/Anne/Documents/Kanada/logs";
 		File[] files = readFiles(path);
 
 		Gson gson = new Gson();
@@ -66,6 +70,8 @@ public class LogFileReader {
 				
 				System.out.println("\nReading of the log file was successfull \n");
 				// Closing of the BufferedReader
+				Identifier id = new Identifier();
+				id.finishProduct(logFile);
 				br.close();
 			}
 			else
@@ -98,5 +104,9 @@ public class LogFileReader {
 			}
 		}
 		return listOfFiles;
+	}
+	
+	public void setIdentifier(Identifier identifier){
+		this.identifier = identifier;
 	}
 }
