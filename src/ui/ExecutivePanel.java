@@ -58,6 +58,7 @@ public class ExecutivePanel extends JPanel{
 	
 	void handleFirstEvent(){
 		centerContainer.removeAll();
+		//asdasds
 		
 		//Chart chart = GraphicsFactory.getFirstGraphic();
 		//SwingWrapper wrapper = new SwingWrapper(chart);
