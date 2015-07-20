@@ -13,6 +13,8 @@ import javax.xml.bind.Unmarshaller;
 import model.ERPData;
 import utils.LogFileReader;
 
+import logic.Identifier;
+
 /**
  * This Listener listens for new ERPData messages.
  * 
@@ -24,6 +26,8 @@ public class ERPDataListener implements MessageListener {
 	private JAXBContext _ctx;
 
 	private Unmarshaller _unmarshaller;
+	
+	Identifier identifier;
 
 	/**
 	 * Default Constructor
@@ -42,6 +46,14 @@ public class ERPDataListener implements MessageListener {
 
 		System.out.println();
 		TextMessage tmpMessage = null;
+
+		System.out.println("New Order has arrived");
+		System.out.println("Trying to read log file of last order...");
+		// Reading Log Files after a new order get's submitted.
+		// TODO @Lucas Pr�fung ob es der erste Durchlauf ist.
+		LogFileReader lfr = LogFileReader.getInstance();
+		lfr.readLatestFile();
+
 		if (arg0 instanceof TextMessage) {
 			tmpMessage = (TextMessage) arg0;
 		} else {
@@ -54,6 +66,7 @@ public class ERPDataListener implements MessageListener {
 		try {
 			StringReader reader = new StringReader(tmpMessage.getText());
 			tempERPDate = (ERPData) _unmarshaller.unmarshal(reader);
+
 			System.out.println();
 			System.out.println("Kunde: " + tempERPDate.getCustomerNumber());
 			System.out.println("Material: " + tempERPDate.getMaterialNumber());
@@ -61,6 +74,9 @@ public class ERPDataListener implements MessageListener {
 					.println("Bestellnummer: " + tempERPDate.getOrderNumber());
 			System.out.println("Zeitpunkt der Bestellung: "
 					+ tempERPDate.getTimeStamp());
+			identifier.createProduct(tempERPDate.getOrderNumber());
+			System.out.println("ID: " + tempERPDate.getOrderNumber());
+			
 			System.out.println("---------------");
 
 			// push into database
@@ -73,10 +89,9 @@ public class ERPDataListener implements MessageListener {
 			e.printStackTrace();
 		}
 
-		// Reading Log Files after a new order get's submitted.
-		// TODO @Lucas Pr�fung ob es der erste Durchlauf ist.
-		LogFileReader lfr = LogFileReader.getInstance();
-		lfr.readLatestFile();
-
+	}
+	
+	public void setIdentifier(Identifier identifier){
+		this.identifier = identifier;
 	}
 }

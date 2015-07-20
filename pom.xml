@@ -6,6 +6,12 @@
 	<version>0.0.1-SNAPSHOT</version>
 
 	<dependencies>
+	
+	<dependency>
+		<groupId>org.mongodb</groupId>
+		<artifactId>mongo-java-driver</artifactId>
+		<version>3.0.2</version>
+	</dependency>
 
 		<!-- JSON Library -->
 		<dependency>
