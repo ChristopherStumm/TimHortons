@@ -1,9 +1,13 @@
 package logic;
 
 import java.util.ArrayList;
+import java.lang.Object.*;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.mongodb.util.JSON;
 
+import connections.DatabaseConnection;
 import model.ERPData;
 import model.OPCDataItem;
 
@@ -135,6 +139,11 @@ ArrayList<Product> productList = new ArrayList<>();
 				//Hier Schnittstelle zu Datenbank hin
 				//Zu Gson konvertieren und Chris für DB schicken
 				Gson dbGson = new Gson();
+				
+				String productString = dbGson.toJson(productList.get(index));
+			
+				DatabaseConnection.saveProductInformation(productList.get(index).getCustomerNumber(), productString);
+				
 				productList.remove(index);
 			}
 			return productList.get(index).getId();

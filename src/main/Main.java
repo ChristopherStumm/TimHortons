@@ -5,7 +5,7 @@ import marshalling.DemoMarshalling;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import ui.MainWindow;
+//import ui.MainWindow;
 import activemq.QueueConnection;
 import activemq.QueueConnectionUsingCamel;
 import esper.EsperTest;
@@ -27,11 +27,11 @@ public class Main {
 		// demo.run();
 
 		// Message Queue Connection using JMS
-		//QueueConnection q = new QueueConnection();
+		QueueConnection q = new QueueConnection();
 
 		// Message Queue Connection using JMS via Apache Camel
-		//QueueConnectionUsingCamel qc = new QueueConnectionUsingCamel();
-		//qc.run();
+		QueueConnectionUsingCamel qc = new QueueConnectionUsingCamel();
+		qc.run();
 
 		// State Machine
 		// TestMachine t = new TestMachine();
@@ -46,6 +46,6 @@ public class Main {
 		// �ffnen m�ssten und dann dort erst alles einstellen k�nnen und dann
 		// die Simulation auch von dort aus starten k�nnen. :)
 
-		new MainWindow();
+		//new MainWindow();
 	}
 }
