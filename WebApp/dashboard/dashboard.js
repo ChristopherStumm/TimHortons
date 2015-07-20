@@ -2,7 +2,7 @@
 
 //var url = "http://personalchef.ddns.net:3001/test/"
 var url = "data.json"
-var app = angular.module('timHortons.Dashboard', ['ngRoute'])
+var app = angular.module('timHortons.Dashboard', ['ngRoute', 'angularCharts'])
 
 .config(['$routeProvider',
     function ($routeProvider) {
@@ -82,7 +82,7 @@ var app = angular.module('timHortons.Dashboard', ['ngRoute'])
                 $scope.d3Data[1].score = data.value2
                 $scope.d3Data[2].score = data.value3
                 console.log(data)
-                $timeout(tick, 100000);
+                $timeout(tick, 10000);
             });
         })();
 }])
