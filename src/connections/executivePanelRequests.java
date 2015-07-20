@@ -58,4 +58,10 @@ public class executivePanelRequests {
 		}
 	}
 
+	public JsonObject getProductionOverviewData() {
+		// TODO Auto-generated method stub
+		//call Jakob
+		return null;
+	}
+
 }

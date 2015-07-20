@@ -1,0 +1,71 @@
+/*------------------------------*/
+/*--- Allgemeine Anpassungen ---*/
+/*------------------------------*/
+
+/*--- Schriftart ---*/
+@font-face {
+	font-family: "Ubuntu Light";
+	font-style: normal;
+	font-weight: 400;
+	src: url('../fonts/Ubuntu-L.ttf');
+}
+
+body
+{
+	font-family: 'Ubuntu Light', sans-serif;
+}
+
+a, a:hover, a:focus
+{
+	text-decoration: none;
+}
+
+/*----------------------------------*/
+/*--- Navigationsleiste anpassen ---*/
+/*----------------------------------*/
+.navbar
+{
+	background-color: rgb(107,107,107);
+	border: 0px;
+	color: white;
+}
+
+.fa
+{
+	color: white;
+}
+
+.navbar-app .btn
+{
+	color: white;
+}
+
+.navbar-app .btn:hover
+{
+	color: white;
+}
+
+/*--- AppBody anpassen ---*/
+.app-body
+{
+	background-color: rgb(166,166,166);
+}
+
+/*--- Anpassung Menü ---*/
+.list-group-item.active
+{
+	background-color: rgb(236,76,7);
+	border-color: rgb(236,76,7);
+}
+
+.list-group-item.active:focus
+{
+	background-color: rgb(236,76,7);
+	border-color: rgb(236,76,7);
+}
+
+.list-group-item.active:hover
+{
+	background-color: rgb(236,76,7);
+	border-color: rgb(236,76,7);
+}
