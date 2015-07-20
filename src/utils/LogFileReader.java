@@ -46,7 +46,7 @@ public class LogFileReader {
 
 		try {
 			if (files[0].exists()) {
-				System.out.println("Reading JSON from a file");
+				System.out.println("Reading JSON from a file: "+ files[0]);
 				System.out.println("----------------------------");
 
 				BufferedReader br = new BufferedReader(new FileReader(files[0]));
@@ -63,13 +63,14 @@ public class LogFileReader {
 				System.out.println("overallStatus: " + logFile.getOverallStatus());
 				System.out.println("ts_start: " + logFile.getTs_start());
 				System.out.println("ts_stop: " + logFile.getTs_stop());
-
+				
+				System.out.println("\nReading of the log file was successfull \n");
 				// Closing of the BufferedReader
 				br.close();
 			}
 			else
 			{
-				System.out.println("No log files to read from.");
+				System.out.println("No log files to read from. \n");
 			}
 
 		} catch (IOException e) {
@@ -78,7 +79,7 @@ public class LogFileReader {
 
 		// Deleting the read file.
 		if (files[0].delete()) {
-			System.out.println("Datei erfolgreich gelöscht..");
+			System.out.println("Datei erfolgreich gelöscht. \n");
 			System.out.println();
 		} else {
 			System.out
