@@ -81,7 +81,7 @@ var app = angular.module('timHortons.Dashboard', ['ngRoute'])
                 $scope.d3Data[1].score = data.value2
                 $scope.d3Data[2].score = data.value3
                 console.log(data)
-                $timeout(tick, 1000);
+                $timeout(tick, 100000);
             });
         })();
 }])
