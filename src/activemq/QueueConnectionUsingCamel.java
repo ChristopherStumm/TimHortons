@@ -13,6 +13,7 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.converter.jaxb.JaxbDataFormat;
 import org.apache.camel.impl.DefaultCamelContext;
 
+import logic.Identifier;
 import utils.Output;
 
 public class QueueConnectionUsingCamel {
@@ -45,7 +46,7 @@ public class QueueConnectionUsingCamel {
 						public void process(Exchange arg0) throws Exception {
 							ERPData tempERPData = arg0.getIn().getBody(ERPData.class); 
 							Output.showERP(tempERPData);
-													
+							Identifier.getInstance().createProduct(tempERPData);						
 						}
 					}); 
 					
@@ -61,6 +62,16 @@ public class QueueConnectionUsingCamel {
 							@SuppressWarnings("rawtypes")
 							OPCDataItem tempStatus = arg0.getIn().getBody(OPCDataItem.class);
 							Output.showStatusUpdate(tempStatus);
+							String itemName = tempStatus.getItemName();
+							if (itemName == "Milling Heat" ||
+									itemName == "Milling Speed" ||
+										itemName == "Drilling Heat" ||
+											itemName == "Drilling Speed"){
+								Identifier.getInstance().processEventWithoutBoolean(itemName, tempStatus);
+							} else {
+								Identifier.getInstance().processEventWithBoolean(itemName, (boolean) tempStatus.getValue(), tempStatus);
+							}
+							
 						}
 					});
 					
