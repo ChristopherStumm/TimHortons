@@ -1,15 +1,14 @@
 package ui;
+
 // Imports
 import java.awt.*;
 import java.util.ArrayList;
-
 
 //import java.awt.event.*;
 import javax.swing.*;
 // import javax.swing.border.Border;
 import javax.swing.event.*;
-
-import logic.Product;
+import logic.*;
 
 public class UI extends JFrame implements ListSelectionListener {
 
@@ -20,13 +19,13 @@ public class UI extends JFrame implements ListSelectionListener {
 	private JList listbox;
 	private JScrollPane scrollPane;
 	private DefaultListModel model;
-	
+
 	protected ArrayList<Product> listData;
-	
-//	= { "Product 1", "Product 2", "Product 3",
-//			"Product 4", "Product 1", "Product 2", "Product 3",
-//			"Product 4", "Product 1", "Product 2", "Product 3",
-//			"Product 4", "Product 1", "Product 2", "Product 3", "Product 4" };
+
+	// = { "Product 1", "Product 2", "Product 3",
+	// "Product 4", "Product 1", "Product 2", "Product 3",
+	// "Product 4", "Product 1", "Product 2", "Product 3",
+	// "Product 4", "Product 1", "Product 2", "Product 3", "Product 4" };
 
 	// Other shapes need to be instanced here as well
 	Rect r1;
@@ -42,7 +41,7 @@ public class UI extends JFrame implements ListSelectionListener {
 		topPanel = new JPanel();
 		topPanel.setLayout(new BorderLayout());
 		getContentPane().add(topPanel, BorderLayout.WEST);
-		
+
 		// Create a new listbox control
 
 		model = new DefaultListModel();
@@ -52,13 +51,15 @@ public class UI extends JFrame implements ListSelectionListener {
 		scrollPane = new JScrollPane(listbox);
 		topPanel.add(scrollPane, BorderLayout.WEST);
 
+		model.addElement("Test");
+
 		// adding elements
-		
+
 		listData = new ArrayList<Product>();
 
-		for (int i = 0; i < listData.size(); i++) {
-			model.addElement(listData.get(i));
-		}
+		// for (int i = 0; i < listData.size(); i++) {
+		// model.addElement(listData.get(i));
+		// }
 
 		drawPanel = new JPanel();
 		drawPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
@@ -92,14 +93,16 @@ public class UI extends JFrame implements ListSelectionListener {
 		System.out.println(r1);
 
 		drawPanel.validate();
+
+		Identifier.getInstance().attach(this);
 	}
 
-	// Main entry point for this example
-	public static void main(String args[]) {
-		// Create an instance of the test application
-		UI mainFrame = new UI();
-		mainFrame.setVisible(true);
-	}
+	// // Main entry point for this example
+	// public static void main(String args[]) {
+	// // Create an instance of the test application
+	// UI mainFrame = new UI();
+	// mainFrame.setVisible(true);
+	// }
 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
@@ -109,26 +112,20 @@ public class UI extends JFrame implements ListSelectionListener {
 		r1.setActive();
 		repaint();
 
-		int index = listbox.getSelectedIndex();
-		System.out.println(model.getElementAt(index));
+		// int index = listbox.getSelectedIndex();
+		// System.out.println(model.getElementAt(index));
+
 		// switch to product that should be shown
 	}
-	
-	
+
 	// getProduct
-	public void update(Product p){
-		
-		for(int i = 0; i < listData.size(); i++){
-			if(getProduct().equals(listData.get(i))){
-				listData.set(i, null);
-			} else {
-				listData.add(getProduct());
-			}
+	public void update(Product p) {
+		System.out.println("UPDATE DER UI / " + p.getId() + " wurde geändert");
+
+		if (model.contains(p.getId()) == false) {
+			model.addElement(p.getId());
+		} else {
+			model.removeElement(p.getId());
 		}
-	}
-	
-	public Product getProduct(){
-		// return getProduct();
-		return null;
 	}
 }

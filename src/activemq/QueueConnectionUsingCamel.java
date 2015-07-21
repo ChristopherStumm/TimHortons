@@ -2,6 +2,7 @@ package activemq;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Map;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -16,6 +17,7 @@ import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.converter.jaxb.JaxbDataFormat;
 import org.apache.camel.impl.DefaultCamelContext;
+import org.apache.camel.model.dataformat.JsonLibrary;
 
 import logic.Identifier;
 import utils.Output;
@@ -30,11 +32,9 @@ public class QueueConnectionUsingCamel {
 		CamelContext context = new DefaultCamelContext();
 		JaxbDataFormat jaxbERP = new JaxbDataFormat();
 		JaxbDataFormat jaxbOPC = new JaxbDataFormat();
-		JaxbDataFormat jaxbLog = new JaxbDataFormat();
 		try {
 			jaxbERP.setContext(JAXBContext.newInstance(ERPData.class));
 			jaxbOPC.setContext(JAXBContext.newInstance(OPCDataItem.class));
-			jaxbLog.setContext(JAXBContext.newInstance(LogFile.class));
 		} catch (JAXBException e1) {
 			e1.printStackTrace();
 		}
@@ -78,16 +78,33 @@ public class QueueConnectionUsingCamel {
 					String dir = path.getParent().getParent().getParent()+"/output";  
 					System.out.println(dir);
 					from("file://"+dir+"?delete=true")
-					.unmarshal(jaxbLog)
+					.unmarshal().json(JsonLibrary.Gson, LogFile.class)
 					.process(new Processor() {
 						@Override
 						public void process(Exchange arg0) throws Exception {
+							LogFile tempStatus = arg0.getIn().getBody(LogFile.class);
+							System.out.println(tempStatus.getOverallStatus());
 							System.out.println("Delete file");
 						}
 					});
 					
 					//Esper 
-					//from("activemq:topic:m_orders").unmarshal(someUnmarshallingObjectGoesHere).to("esper:test");
+					from("activemq:topic:m_orders")
+					.unmarshal(jaxbOPC)
+					.to("esper:heat");
+					
+
+					  from("esper:test?eql=select avg(materialNumber) as avg from model.ERPData")
+					  .process(new Processor() {
+
+					  public void process(Exchange arg0) throws Exception {
+					  com.espertech.esper.event.map.MapEventBean ev = (com.espertech.esper.event.map.MapEventBean) arg0
+					  .getIn().getBody();
+
+					  Map map = (Map)ev.getUnderlying();
+					  System.out.println(map.get("avg"));
+					  }
+					 });					  
 				}
 			});
 

@@ -11,6 +11,10 @@ public class LogFile {
 	private String overallStatus;
 	private long ts_start;
 	private long ts_stop;
+	
+	public LogFile(){
+		
+	}
 
 	public float getA1() {
 		return a1;
