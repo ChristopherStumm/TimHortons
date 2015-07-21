@@ -2,10 +2,10 @@ package main;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import ui.UI;
-//import ui.MainWindow;
-import activemq.QueueConnection;
 import activemq.QueueConnectionUsingCamel;
+//import ui.MainWindow;
 //import ui.MainWindow;
 
 /**
@@ -33,16 +33,12 @@ public class Main {
 			e.printStackTrace();
 		}
 
-*/		// Message Queue Connection using JMS
-		//QueueConnection q = new QueueConnection();
+*/		
 
 		// Message Queue Connection using JMS via Apache Camel
 		QueueConnectionUsingCamel qc = new QueueConnectionUsingCamel();
 		qc.run();
 
-		// State Machine
-		// TestMachine t = new TestMachine();
-		// t.run();
 
 		// Esper test
 		// EsperTest esperTest = new EsperTest();
