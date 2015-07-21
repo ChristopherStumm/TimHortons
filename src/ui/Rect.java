@@ -8,11 +8,8 @@ import javax.swing.JPanel;
 
 public class Rect extends Shape {
 
-
-	Color color = Color.BLACK;
-
-	public Rect() {
-		super();
+	public Rect(int id) {
+		super(id);
 	}
 
 	@Override

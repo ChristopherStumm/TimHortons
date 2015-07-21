@@ -27,7 +27,7 @@ public class Product {
 	private int materialNumber;
 	private ArrayList<OPCDataItem> data = new ArrayList<>();
 
-	ArrayList<Shape> observerList = new ArrayList<Shape>();
+	ArrayList<Shape> observerList = new ArrayList<>();
 
 	public String getId() {
 		return orderNumber;
@@ -43,7 +43,9 @@ public class Product {
 	}
 
 	public Product() {
-
+		for (int i = 0; i < observerList.size(); i++) {
+			System.out.println(observerList.get(i).getName());
+		}
 	}
 
 	public int getStation() {
@@ -52,6 +54,7 @@ public class Product {
 
 	public void setStation(int newValue) {
 		station = newValue;
+		notifyObservers();
 	}
 
 	public void addOPCData(OPCDataItem item) {
@@ -78,8 +81,10 @@ public class Product {
 
 	public void notifyObservers() {
 		for (int i = 0; i < observerList.size(); i++) {
+			observerList.get(i).update(station);
+			
 			Shape shape = observerList.get(i);
-			shape.update();
+			shape.update(station);
 		}
 	}
 

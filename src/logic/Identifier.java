@@ -10,7 +10,7 @@ import connections.DatabaseConnection;
 import model.ERPData;
 import model.LogFile;
 import model.OPCDataItem;
-import ui.UI;
+import ui.*;
 
 public class Identifier {
 	
@@ -263,6 +263,7 @@ public class Identifier {
 	public void notifyObservers(Product product){
 		for (int i=0; i < observerList.size(); i++){
 			observerList.get(i).update(product);
+			System.out.println("Product sent to UI. ID: " + product.getId());
 		}
 	}
 	
