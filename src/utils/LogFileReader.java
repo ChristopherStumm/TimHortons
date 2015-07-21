@@ -19,7 +19,7 @@ import logic.Identifier;
  *
  */
 public class LogFileReader {
-	
+
 	Identifier identifier;
 
 	private static LogFileReader instance = null;
@@ -41,19 +41,23 @@ public class LogFileReader {
 	 */
 	public void readLatestFile() {
 
-		// TODO @Mattes Dynamisch den Ordnerpfad wählen.
-		
-		String path = "C:/Users/Anne/Documents/Kanada/logs";
+		// TODO @Mattes Dynamisch den Ordnerpfad wï¿½hlen.
+
+		String path = "/Users/Mats/Desktop/HelloWorld/Canada/TimHortons/I4Simulation/tmp";
 		File[] files = readFiles(path);
 
 		Gson gson = new Gson();
 
 		try {
 			if (files[0].exists()) {
-				System.out.println("Reading JSON from a file: "+ files[0]);
+				BufferedReader br = null;
+				if (files[0].getName().contains("DS_")) {
+					br = new BufferedReader(new FileReader(files[1]));
+				} else {
+					br = new BufferedReader(new FileReader(files[0]));
+				}
+				System.out.println("Reading JSON from a file: " + files[0]);
 				System.out.println("----------------------------");
-
-				BufferedReader br = new BufferedReader(new FileReader(files[0]));
 
 				// convert the json string back to object
 				LogFile logFile = gson.fromJson(br, LogFile.class);
@@ -64,18 +68,18 @@ public class LogFileReader {
 				System.out.println("b2: " + logFile.getB2());
 				System.out.println("em1: " + logFile.getEm1());
 				System.out.println("em2: " + logFile.getEm2());
-				System.out.println("overallStatus: " + logFile.getOverallStatus());
+				System.out.println("overallStatus: "
+						+ logFile.getOverallStatus());
 				System.out.println("ts_start: " + logFile.getTs_start());
 				System.out.println("ts_stop: " + logFile.getTs_stop());
-				
-				System.out.println("\nReading of the log file was successfull \n");
+
+				System.out
+						.println("\nReading of the log file was successfull \n");
 				// Closing of the BufferedReader
 				Identifier id = Identifier.getInstance();
 				id.finishProduct(logFile);
 				br.close();
-			}
-			else
-			{
+			} else {
 				System.out.println("No log files to read from. \n");
 			}
 
@@ -84,13 +88,25 @@ public class LogFileReader {
 		}
 
 		// Deleting the read file.
-		if (files[0].delete()) {
-			System.out.println("Datei erfolgreich gelöscht. \n");
-			System.out.println();
+		if (files[0].getName().contains("DS_")) {
+			if (files[1].delete()) {
+				System.out.println("Datei erfolgreich gelï¿½scht. \n");
+				System.out.println();
+			} else {
+				System.out
+						.println("nicht erfolgreich gelï¿½scht. Die kleine Hure...");
+			}
+
 		} else {
-			System.out
-					.println("nicht erfolgreich gelöscht. Die kleine Hure...");
+			if (files[0].delete()) {
+				System.out.println("Datei erfolgreich gelï¿½scht. \n");
+				System.out.println();
+			} else {
+				System.out
+						.println("nicht erfolgreich gelï¿½scht. Die kleine Hure...");
+			}
 		}
+
 	}
 
 	private File[] readFiles(String path) {
@@ -105,10 +121,10 @@ public class LogFileReader {
 		}
 		return listOfFiles;
 	}
-	
-	public void setIdentifier(Identifier identifier){
-		if (identifier == null){
-		this.identifier = identifier;
+
+	public void setIdentifier(Identifier identifier) {
+		if (identifier == null) {
+			this.identifier = identifier;
 		}
 	}
 }

@@ -27,7 +27,7 @@ public class ERPDataListener implements MessageListener {
 
 	private Unmarshaller _unmarshaller;
 	
-	Identifier identifier;
+	private Identifier identifier;
 
 	/**
 	 * Default Constructor
@@ -54,7 +54,6 @@ public class ERPDataListener implements MessageListener {
 		}
 		
 		LogFileReader lfr = LogFileReader.getInstance();
-		lfr.setIdentifier(identifier);
 		lfr.readLatestFile();
 		System.err.println(identifier.toString());
 
