@@ -19,7 +19,7 @@ public class Identifier {
 	
 	private ArrayList<UI> observerList = new ArrayList<>();
 	
-	ArrayList<Product> productList = new ArrayList<>();
+	Product[] productList =  new Product[14];
 
 	protected Identifier() {
 		// Exists only to defeat instantiation.
@@ -35,21 +35,110 @@ public class Identifier {
 	
 	public void createProduct(ERPData erpData){
 		boolean alreadyCreated = false;
-		for (int i = 0; i < productList.size(); i++){
-			if (productList.get(i).getId().equals(erpData.getMaterialNumber())){
+		int indexOfFirstNull = 0;
+		boolean nullFound = false; 
+		for (int i = 0; i < productList.length; i++){
+			if (productList[i] == null){
+				if (!nullFound){
+					indexOfFirstNull = i;
+					nullFound = true;
+				}
+			} else {
+			if (productList[i].getId().equals(erpData.getMaterialNumber())){
 				alreadyCreated = true;
+			}
 			}
 		}
 		if (!alreadyCreated){
 		Product product = new Product(erpData);
-		productList.add(product);
+		productList[indexOfFirstNull] = product;
 		notifyObservers(product);
 		}
 	}
 	
-	public String processEventWithoutBoolean(String itemName, OPCDataItem item){
+	
+	public String processEvent(OPCDataItem item){
 		int stationId;
-		switch(itemName){
+		String itemName = item.getItemName();
+		
+		if (item.getValue() instanceof Boolean){
+			boolean finished = (boolean) item.getValue();
+			
+			if (finished){
+				switch(itemName){
+					case "Lichtschranke 1":
+						stationId = 2;
+						heatOrSpeed = false;
+						break;
+					case "Lichtschranke 2":
+						stationId = 4;
+						heatOrSpeed = false;
+						break;
+					case "Milling Station":
+						stationId = 6;
+						heatOrSpeed = false;
+						break;
+					case "Lichtschranke 3":
+						stationId = 8;
+						heatOrSpeed = false;
+						break;
+					case "Drilling Station":
+						stationId = 10;
+						heatOrSpeed = false;
+						break;
+					case "Lichtschranke 4":
+						stationId = 12;
+						heatOrSpeed = false;
+						break;
+					case "Lichtschranke 5":
+						stationId = 14;
+						heatOrSpeed = false;
+						break;
+					default: 
+						stationId = -1;
+						break;
+				}
+				} else {
+					switch(itemName){
+					case "Lichtschranke 1":
+						stationId = 1;
+						heatOrSpeed = false;
+						break;
+					case "Lichtschranke 2":
+						stationId = 3;
+						heatOrSpeed = false;
+						break;
+					case "Lichtschranke 3":
+						stationId = 5;
+						heatOrSpeed = false;
+						break;
+					case "Milling Station":
+						stationId = 7;
+						heatOrSpeed = false;
+						break;
+					case "Drilling Station":
+						stationId = 11;
+						heatOrSpeed = false;
+						break;
+					case "Lichtschranke 4":
+						stationId = 9;
+						heatOrSpeed = false;
+						break;
+					case "Lichtschranke 5":
+						stationId = 13;
+						heatOrSpeed = false;
+						break;
+					default: 
+						stationId = -1;
+						break;
+				}
+				
+				
+				}
+			String id = findOutId(stationId, finished, item);
+			return id;
+		} else {
+			switch(itemName){
 			case "Milling Speed":
 				stationId = 6;
 				heatOrSpeed = true;
@@ -72,115 +161,41 @@ public class Identifier {
 		}
 		String id = findOutId(stationId, true, item);
 		return id;
-	}
-	
-	public String processEventWithBoolean(String itemName, boolean finished, OPCDataItem item){
-		int stationId;
-		if (finished){
-		switch(itemName){
-			case "Lichtschranke 1":
-				stationId = 2;
-				heatOrSpeed = false;
-				break;
-			case "Lichtschranke 2":
-				stationId = 4;
-				heatOrSpeed = false;
-				break;
-			case "Milling Station":
-				stationId = 6;
-				heatOrSpeed = false;
-				break;
-			case "Lichtschranke 3":
-				stationId = 8;
-				heatOrSpeed = false;
-				break;
-			case "Drilling Station":
-				stationId = 10;
-				heatOrSpeed = false;
-				break;
-			case "Lichtschranke 4":
-				stationId = 12;
-				heatOrSpeed = false;
-				break;
-			case "Lichtschranke 5":
-				stationId = 14;
-				heatOrSpeed = false;
-				break;
-			default: 
-				stationId = -1;
-				break;
-		}
-		} else {
-			switch(itemName){
-			case "Lichtschranke 1":
-				stationId = 1;
-				heatOrSpeed = false;
-				break;
-			case "Lichtschranke 2":
-				stationId = 3;
-				heatOrSpeed = false;
-				break;
-			case "Lichtschranke 3":
-				stationId = 5;
-				heatOrSpeed = false;
-				break;
-			case "Milling Station":
-				stationId = 7;
-				heatOrSpeed = false;
-				break;
-			case "Drilling Station":
-				stationId = 11;
-				heatOrSpeed = false;
-				break;
-			case "Lichtschranke 4":
-				stationId = 9;
-				heatOrSpeed = false;
-				break;
-			case "Lichtschranke 5":
-				stationId = 13;
-				heatOrSpeed = false;
-				break;
-			default: 
-				stationId = -1;
-				break;
-		}
 		}
 		
-		String id = findOutId(stationId, finished, item);
-		return id;
 	}
 	
 	
 	private String findOutId(int stationOfEvent, boolean finished, OPCDataItem item){
 		int index = -1;
 		System.out.println("Station of Event: " + stationOfEvent);
-		for (int i=0; i < productList.size(); i++){
-			System.out.println("Station of Product: " + productList.get(i).getStation());
+		for (int i=0; i < productList.length; i++){
+			if (productList[i] != null){
+			System.out.println("Station of Product: " + productList[i].getStation());
 			if (stationOfEvent != 6 && stationOfEvent != 10){
-			if (productList.get(i).getStation() == (stationOfEvent-1)){
+			if (productList[i].getStation() == (stationOfEvent-1)){
 				index = i;
 			}
 			} else {
-				if (productList.get(i).getStation() == stationOfEvent && heatOrSpeed){
+				if (productList[i].getStation() == stationOfEvent && heatOrSpeed){
 					index = i;
-				} else if (productList.get(i).getStation() == (stationOfEvent-1) && !heatOrSpeed){
+				} else if (productList[i].getStation() == (stationOfEvent-1) && !heatOrSpeed){
 					index = i;
 				}
 			}
-			
+			}
 			
 		}
 		
 		
 		
 		if (index != -1){
-			if (productList.get(index).getStation() !=14){
-			productList.get(index).setStation(stationOfEvent);
+			if (productList[index].getStation() !=14){
+			productList[index].setStation(stationOfEvent);
 			}
-			productList.get(index).notifyObservers();
-			productList.get(index).addOPCData(item);
-			System.out.println(productList.size());
-			return productList.get(index).getId();
+			productList[index].notifyObservers();
+			productList[index].addOPCData(item);
+			return productList[index].getId();
 		}	else {
 			System.out.println("Product could not be identified. Sorry!");
 			return null;
@@ -190,12 +205,13 @@ public class Identifier {
 	
 	public void finishProduct(LogFile logFile){
 
-		System.out.println(productList.size());
 		System.err.println(this.toString());
-		for (int i=0; i < productList.size(); i++){
-		 if (productList.get(i).getStation()==14){
+		for (int i=0; i < productList.length; i++){
+			if (productList[i] != null){
+				System.out.println("Station of Product: " +productList[i].getStation());
+		 if (productList[i].getStation()==14){
 				System.out.println("Product will now upload data to database");
-				Product product = productList.get(i);
+				Product product = productList[i];
 				System.out.println(product.toString());
 				//Daten ins Product schreiben
 				product.a1 = logFile.getA1();
@@ -218,14 +234,21 @@ public class Identifier {
 					     .serializeNulls()
 					     .create();	
 				
-				String productString = gson.toJson(productList.get(i));
+				String productString = gson.toJson(productList[i]);
 			
-				DatabaseConnection.saveProductInformation(productList.get(i).getCustomerNumber(), productString);
+				DatabaseConnection.saveProductInformation(productList[i].getCustomerNumber(), productString);
 				
 				notifyObservers(product);
 				
-				productList.remove(i);
+				try {
+					Thread.sleep(5000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				productList[i] = null;
 			}
+		}
 		}
 	}
 	
