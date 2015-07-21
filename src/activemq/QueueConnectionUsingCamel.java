@@ -76,6 +76,7 @@ public class QueueConnectionUsingCamel {
 					//Get OutPutPath
 					Path path = Paths.get(QueueConnectionUsingCamel.class.getResource(".").toURI());
 					String dir = path.getParent().getParent().getParent()+"/output";  
+					dir = dir.replace("\\", "/");
 					System.out.println(dir);
 					from("file://"+dir+"?delete=true&antInclude=*.erp")
 					.unmarshal().json(JsonLibrary.Gson, LogFile.class)

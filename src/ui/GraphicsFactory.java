@@ -2,10 +2,7 @@ package ui;
 
 import java.util.ArrayList;
 
-import javax.swing.JPanel;
 import javax.swing.JTable;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumnModel;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -13,12 +10,8 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
+import com.espertech.esper.metrics.codahale_metrics.metrics.core.Histogram;
 import com.google.gson.JsonObject;
-import com.xeiam.xchart.Chart;
-import com.xeiam.xchart.ChartBuilder;
-import com.xeiam.xchart.Histogram;
-import com.xeiam.xchart.StyleManager.ChartType;
-import com.xeiam.xchart.StyleManager.LegendPosition;
 
 import connections.executivePanelRequests;
 

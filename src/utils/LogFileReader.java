@@ -39,24 +39,19 @@ public class LogFileReader {
 	 * Gets a list of the files in the log folder. Reads the first file of the
 	 * list and deletes it afterwards.
 	 */
-	public void readLatestFile() {
+	public void readFiles(String path) {
 
-		// TODO @Mattes Dynamisch den Ordnerpfad w�hlen.
-
-		String path = "/Users/Mats/Desktop/HelloWorld/Canada/TimHortons/I4Simulation/tmp";
-		File[] files = readFiles(path);
+		File file = new File(path);
 
 		Gson gson = new Gson();
 
 		try {
-			if (files[0].exists()) {
+			if (file.exists()) {
 				BufferedReader br = null;
-				if (files[0].getName().contains("DS_")) {
-					br = new BufferedReader(new FileReader(files[1]));
-				} else {
-					br = new BufferedReader(new FileReader(files[0]));
-				}
-				System.out.println("Reading JSON from a file: " + files[0]);
+
+				br = new BufferedReader(new FileReader(file));
+
+				System.out.println("Reading JSON from a file: " + file);
 				System.out.println("----------------------------");
 
 				// convert the json string back to object
@@ -87,39 +82,14 @@ public class LogFileReader {
 			e.printStackTrace();
 		}
 
-		// Deleting the read file.
-		if (files[0].getName().contains("DS_")) {
-			if (files[1].delete()) {
-				System.out.println("Datei erfolgreich gel�scht. \n");
-				System.out.println();
-			} else {
-				System.out
-						.println("nicht erfolgreich gel�scht. Die kleine Hure...");
-			}
+//		if (file.delete()) {
+//			System.out.println("Datei erfolgreich gel�scht. \n");
+//			System.out.println();
+//		} else {
+//			System.out
+//					.println("nicht erfolgreich gel�scht. Die kleine Hure...");
+//		}
 
-		} else {
-			if (files[0].delete()) {
-				System.out.println("Datei erfolgreich gel�scht. \n");
-				System.out.println();
-			} else {
-				System.out
-						.println("nicht erfolgreich gel�scht. Die kleine Hure...");
-			}
-		}
-
-	}
-
-	private File[] readFiles(String path) {
-		File folder = new File(path);
-		File[] listOfFiles = folder.listFiles();
-		for (int i = 0; i < listOfFiles.length; i++) {
-			if (listOfFiles[i].isFile()) {
-				System.out.println("File " + listOfFiles[i].getName());
-			} else if (listOfFiles[i].isDirectory()) {
-				System.out.println("Directory " + listOfFiles[i].getName());
-			}
-		}
-		return listOfFiles;
 	}
 
 	public void setIdentifier(Identifier identifier) {
