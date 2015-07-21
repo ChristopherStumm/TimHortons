@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import activemq.QueueConnectionUsingCamel;
 import connections.DatabaseConnection;
 import model.ERPData;
 import model.LogFile;
@@ -18,6 +19,10 @@ public class Identifier {
 	private static Identifier instance = null;
 	
 	private ArrayList<UI> observerList = new ArrayList<>();
+	
+	private boolean occupied = false;
+	
+	private QueueConnectionUsingCamel occupyListener;
 	
 	Product[] productList =  new Product[14];
 
@@ -58,6 +63,8 @@ public class Identifier {
 	
 	
 	public String processEvent(OPCDataItem item){
+		occupied = true;
+		notifyOccupied();
 		int stationId;
 		String itemName = item.getItemName();
 		
@@ -195,16 +202,21 @@ public class Identifier {
 			}
 			productList[index].notifyObservers();
 			productList[index].addOPCData(item);
+			occupied = false;
+			notifyOccupied();
 			return productList[index].getId();
 		}	else {
 			System.out.println("Product could not be identified. Sorry!");
+			occupied = false;
+			notifyOccupied();
 			return null;
 		}
 			
 		}
 	
 	public void finishProduct(LogFile logFile){
-
+		occupied = true;
+		notifyOccupied();
 		System.err.println(this.toString());
 		for (int i=0; i < productList.length; i++){
 			if (productList[i] != null){
@@ -235,21 +247,19 @@ public class Identifier {
 					     .create();	
 				
 				String productString = gson.toJson(productList[i]);
+				
 			
 				DatabaseConnection.saveProductInformation(productList[i].getCustomerNumber(), productString);
 				
 				notifyObservers(product);
 				
-				try {
-					Thread.sleep(5000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 				productList[i] = null;
+				
 			}
 		}
 		}
+		occupied = false;
+		notifyOccupied();
 	}
 	
 	public void attach(UI ui){
@@ -265,6 +275,19 @@ public class Identifier {
 			observerList.get(i).update(product);
 		}
 	}
+	
+	public void registerOccupyListener(QueueConnectionUsingCamel o){
+		occupyListener = o;
+	}
+	
+	public void notifyOccupied(){
+		//occupyListener.updateOccupied(occupied);
+	}
+	
+	public boolean getOccupied(){
+		return occupied;
+	}
+	
 	
 	
 	

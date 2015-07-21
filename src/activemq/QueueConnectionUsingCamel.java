@@ -85,7 +85,7 @@ public class QueueConnectionUsingCamel {
 					//FileWriter
 					//Get OutPutPath
 					Path path = Paths.get(QueueConnectionUsingCamel.class.getResource(".").toURI());
-					String dir = path.getParent().getParent().getParent()+"/output";  
+					String dir = path.getParent().getParent().getParent()+"/output";
 					dir = dir.replace("\\", "/");
 					System.out.println(dir);
 					from("file://"+dir+"?delete=true&antInclude=*.erp")
@@ -94,6 +94,7 @@ public class QueueConnectionUsingCamel {
 						@Override
 						public void process(Exchange arg0) throws Exception {
 							LogFile tempStatus = arg0.getIn().getBody(LogFile.class);
+							Identifier.getInstance().finishProduct(tempStatus);
 							System.out.println(tempStatus.getOverallStatus());
 							System.out.println("Delete file");
 						}
