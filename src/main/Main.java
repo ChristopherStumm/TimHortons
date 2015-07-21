@@ -9,6 +9,8 @@ import marshalling.DemoMarshalling;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+
+import ui.UI;
 //import ui.MainWindow;
 import activemq.QueueConnection;
 import activemq.QueueConnectionUsingCamel;
@@ -62,5 +64,8 @@ public class Main {
 		// die Simulation auch von dort aus starten k�nnen. :)
 
 		// new MainWindow();
+		
+		UI ui = new UI();
+		ui.setVisible(true);
 	}
 }

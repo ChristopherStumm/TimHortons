@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
-import logic.Product;
+import logic.*;
 
 public abstract class Shape extends JComponent {
 
@@ -45,5 +45,4 @@ public abstract class Shape extends JComponent {
 		// abgleich
 		return 0;
 	}
-
 }

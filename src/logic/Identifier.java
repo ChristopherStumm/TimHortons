@@ -224,6 +224,8 @@ public class Identifier {
 				
 				notifyObservers(product);
 				
+				System.out.println("Observers have been notified about Product " + product.getId() + "\n It will now be deleted.");
+				
 				productList.remove(i);
 			}
 		}
