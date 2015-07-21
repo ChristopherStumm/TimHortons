@@ -127,7 +127,9 @@ ArrayList<Product> productList = new ArrayList<>();
 	
 	private String findOutId(int stationOfEvent, boolean finished, OPCDataItem item){
 		int index = -1;
+		System.out.println("Station of Event: " + stationOfEvent);
 		for (int i=0; i < productList.size(); i++){
+			System.out.println("Station of Product: " + productList.get(i).getStation());
 			if (stationOfEvent != 6 && stationOfEvent != 10){
 			if (productList.get(i).getStation() == (stationOfEvent-1)){
 				index = i;
@@ -187,7 +189,7 @@ ArrayList<Product> productList = new ArrayList<>();
 			
 				DatabaseConnection.saveProductInformation(productList.get(i).getCustomerNumber(), productString);
 				
-				productList.remove(i);
+				//productList.remove(i);
 			}
 		//}
 	}
