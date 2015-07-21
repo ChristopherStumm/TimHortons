@@ -66,15 +66,7 @@ public class QueueConnectionUsingCamel {
 							@SuppressWarnings("rawtypes")
 							OPCDataItem tempStatus = arg0.getIn().getBody(OPCDataItem.class);
 							Output.showStatusUpdate(tempStatus);
-							String itemName = tempStatus.getItemName();
-							if (itemName == "Milling Heat" ||
-									itemName == "Milling Speed" ||
-										itemName == "Drilling Heat" ||
-											itemName == "Drilling Speed"){
-								Identifier.getInstance().processEventWithoutBoolean(itemName, tempStatus);
-							} else {
-								Identifier.getInstance().processEventWithBoolean(itemName, (boolean) tempStatus.getValue(), tempStatus);
-							}
+							Identifier.getInstance().processEvent(tempStatus);
 							
 						}
 					});

@@ -1,10 +1,20 @@
 package main;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import marshalling.DemoMarshalling;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import activemq.QueueConnectionUsingCamel;
+
+import ui.UI;
 //import ui.MainWindow;
+import activemq.QueueConnection;
+import activemq.QueueConnectionUsingCamel;
+import esper.EsperTest;
 
 /**
  * Just comment out the code pieces you want.
@@ -54,5 +64,8 @@ public class Main {
 		// die Simulation auch von dort aus starten k�nnen. :)
 
 		// new MainWindow();
+		
+		UI ui = new UI();
+		ui.setVisible(true);
 	}
 }
