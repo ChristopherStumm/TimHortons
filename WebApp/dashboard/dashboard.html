@@ -1,36 +1,46 @@
 <!-- Definieren das der Inhalt gscrollt werden darf -->
 <div class="scrollable">
     <div class="scrollable-content section">
+        <h1> Dashboard </h1>
+        <div class="quad-chart-container">
+            <div class="quad-chart-row">
+                <div class="quad-chart-col col1">
+                    KPIs der letzten 4 Stunden:
+                    <ul>
+                        <li>&#216 Milling Speed: {{avMillSpeed}}</li>
+                        <li>&#216 Drilling Speed: {{avDrillSpeed}}</li>
+                        <li>&#216 Milling Heat: {{avMillHeat}}</li>
+                        <li>&#216 Drilling Heat: {{avDrillHeat}}</li>
+                        <li>&#216 Runtime: {{avRuntime}}</li>
+                    </ul>
 
-        Dashboard...
+                </div>
+                <div class="quad-chart-col col2">
+                    Fehlerhafte Produkte der letzten 4 Stunden
 
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">Resize the page or change the numbers to see the d3 re-render!</div>
-        </div>
-
-
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <hr>
+                    <table>
+                        <tr ng-repeat="x in names">
+                            <td>{{ x.Name }}</td>
+                            <td>{{ x.Country }}</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
+
+            <div class="quad-chart-row">
+                <div class="quad-chart-col col1">
+                    Letzte Werte Drilling/Milling Speed
+                    <canvas id="speedGraph" class="chart chart-line" data="speedData" labels="speedLabels" legend="true" series="series" click="onClick">
+                    </canvas>
+                </div>
+                <div class="quad-chart-col col2">
+                    Letzte Werte Drilling/Milling Heat
+                    <canvas id="heatGraph" class="chart chart-line" data="heatData" labels="heatLabels" legend="true" series="series" click="onClick">
+                    </canvas>
+                </div>
+            </div>
+
         </div>
 
-        <span>{{title}}</span>
-        <d3-bars data="d3Data" label="name" on-click="d3OnClick(item)"></d3-bars>
-        <br/>
-        <br/>
-        <span>First Item</span>
-        <input type="text" ng-model="d3Data[0].score"></input>
-        <br/>
-        <span>Second Item</span>
-        <input type="text" ng-model="d3Data[1].score"></input>
-        <br/>
-        <span>Third Item</span>
-        <input type="text" ng-model="d3Data[2].score"></input>
-
-        <d3-line <!--- <div linear-chart chart-data="salesData">
     </div>
-    --->
-
-</div>
 </div>
