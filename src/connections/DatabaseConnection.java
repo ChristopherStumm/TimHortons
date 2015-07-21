@@ -38,31 +38,9 @@ public class DatabaseConnection {
 		System.out.println(order);
 		
 		JSON orderAsJson = new JSON();
-				
-		//Check if object already exists
-		BasicDBObject searchQuery = new BasicDBObject().append("customerNumber", customerNumber);
-		DBCursor cursor = table.find(searchQuery);
+		orderAsJson = (JSON) orderAsJson.parse(order);
+		table.save((DBObject) orderAsJson);			
 		
-		//Create new Object on DB
-		if(!cursor.hasNext()){
-			BasicDBObject customer = new BasicDBObject();
-			customer.put("customerNumber", customerNumber);
-			
-			
-			BasicDBList orders = new BasicDBList();			
-			orders.add(orderAsJson.parse(order));
-			customer.put("orders", orders);
-
-			table.insert(customer);
-			
-		}else{
-			
-			DBObject customer = cursor.next();
-			BasicDBList orders= (BasicDBList) customer.get("orders");
-			
-			orders.add(orderAsJson.parse(order));
-			table.save(customer);			
-		}
 
 	}
 //	public static void main(String[] args) {

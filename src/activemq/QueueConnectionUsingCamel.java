@@ -7,6 +7,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 
 import model.ERPData;
+import model.LogFile;
 import model.OPCDataItem;
 
 import org.apache.camel.CamelContext;
@@ -29,9 +30,11 @@ public class QueueConnectionUsingCamel {
 		CamelContext context = new DefaultCamelContext();
 		JaxbDataFormat jaxbERP = new JaxbDataFormat();
 		JaxbDataFormat jaxbOPC = new JaxbDataFormat();
+		JaxbDataFormat jaxbLog = new JaxbDataFormat();
 		try {
 			jaxbERP.setContext(JAXBContext.newInstance(ERPData.class));
 			jaxbOPC.setContext(JAXBContext.newInstance(OPCDataItem.class));
+			jaxbLog.setContext(JAXBContext.newInstance(LogFile.class));
 		} catch (JAXBException e1) {
 			e1.printStackTrace();
 		}
@@ -82,7 +85,9 @@ public class QueueConnectionUsingCamel {
 					Path path = Paths.get(QueueConnectionUsingCamel.class.getResource(".").toURI());
 					String dir = path.getParent().getParent().getParent()+"/output";  
 					System.out.println(dir);
-					from("file://"+dir+"?delete=true").process(new Processor() {
+					from("file://"+dir+"?delete=true")
+					.unmarshal(jaxbLog)
+					.process(new Processor() {
 						@Override
 						public void process(Exchange arg0) throws Exception {
 							System.out.println("Delete file");
