@@ -50,11 +50,11 @@ public class OPCDataListener implements MessageListener {
 			StringReader reader = new StringReader(tmpMessage.getText());
 			tempStatus = (OPCDataItem) _unmarshaller.unmarshal(reader);
 			System.out.println("Item: " + tempStatus.getItemName());
-			System.out.println("Status: " + tempStatus.getStatus());
-			System.out.println("Zeitpunkt der Meldung: "
-					+ tempStatus.getTimestamp());
-			System.out.println("Wert: " + tempStatus.getValue());
-			System.err.println(identifier.toString());
+			//System.out.println("Status: " + tempStatus.getStatus());
+			//System.out.println("Zeitpunkt der Meldung: "
+				//	+ tempStatus.getTimestamp());
+			//System.out.println("Wert: " + tempStatus.getValue());
+			//System.err.println(identifier.toString());
 			if (tempStatus.getItemName().contains("Lichtschranke")) 
 			{
 				//opticalFeedback(tempStatus);
