@@ -3,10 +3,13 @@ package ui;
 import java.awt.*;
 import java.util.ArrayList;
 
+
 //import java.awt.event.*;
 import javax.swing.*;
 // import javax.swing.border.Border;
 import javax.swing.event.*;
+
+import logic.Product;
 
 public class UI extends JFrame implements ListSelectionListener {
 
@@ -18,7 +21,7 @@ public class UI extends JFrame implements ListSelectionListener {
 	private JScrollPane scrollPane;
 	private DefaultListModel model;
 	
-	protected ArrayList<String> listData;
+	protected ArrayList<Product> listData;
 	
 //	= { "Product 1", "Product 2", "Product 3",
 //			"Product 4", "Product 1", "Product 2", "Product 3",
@@ -51,7 +54,7 @@ public class UI extends JFrame implements ListSelectionListener {
 
 		// adding elements
 		
-		listData = new ArrayList<String>();
+		listData = new ArrayList<Product>();
 
 		for (int i = 0; i < listData.size(); i++) {
 			model.addElement(listData.get(i));
@@ -113,7 +116,7 @@ public class UI extends JFrame implements ListSelectionListener {
 	
 	
 	// getProduct
-	public void update(){
+	public void update(Product p){
 		
 		for(int i = 0; i < listData.size(); i++){
 			if(getProduct().equals(listData.get(i))){
@@ -124,8 +127,7 @@ public class UI extends JFrame implements ListSelectionListener {
 		}
 	}
 	
-	public String getProduct(){
-		// 
+	public Product getProduct(){
 		// return getProduct();
 		return null;
 	}
