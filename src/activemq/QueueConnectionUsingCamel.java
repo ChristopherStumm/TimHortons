@@ -1,5 +1,8 @@
 package activemq;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 
@@ -49,8 +52,6 @@ public class QueueConnectionUsingCamel {
 						}
 					}); 
 					
-					//from(file://).
-					
 					
 					from("activemq:topic:m_opcitems")
 					.unmarshal(jaxbOPC)
@@ -64,6 +65,18 @@ public class QueueConnectionUsingCamel {
 						}
 					});
 					
+					
+					//FileWriter
+					//Get OutPutPath
+					Path path = Paths.get(QueueConnectionUsingCamel.class.getResource(".").toURI());
+					String dir = path.getParent().getParent().getParent()+"/output";  
+					System.out.println(dir);
+					from("file://"+dir+"?delete=true").process(new Processor() {
+						@Override
+						public void process(Exchange arg0) throws Exception {
+							System.out.println("Delete file");
+						}
+					});
 					
 					//Esper 
 					//from("activemq:topic:m_orders").unmarshal(someUnmarshallingObjectGoesHere).to("esper:test");
