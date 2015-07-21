@@ -121,6 +121,26 @@ a, a:hover, a:focus
 	box-shadow: 3px 3px 3px #888888;
 }
 
+.quad-chart-col li
+{
+	position: relative;
+	font-size: 1.2em;
+	margin-bottom: 10px;
+}
+
+.quad-chart-col li .left
+{
+	position: absolute;
+	left: 0px;
+}
+
+.quad-chart-col li .right
+{
+	position: absolute;
+	right: 0px;
+	padding-right: 10px;
+}
+
 .col1
 {
 	margin-right: 1%;
