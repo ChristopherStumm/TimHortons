@@ -27,7 +27,7 @@ public class Main {
 		// demo.run();
 
 		// Message Queue Connection using JMS
-		QueueConnection q = new QueueConnection();
+		//QueueConnection q = new QueueConnection();
 
 		// Message Queue Connection using JMS via Apache Camel
 		QueueConnectionUsingCamel qc = new QueueConnectionUsingCamel();
