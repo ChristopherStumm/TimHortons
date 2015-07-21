@@ -66,15 +66,7 @@ public class QueueConnectionUsingCamel {
 							@SuppressWarnings("rawtypes")
 							OPCDataItem tempStatus = arg0.getIn().getBody(OPCDataItem.class);
 							Output.showStatusUpdate(tempStatus);
-							String itemName = tempStatus.getItemName();
-							if (itemName == "Milling Heat" ||
-									itemName == "Milling Speed" ||
-										itemName == "Drilling Heat" ||
-											itemName == "Drilling Speed"){
-								Identifier.getInstance().processEventWithoutBoolean(itemName, tempStatus);
-							} else {
-								Identifier.getInstance().processEventWithBoolean(itemName, (boolean) tempStatus.getValue(), tempStatus);
-							}
+							Identifier.getInstance().processEvent(tempStatus);
 							
 						}
 					});
@@ -85,7 +77,7 @@ public class QueueConnectionUsingCamel {
 					Path path = Paths.get(QueueConnectionUsingCamel.class.getResource(".").toURI());
 					String dir = path.getParent().getParent().getParent()+"/output";  
 					System.out.println(dir);
-					from("file://"+dir+"?delete=true")
+					from("file://"+dir+"?delete=true&antInclude=*.erp")
 					.unmarshal().json(JsonLibrary.Gson, LogFile.class)
 					.process(new Processor() {
 						@Override
