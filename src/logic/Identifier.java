@@ -18,6 +18,8 @@ public class Identifier {
 	private static Identifier instance = null;
 	
 	private ArrayList<UI> observerList = new ArrayList<>();
+	
+	ArrayList<Product> productList = new ArrayList<>();
 
 	protected Identifier() {
 		// Exists only to defeat instantiation.
@@ -31,7 +33,6 @@ public class Identifier {
 	}
 	
 	
-ArrayList<Product> productList = new ArrayList<>();
 	public void createProduct(ERPData erpData){
 		boolean alreadyCreated = false;
 		for (int i = 0; i < productList.size(); i++){
@@ -173,7 +174,7 @@ ArrayList<Product> productList = new ArrayList<>();
 		
 		
 		if (index != -1){
-			if (productList.get(index).getStation() != 24){
+			if (productList.get(index).getStation() !=14){
 			productList.get(index).setStation(stationOfEvent);
 			}
 			productList.get(index).notifyObservers();
@@ -188,11 +189,12 @@ ArrayList<Product> productList = new ArrayList<>();
 		}
 	
 	public void finishProduct(LogFile logFile){
-		System.out.println("Product will now upload data to database");
+
 		System.out.println(productList.size());
 		System.err.println(this.toString());
 		for (int i=0; i < productList.size(); i++){
-			//if (productList.get(i).getStation()==14){
+		 if (productList.get(i).getStation()==14){
+				System.out.println("Product will now upload data to database");
 				Product product = productList.get(i);
 				System.out.println(product.toString());
 				//Daten ins Product schreiben
@@ -220,9 +222,11 @@ ArrayList<Product> productList = new ArrayList<>();
 			
 				DatabaseConnection.saveProductInformation(productList.get(i).getCustomerNumber(), productString);
 				
-				//productList.remove(i);
+				notifyObservers(product);
+				
+				productList.remove(i);
 			}
-		//}
+		}
 	}
 	
 	public void attach(UI ui){
