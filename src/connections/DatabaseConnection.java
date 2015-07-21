@@ -24,6 +24,8 @@ public class DatabaseConnection {
 	private static final int PORT = 80;
 	
 	
+	
+	
 	public static DB getConnection(){
 		if(db == null){
 			MongoClient mongo = new MongoClient(URL, PORT);
