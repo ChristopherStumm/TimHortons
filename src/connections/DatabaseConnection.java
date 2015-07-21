@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import logic.Product;
 import model.ERPData;
 
 import com.google.gson.Gson;
@@ -34,13 +35,30 @@ public class DatabaseConnection {
 		return db;
 	}
 	
-	public static void saveProductInformation(int customerNumber, String order){
+	public static void  getAllProducts(){
+		
 		DB db = DatabaseConnection.getConnection();
 		DBCollection table = db.getCollection("bigdata");
+		DBCursor cursor = table.find();
+		while(cursor.hasNext()) {
+			Gson gson = new Gson();
+			Product product = gson.fromJson(cursor.next().toString(), Product.class);
+			
+		    System.out.println(cursor.next());
+		};
+		
+	}
+	
+	public static void main(String[] args) {
+		getAllProducts();
+	}
+	public static void saveProductInformation(int customerNumber, String order){
+//		DB db = DatabaseConnection.getConnection();
+//		DBCollection table = db.getCollection("bigdata");
 		System.out.println(order);
 		
-		DBObject orderObject = (DBObject) JSON.parse(order);
-		table.save(orderObject);	
+//		DBObject orderObject = (DBObject) JSON.parse(order);
+//		table.save(orderObject);	
 		
 		
 
