@@ -64,7 +64,6 @@ public class Identifier {
 	
 	public String processEvent(OPCDataItem item){
 		occupied = true;
-		notifyOccupied();
 		int stationId;
 		String itemName = item.getItemName();
 		
@@ -203,12 +202,10 @@ public class Identifier {
 			productList[index].notifyObservers();
 			productList[index].addOPCData(item);
 			occupied = false;
-			notifyOccupied();
 			return productList[index].getId();
 		}	else {
 			System.out.println("Product could not be identified. Sorry!");
 			occupied = false;
-			notifyOccupied();
 			return null;
 		}
 			
@@ -216,7 +213,6 @@ public class Identifier {
 	
 	public void finishProduct(LogFile logFile){
 		occupied = true;
-		notifyOccupied();
 		System.err.println(this.toString());
 		for (int i=0; i < productList.length; i++){
 			if (productList[i] != null){
@@ -254,7 +250,6 @@ public class Identifier {
 		}
 		}
 		occupied = false;
-		notifyOccupied();
 	}
 	
 	public void attach(UI ui){
@@ -271,17 +266,7 @@ public class Identifier {
 		}
 	}
 	
-	public void registerOccupyListener(QueueConnectionUsingCamel o){
-		occupyListener = o;
-	}
-	
-	public void notifyOccupied(){
-		//occupyListener.updateOccupied(occupied);
-	}
-	
-	public boolean getOccupied(){
-		return occupied;
-	}
+
 	
 	
 	
