@@ -53,11 +53,8 @@ public class QueueConnectionUsingCamel {
 							ERPData tempERPData = arg0.getIn().getBody(ERPData.class); 
 							Output.showERP(tempERPData);
 							
-							if(Identifier.getInstance().getOccupied()){
-								Thread.sleep(100);
-							}else{
-								Identifier.getInstance().createProduct(tempERPData);		
-							}
+							Identifier.getInstance().createProduct(tempERPData);		
+							
 											
 						}
 					}); 
@@ -73,11 +70,7 @@ public class QueueConnectionUsingCamel {
 							OPCDataItem tempStatus = arg0.getIn().getBody(OPCDataItem.class);
 							Output.showStatusUpdate(tempStatus);
 							
-							if(Identifier.getInstance().getOccupied()){
-								Thread.sleep(100);
-							}else{
-								Identifier.getInstance().createProduct(tempStatus);		
-							}
+							Identifier.getInstance().processEvent(tempStatus);		
 						}
 					});
 					
@@ -85,7 +78,7 @@ public class QueueConnectionUsingCamel {
 					//FileWriter
 					//Get OutPutPath
 					Path path = Paths.get(QueueConnectionUsingCamel.class.getResource(".").toURI());
-					String dir = path.getParent().getParent().getParent()+"/output";
+					String dir = path.getParent().getParent().getParent()+"/output";  
 					dir = dir.replace("\\", "/");
 					System.out.println(dir);
 					from("file://"+dir+"?delete=true&antInclude=*.erp")

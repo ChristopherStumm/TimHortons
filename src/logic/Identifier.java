@@ -224,6 +224,7 @@ public class Identifier {
 		 if (productList[i].getStation()==14){
 				System.out.println("Product will now upload data to database");
 				Product product = productList[i];
+				System.out.println("I: " + i);
 				System.out.println(product.toString());
 				//Daten ins Product schreiben
 				product.a1 = logFile.getA1();
@@ -237,15 +238,9 @@ public class Identifier {
 				product.ts_stop = logFile.getTs_stop();
 				
 				//Hier Schnittstelle zu Datenbank hin
-				//Zu Gson konvertieren und Chris für DB schicken
+				//Zu Gson konvertieren und Chris fï¿½r DB schicken
 				
-				 Gson gson = new GsonBuilder()
-					     .registerTypeAdapter(product.getClass(),
-					    		 product)
-					     .enableComplexMapKeySerialization()
-					     .serializeNulls()
-					     .create();	
-				
+				Gson gson = new Gson();				
 				String productString = gson.toJson(productList[i]);
 				
 			

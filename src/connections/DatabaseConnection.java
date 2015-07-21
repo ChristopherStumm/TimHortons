@@ -39,9 +39,9 @@ public class DatabaseConnection {
 		DBCollection table = db.getCollection("bigdata");
 		System.out.println(order);
 		
-		JSON orderAsJson = new JSON();
-		orderAsJson = (JSON) orderAsJson.parse(order);
-		table.save((DBObject) orderAsJson);			
+		DBObject orderObject = (DBObject) JSON.parse(order);
+		table.save(orderObject);	
+		
 		
 
 	}
