@@ -52,7 +52,13 @@ public class QueueConnectionUsingCamel {
 						public void process(Exchange arg0) throws Exception {
 							ERPData tempERPData = arg0.getIn().getBody(ERPData.class); 
 							Output.showERP(tempERPData);
-							Identifier.getInstance().createProduct(tempERPData);						
+							
+							if(Identifier.getInstance().getOccupied()){
+								Thread.sleep(100);
+							}else{
+								Identifier.getInstance().createProduct(tempERPData);		
+							}
+											
 						}
 					}); 
 					
@@ -66,8 +72,12 @@ public class QueueConnectionUsingCamel {
 							@SuppressWarnings("rawtypes")
 							OPCDataItem tempStatus = arg0.getIn().getBody(OPCDataItem.class);
 							Output.showStatusUpdate(tempStatus);
-							Identifier.getInstance().processEvent(tempStatus);
 							
+							if(Identifier.getInstance().getOccupied()){
+								Thread.sleep(100);
+							}else{
+								Identifier.getInstance().createProduct(tempStatus);		
+							}
 						}
 					});
 					
