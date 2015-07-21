@@ -31,7 +31,7 @@ public class Main {
 		// demo.run();
 		
 
-		ProcessBuilder build = new ProcessBuilder("java", "-Dlog4j.configuration=file:C:/Users/stumm/Desktop/Toronto Project/Again/I4Simulation/classes","../I4Simulation/DataAggregator.jar","-jar","-d","100","-o","/output","-q");
+	/*	ProcessBuilder build = new ProcessBuilder("java", "-Dlog4j.configuration=file:C:/Users/stumm/Desktop/Toronto Project/Again/I4Simulation/classes","../I4Simulation/DataAggregator.jar","-jar","-d","100","-o","/output","-q");
 		try {
 			build.start();
 		} catch (IOException e) {
@@ -39,7 +39,7 @@ public class Main {
 			e.printStackTrace();
 		}
 
-		// Message Queue Connection using JMS
+*/		// Message Queue Connection using JMS
 		//QueueConnection q = new QueueConnection();
 
 		// Message Queue Connection using JMS via Apache Camel

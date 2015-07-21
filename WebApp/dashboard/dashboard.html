@@ -5,13 +5,31 @@
         <div class="quad-chart-container">
             <div class="quad-chart-row">
                 <div class="quad-chart-col col1">
-                    KPIs der letzten 4 Stunden:
+                    <h3>KPIs der letzten 4 Stunden:</h3>
                     <ul>
-                        <li>&#216 Milling Speed: {{avMillSpeed}}</li>
-                        <li>&#216 Drilling Speed: {{avDrillSpeed}}</li>
-                        <li>&#216 Milling Heat: {{avMillHeat}}</li>
-                        <li>&#216 Drilling Heat: {{avDrillHeat}}</li>
-                        <li>&#216 Runtime: {{avRuntime}}</li>
+                        <li>
+                            <div class="left">&#216 Milling Speed:</div>
+                            <div class="right"> {{avMillSpeed}}</div>
+                        </li>
+
+                        <li>
+                            <div class="left">&#216 Drilling Speed: </div>
+                            <div class="right">{{avDrillSpeed}} </div>
+                        </li>
+
+                        <li>
+                            <div class="left">&#216 Milling Heat: </div>
+                            <div class="right">{{avMillHeat}} </div>
+                        </li>
+
+                        <li>
+                            <div class="left">&#216 Drilling Heat:</div>
+                            <div class="right">{{avDrillHeat}}</div>
+                        </li>
+                        <li>
+                            <div class="left">&#216 Runtime:</div>
+                            <div class="right"> {{avRuntime}}</div>
+                        </li>
                     </ul>
 
                 </div>
