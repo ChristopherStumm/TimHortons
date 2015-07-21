@@ -1,20 +1,12 @@
 package main;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-
-import marshalling.DemoMarshalling;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-
 import ui.UI;
 //import ui.MainWindow;
 import activemq.QueueConnection;
 import activemq.QueueConnectionUsingCamel;
-import esper.EsperTest;
+//import ui.MainWindow;
 
 /**
  * Just comment out the code pieces you want.
