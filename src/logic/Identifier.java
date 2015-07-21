@@ -3,15 +3,21 @@ package logic;
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import connections.DatabaseConnection;
 import model.ERPData;
 import model.LogFile;
 import model.OPCDataItem;
+import ui.UI;
 
 public class Identifier {
 	
+	private boolean heatOrSpeed = false;
+	
 	private static Identifier instance = null;
+	
+	private ArrayList<UI> observerList = new ArrayList<>();
 
 	protected Identifier() {
 		// Exists only to defeat instantiation.
@@ -36,6 +42,7 @@ ArrayList<Product> productList = new ArrayList<>();
 		if (!alreadyCreated){
 		Product product = new Product(erpData);
 		productList.add(product);
+		notifyObservers(product);
 		}
 	}
 	
@@ -44,15 +51,19 @@ ArrayList<Product> productList = new ArrayList<>();
 		switch(itemName){
 			case "Milling Speed":
 				stationId = 6;
+				heatOrSpeed = true;
 				break;
 			case "Milling Heat":
 				stationId = 6;
+				heatOrSpeed = true;
 				break;
 			case "Drilling Speed":
 				stationId=10;
+				heatOrSpeed = true;
 				break;
 			case "Drilling Heat":
 				stationId = 10;
+				heatOrSpeed = true;
 				break;
 			default:
 				stationId = -1;
@@ -68,24 +79,31 @@ ArrayList<Product> productList = new ArrayList<>();
 		switch(itemName){
 			case "Lichtschranke 1":
 				stationId = 2;
+				heatOrSpeed = false;
 				break;
 			case "Lichtschranke 2":
 				stationId = 4;
+				heatOrSpeed = false;
 				break;
 			case "Milling Station":
 				stationId = 6;
+				heatOrSpeed = false;
 				break;
 			case "Lichtschranke 3":
 				stationId = 8;
+				heatOrSpeed = false;
 				break;
 			case "Drilling Station":
 				stationId = 10;
+				heatOrSpeed = false;
 				break;
 			case "Lichtschranke 4":
 				stationId = 12;
+				heatOrSpeed = false;
 				break;
 			case "Lichtschranke 5":
 				stationId = 14;
+				heatOrSpeed = false;
 				break;
 			default: 
 				stationId = -1;
@@ -95,24 +113,31 @@ ArrayList<Product> productList = new ArrayList<>();
 			switch(itemName){
 			case "Lichtschranke 1":
 				stationId = 1;
+				heatOrSpeed = false;
 				break;
 			case "Lichtschranke 2":
 				stationId = 3;
+				heatOrSpeed = false;
 				break;
 			case "Lichtschranke 3":
 				stationId = 5;
+				heatOrSpeed = false;
 				break;
 			case "Milling Station":
 				stationId = 7;
+				heatOrSpeed = false;
 				break;
 			case "Drilling Station":
 				stationId = 11;
+				heatOrSpeed = false;
 				break;
 			case "Lichtschranke 4":
 				stationId = 9;
+				heatOrSpeed = false;
 				break;
 			case "Lichtschranke 5":
 				stationId = 13;
+				heatOrSpeed = false;
 				break;
 			default: 
 				stationId = -1;
@@ -135,9 +160,9 @@ ArrayList<Product> productList = new ArrayList<>();
 				index = i;
 			}
 			} else {
-				if (productList.get(i).getStation() == stationOfEvent){
+				if (productList.get(i).getStation() == stationOfEvent && heatOrSpeed){
 					index = i;
-				} else if (productList.get(i).getStation() == (stationOfEvent-1)){
+				} else if (productList.get(i).getStation() == (stationOfEvent-1) && !heatOrSpeed){
 					index = i;
 				}
 			}
@@ -165,6 +190,7 @@ ArrayList<Product> productList = new ArrayList<>();
 	public void finishProduct(LogFile logFile){
 		System.out.println("Product will now upload data to database");
 		System.out.println(productList.size());
+		System.err.println(this.toString());
 		for (int i=0; i < productList.size(); i++){
 			//if (productList.get(i).getStation()==14){
 				Product product = productList.get(i);
@@ -181,10 +207,16 @@ ArrayList<Product> productList = new ArrayList<>();
 				product.ts_stop = logFile.getTs_stop();
 				
 				//Hier Schnittstelle zu Datenbank hin
-				//Zu Gson konvertieren und Chris fï¿½r DB schicken
-				Gson dbGson = new Gson();
+				//Zu Gson konvertieren und Chris für DB schicken
 				
-				String productString = dbGson.toJson(productList.get(i));
+				 Gson gson = new GsonBuilder()
+					     .registerTypeAdapter(product.getClass(),
+					    		 product)
+					     .enableComplexMapKeySerialization()
+					     .serializeNulls()
+					     .create();	
+				
+				String productString = gson.toJson(productList.get(i));
 			
 				DatabaseConnection.saveProductInformation(productList.get(i).getCustomerNumber(), productString);
 				
@@ -192,5 +224,21 @@ ArrayList<Product> productList = new ArrayList<>();
 			}
 		//}
 	}
+	
+	public void attach(UI ui){
+		observerList.add(ui);
+	}
+	
+	public void detach(UI ui){
+		observerList.remove(ui);
+	}
+	
+	public void notifyObservers(Product product){
+		for (int i=0; i < observerList.size(); i++){
+			observerList.get(i).update(product);
+		}
+	}
+	
+	
 	
 }
