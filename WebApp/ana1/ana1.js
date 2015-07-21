@@ -12,10 +12,32 @@ angular.module('timHortons.Ana1', ['ngRoute', 'chart.js'])
         });
 }])
 
-.controller('Ana1Controller', ['$scope',
-    function ($scope) {
-        $scope.labels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+.controller('Ana1Controller', ['$scope', '$rootScope', '$timeout',
+    function ($scope, $rootScope, $timeout) {
+        $scope.labels = ['1234', '2345', '3456', '4567', '5678', '6789', '7890'];
         $scope.series = ['Series A'];
+        var customers_numberOfOrders = {};
 
-        $scope.data = [[65, 59, 80, 81, 56, 55, 40]];
+        (function tick() {
+            setData();
+            $timeout(tick, 5000);
+        })()
+
+        function setData() {
+            if (typeof $rootScope.requestedData === "undefined") {
+                $rootScope.requestedData = [];
+            }
+            for (var i = 0; i < $rootScope.requestedData.length; i++) {
+                var customerNumber = $rootScope.requestedData[i].customerNumber;
+
+                if (customerNumber.toString() in customers_numberOfOrders) {
+                    customers_numberOfOrders[String(customerNumber)]++;
+                } else {
+                    customers_numberOfOrders[String(customerNumber)] = 1;
+                }
+            }
+            console.log(customers_numberOfOrders);
+
+            $scope.data = [[65, 59, 80, 81, 56, 55, 40]];
+        }
 }])

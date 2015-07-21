@@ -82,5 +82,35 @@ public class Product {
 			shape.update();
 		}
 	}
+	
+	public String getJSONString(){
+		String json = "{\"a1\" : \"" + a1 + "\",";
+		json = json + "\"a2\" : \"" + a2 + "\",";
+		json = json + "\"b1\" : \"" + b1 + "\",";
+		json = json + "\"b2\" : \"" + b2 + "\",";
+		json = json + "\"em1\" : \"" + em1 + "\",";
+		json = json + "\"em2\" : \"" + em2 + "\",";
+		json = json + "\"overallStatus\" : \"" + overallStatus + "\",";
+		json = json + "\"ts_start\" : \"" + ts_start + "\",";
+		json = json + "\"ts_stop\" : \"" + ts_stop + "\",";
+		json = json + "\"startTime\" : \"" + startTime + "\",";
+		json = json + "\"endTime\" : \"" + endTime + "\",";
+		json = json + "\"materialNumber\" : \"" + materialNumber + "\",";
+		json = json + "\"station\" : \"" + a1 + "\",";
+		json = json + "\"customerNumber\" : \"" + customerNumber + "\",";
+		json = json + "\"orderNumber\" : \"" + orderNumber + "\",";
+		json = json + "\"data\" : [";
+		
+		for (OPCDataItem opcDataItem : data) {
+			boolean isLast = data.size() == data.indexOf(opcDataItem) + 1;
+			json = json + "{\"value\" : \"" + opcDataItem.getValue().toString() + "\",";
+			json = json + "\"timestamp\" : \""+opcDataItem.getTimestamp() + "\",";
+			json = json + "\"itemName\" : \""+opcDataItem.getItemName() + "\"}";
+			if(!isLast) json = json + ",";
+		}
+		json = json + "]}";
+		System.out.println(json);
+		return json;
+	}
 
 }
