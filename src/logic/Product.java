@@ -111,7 +111,7 @@ public class Product {
 			}
 			json = json + "{\"value\" : ";
 			if(valueIsNumber){
-				json = json + opcDataItem.getValue().toString();
+				json = json + opcDataItem.getValue().toString()+", ";
 			}else{
 				json = json + "\"" + opcDataItem.getValue().toString() + "\",";
 			}
