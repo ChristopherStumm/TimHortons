@@ -50,7 +50,7 @@ public class DatabaseConnection {
 			
 			
 			BasicDBList orders = new BasicDBList();			
-			orders.add(orderAsJson.parse(order));	
+			orders.add(orderAsJson.parse(order));
 			customer.put("orders", orders);
 
 			table.insert(customer);
