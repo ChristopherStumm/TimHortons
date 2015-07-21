@@ -165,7 +165,6 @@ ArrayList<Product> productList = new ArrayList<>();
 	public void finishProduct(LogFile logFile){
 		System.out.println("Product will now upload data to database");
 		System.out.println(productList.size());
-		System.err.println(this.toString());
 		for (int i=0; i < productList.size(); i++){
 			//if (productList.get(i).getStation()==14){
 				Product product = productList.get(i);

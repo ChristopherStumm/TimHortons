@@ -43,7 +43,7 @@ public class LogFileReader {
 
 		// TODO @Mattes Dynamisch den Ordnerpfad w�hlen.
 
-		String path = "/Users/Mats/Desktop/HelloWorld/Canada/TimHortons/I4Simulation/tmp";
+		String path = "C:/Users/Lucas.Schlemm/Desktop/Logs";
 		File[] files = readFiles(path);
 
 		Gson gson = new Gson();

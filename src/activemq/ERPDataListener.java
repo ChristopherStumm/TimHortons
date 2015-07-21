@@ -53,10 +53,6 @@ public class ERPDataListener implements MessageListener {
 			return;
 		}
 		
-		LogFileReader lfr = LogFileReader.getInstance();
-		lfr.readLatestFile();
-		System.err.println(identifier.toString());
-
 		// Creating ERP-Object
 		ERPData tempERPDate = null;
 		try {
@@ -86,7 +82,8 @@ public class ERPDataListener implements MessageListener {
 
 		// Reading Log Files after a new order get's submitted.
 		// TODO @Lucas Pr�fung ob es der erste Durchlauf ist.
-
+		LogFileReader lfr = LogFileReader.getInstance();
+		lfr.readLatestFile();
 
 	}
 	
