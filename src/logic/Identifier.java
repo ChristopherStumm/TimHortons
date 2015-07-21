@@ -236,8 +236,9 @@ public class Identifier {
 				//Hier Schnittstelle zu Datenbank hin
 				//Zu Gson konvertieren und Chris f�r DB schicken
 				
-				Gson gson = new Gson();				
-				String productString = gson.toJson(productList[i]);
+				//Gson gson = new Gson();				
+				//String productString = gson.toJson(productList[i]);
+				String productString = productList[i].getJSONString();
 				
 			
 				DatabaseConnection.saveProductInformation(productList[i].getCustomerNumber(), productString);

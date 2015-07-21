@@ -94,22 +94,39 @@ public class QueueConnectionUsingCamel {
 					});
 					
 					//Esper 
-					from("activemq:topic:m_orders")
+					from("activemq:topic:m_opcitems")
 					.unmarshal(jaxbOPC)
 					.to("esper:heat");
 					
-
-					  from("esper:test?eql=select avg(materialNumber) as avg from model.ERPData")
-					  .process(new Processor() {
-
+					from("activemq:topic:m_opcitems")
+					.unmarshal(jaxbOPC)
+					.to("esper:test");
+					
+					from("activemq:topic:m_opcitems")
+					.unmarshal(jaxbOPC)
+					.to("esper:test");
+					
+					from("activemq:topic:m_opcitems")
+					.unmarshal(jaxbOPC)
+					.to("esper:test");
+					
+					
+					 from("esper:heat?eql=select avg(CAST(value as INT))  as avg from model.OPCDataItem.win:length(5) where itemName ='Milling Heat'")
+					 .process(new Processor() {
+					
 					  public void process(Exchange arg0) throws Exception {
 					  com.espertech.esper.event.map.MapEventBean ev = (com.espertech.esper.event.map.MapEventBean) arg0
 					  .getIn().getBody();
 
 					  Map map = (Map)ev.getUnderlying();
-					  System.out.println(map.get("avg"));
+					  System.out.println("Avg Milling Heat last 5 inputs: " + map.get("avg"));
 					  }
-					 });					  
+					 });
+					 
+					 
+
+						
+						
 				}
 			});
 
