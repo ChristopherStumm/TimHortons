@@ -1,5 +1,9 @@
 package main;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import marshalling.DemoMarshalling;
 
 import org.apache.logging.log4j.LogManager;
@@ -25,6 +29,15 @@ public class Main {
 		// JAXB Marshalling / Unmarshalling
 		// DemoMarshalling demo = new DemoMarshalling();
 		// demo.run();
+		
+
+		ProcessBuilder build = new ProcessBuilder("java", "-Dlog4j.configuration=file:C:/Users/stumm/Desktop/Toronto Project/Again/I4Simulation/classes","../I4Simulation/DataAggregator.jar","-jar","-d","100","-o","/output","-q");
+		try {
+			build.start();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		// Message Queue Connection using JMS
 		//QueueConnection q = new QueueConnection();
@@ -42,10 +55,12 @@ public class Main {
 		// esperTest.run();
 
 		// TODO @Mattes Es ist m�glich, einen Kommandozeilenbefehl aus Java
-		// heraus zu starten. Das w�re ganz cool, wenn wir nur das Java-Programm
-		// �ffnen m�ssten und dann dort erst alles einstellen k�nnen und dann
+		// heraus zu starten. Das w�re ganz cool, wenn wir nur das
+		// Java-Programm
+		// �ffnen m�ssten und dann dort erst alles einstellen k�nnen und
+		// dann
 		// die Simulation auch von dort aus starten k�nnen. :)
 
-		//new MainWindow();
+		// new MainWindow();
 	}
 }
