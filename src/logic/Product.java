@@ -103,7 +103,18 @@ public class Product {
 		
 		for (OPCDataItem opcDataItem : data) {
 			boolean isLast = data.size() == data.indexOf(opcDataItem) + 1;
-			json = json + "{\"value\" : \"" + opcDataItem.getValue().toString() + "\",";
+			boolean valueIsNumber = false;
+			String value = opcDataItem.getItemName();
+			if(value.equalsIgnoreCase("Milling Speed") || value.equalsIgnoreCase("Milling Heat") || 
+					value.equalsIgnoreCase("Drilling Speed") || value.equalsIgnoreCase("Drilling Heat")){
+				valueIsNumber = true;
+			}
+			json = json + "{\"value\" : ";
+			if(valueIsNumber){
+				json = json + opcDataItem.getValue().toString();
+			}else{
+				json = json + "\"" + opcDataItem.getValue().toString() + "\",";
+			}
 			json = json + "\"timestamp\" : \""+opcDataItem.getTimestamp() + "\",";
 			json = json + "\"itemName\" : \""+opcDataItem.getItemName() + "\"}";
 			if(!isLast) json = json + ",";
