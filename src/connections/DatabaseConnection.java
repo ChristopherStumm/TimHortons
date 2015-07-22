@@ -54,12 +54,12 @@ public class DatabaseConnection {
 		getAllProducts();
 	}
 	public static void saveProductInformation(int customerNumber, String order){
-		DB db = DatabaseConnection.getConnection();
-		DBCollection table = db.getCollection("bigdata");
+		//DB db = DatabaseConnection.getConnection();
+		//DBCollection table = db.getCollection("bigdata");
 		System.out.println("Upload order: "+ order);
 		
-		DBObject orderObject = (DBObject) JSON.parse(order);
-		table.save(orderObject);	
+		//DBObject orderObject = (DBObject) JSON.parse(order);
+		//table.save(orderObject);	
 
 	}
 
