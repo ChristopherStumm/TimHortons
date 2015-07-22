@@ -56,7 +56,7 @@ var app = angular.module('timHortons.Dashboard', ['ngRoute', 'angularCharts'])
                 $scope.avDrillSpeed = data.drillingSpeed.avg.toFixed(2);
                 $scope.avMillHeat = data.millingHeat.avg.toFixed(2);
                 $scope.avMillSpeed = data.millingSpeed.avg.toFixed(2);
-                $timeout(tickAverageData, 10000);
+                $timeout(tickAverageData, 25000);
             })
         })()
 
@@ -66,7 +66,7 @@ var app = angular.module('timHortons.Dashboard', ['ngRoute', 'angularCharts'])
         }
         $scope.speedLabels = labels;
         $scope.heatLabels = labels;
-        $scope.speedSeries = ['Milling', 'Drilling'];
+        $scope.speedSeries = ['abc', 'def'];
         $scope.heatSeries = ['Milling', 'Drilling'];
 
         (function tick() {
@@ -76,10 +76,13 @@ var app = angular.module('timHortons.Dashboard', ['ngRoute', 'angularCharts'])
 
         function setData() {
             if (typeof $rootScope.requestedData === "undefined") {
-                $rootScope.requestedData = []
+                return
             }
-            var heatData, speedData = [[], []];
-            for (var i = $rootScope.requestedData.length - 30; i < $rootScope.requestedData.length; i++) {
+
+            var heatData = [[0], [0]];
+            var speedData = [[0], [0]];
+
+            for (var i = $rootScope.requestedData.length - 20; i < $rootScope.requestedData.length; i++) {
                 for (var j = 0; j < $rootScope.requestedData[i].data.length; j++) {
                     var item = $rootScope.requestedData[i].data[j]
                     if (item.itemName == "Milling Speed") {
@@ -93,7 +96,7 @@ var app = angular.module('timHortons.Dashboard', ['ngRoute', 'angularCharts'])
                     }
                 }
             }
-            $scope.heatData = [[65, 59, 80, 81, 56, 55, 40], [28, 48, 40, 19, 86, 27, 90]];
-            $scope.speedData = [[65, 59, 80, 81, 56, 55, 40], [28, 48, 40, 19, 86, 27, 90]];
+            $scope.heatData = heatData;
+            $scope.speedData = speedData;
         }
 }]);

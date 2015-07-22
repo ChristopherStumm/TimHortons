@@ -27,6 +27,7 @@ angular.module('timHortons.Ana2', ['ngRoute'])
 
         (function tick() {
             udpateData();
+            udpateData2();
             $timeout(tick, 5000);
         })()
 
@@ -48,7 +49,72 @@ angular.module('timHortons.Ana2', ['ngRoute'])
             chart.draw(data, options);
         }
 
+        function udpateData2() {
+            var allMaterials = getAllMaterials();
+            console.log(allMaterials);
+            var data = google.visualization.arrayToDataTable(allMaterials);
 
+            var options = {
+                title: 'Production view - Material',
+                isStacked: true
+            };
+
+            var chart = new google.visualization.BarChart(document.getElementById('chartdiv2'));
+            chart.draw(data, options);
+        }
+
+        function getAllMaterials() {
+            if (typeof $rootScope.requestedData === "undefined") {
+                return
+            }
+
+            var allMaterials = [];
+            var goodProducts = [];
+            var badProducts = [];
+
+            for (var i = 0; i < $rootScope.requestedData.length; i++) {
+                var dataset = $rootScope.requestedData[i];
+                var materialNumber = Number(dataset.materialNumber);
+                var overallStatus = dataset.overallStatus;
+                if (allMaterials.indexOf(materialNumber) == -1) {
+                    allMaterials.push(materialNumber);
+                    if (overallStatus == "OK") {
+                        goodProducts.push(1);
+                        badProducts.push(0);
+                    } else {
+                        goodProducts.push(0);
+                        badProducts.push(1);
+                    }
+                } else {
+                    if (overallStatus == "OK") {
+                        goodProducts[allMaterials.indexOf(materialNumber)] = goodProducts[allMaterials.indexOf(materialNumber)] + 1;
+                    } else {
+                        badProducts[allMaterials.indexOf(materialNumber)]++;
+                    }
+                }
+            }
+
+            var data = [['Material', 'Status OK', 'Status NOK']];
+            for (var i = 0; i < allMaterials.length; i++) {
+                var arrayToAdd = [];
+                arrayToAdd[0] = 'Matetial ' + allMaterials[i];
+                arrayToAdd[1] = goodProducts[i];
+                arrayToAdd[2] = badProducts[i];
+                data.push(arrayToAdd);
+            }
+            console.log(data);
+            if (data.length > 1) return data
+            else {
+                return [
+                  ['Material', 'Status OK', 'Status NOK'],
+                  ['Material 1', 1, 2],
+                  ['Material 2', 2, 4],
+                  ['Material 3', 3, 5],
+                  ['Material 4', 4, 6]
+                ];
+            }
+            return data;
+        }
 
         function getTotalOkProducts() {
             var ctr = 0;
@@ -63,4 +129,4 @@ angular.module('timHortons.Ana2', ['ngRoute'])
         function getTotalNokProducts() {
             return $rootScope.requestedData.length - getTotalOkProducts();
         }
-}])
+}]);

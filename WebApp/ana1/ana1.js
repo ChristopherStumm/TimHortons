@@ -16,7 +16,6 @@ angular.module('timHortons.Ana1', ['ngRoute', 'chart.js'])
     function ($scope, $rootScope, $timeout) {
         $scope.labels = ['1234', '2345', '3456', '4567', '5678', '6789', '7890'];
         $scope.series = ['Series A'];
-        var customers_numberOfOrders = {};
 
         (function tick() {
             setData();
@@ -24,6 +23,7 @@ angular.module('timHortons.Ana1', ['ngRoute', 'chart.js'])
         })()
 
         function setData() {
+            var customers_numberOfOrders = {}
             if (typeof $rootScope.requestedData === "undefined") {
                 $rootScope.requestedData = [];
             }
@@ -36,8 +36,13 @@ angular.module('timHortons.Ana1', ['ngRoute', 'chart.js'])
                     customers_numberOfOrders[String(customerNumber)] = 1;
                 }
             }
-            console.log(customers_numberOfOrders);
-
-            $scope.data = [[65, 59, 80, 81, 56, 55, 40]];
+            console.log("CUSTOMERS")
+            var allKeys = Object.keys(customers_numberOfOrders);
+            var allValues = []
+            for (var i = 0; i < allKeys.length; i++) {
+                allValues.push(customers_numberOfOrders[allKeys[i]]);
+            }
+            $scope.data = [allValues];
+            $scope.labels = allKeys;
         }
 }])

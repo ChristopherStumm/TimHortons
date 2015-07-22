@@ -20,10 +20,12 @@ angular.module('TimHortons', [
     {
         (function tick() {
             console.log("Requesting with timestamp: " + timestamp)
+            console.log(getProductRequest());
             $http.get(getProductRequest()).success(function (data) {
                 timestamp = new Date().getTime();
                 requestedData = requestedData.concat(data);
                 $rootScope.requestedData = requestedData;
+                console.log("DATA");
                 console.log($rootScope.requestedData);
                 $timeout(tick, 5000);
             }).error(function (error) {
@@ -33,7 +35,7 @@ angular.module('TimHortons', [
 }]);
 
 function getProductRequest() {
-    var time = "products?time=4&";
+    var time = "products?time=24&";
     var status = "status=TOTAL&";
     var sum = "sum=false&";
     if (typeof timestamp === "undefined") {
