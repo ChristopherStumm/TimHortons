@@ -199,7 +199,8 @@ public class Identifier {
 				productList[index].setStation(stationOfEvent);
 			}
 			productList[index].notifyObservers();
-			productList[index].addOPCData(item);
+			//index is wrong
+			productList[0].addOPCData(item);
 			occupied = false;
 			return productList[index].getId();
 		} else {
