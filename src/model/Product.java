@@ -6,6 +6,7 @@ import ui.Shape;
 import logic.ProductObserverList;
 
 public class Product {
+	private String name = "Vincent";
 	private int station;
 	private int customerNumber;
 	private String orderNumber;
