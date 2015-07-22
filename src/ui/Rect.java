@@ -8,18 +8,15 @@ import javax.swing.JPanel;
 
 public class Rect extends Shape {
 
-
-	Color color = Color.BLACK;
-
-	public Rect() {
-		super();
+	public Rect(int id) {
+		super(id);
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.setColor(color);
-		g.fillRect(50, 50, 50, 50);
+		g.fillRect(50, 0, 50, 50);
 	}
 
 	public Dimension getPreferredSize() {

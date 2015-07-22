@@ -38,78 +38,84 @@ public class QueueConnectionUsingCamel {
 		} catch (JAXBException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		try {
 			context.addRoutes(new RouteBuilder() {
 
 				@Override
 				public void configure() throws Exception {
-					from("activemq:topic:m_orders")
-					.unmarshal(jaxbERP)
-					.process(new Processor() {
-						
-						@Override
-						public void process(Exchange arg0) throws Exception {
-							ERPData tempERPData = arg0.getIn().getBody(ERPData.class); 
-							Output.showERP(tempERPData);
-							
-							Identifier.getInstance().createProduct(tempERPData);		
-							
-											
-						}
-					}); 
-					
-					
-					from("activemq:topic:m_opcitems")
-					.unmarshal(jaxbOPC)
-					.process(new Processor() {
-						
-						@Override
-						public void process(Exchange arg0) throws Exception {
-							@SuppressWarnings("rawtypes")
-							OPCDataItem tempStatus = arg0.getIn().getBody(OPCDataItem.class);
-							Output.showStatusUpdate(tempStatus);
-							
-							Identifier.getInstance().processEvent(tempStatus);		
-						}
-					});
-					
-					
-					//FileWriter
-					//Get OutPutPath
-					Path path = Paths.get(QueueConnectionUsingCamel.class.getResource(".").toURI());
-					String dir = path.getParent().getParent().getParent()+"/output";  
+					from("activemq:topic:m_orders").unmarshal(jaxbERP).process(
+							new Processor() {
+
+								@Override
+								public void process(Exchange arg0)
+										throws Exception {
+									ERPData tempERPData = arg0.getIn().getBody(
+											ERPData.class);
+									Output.showERP(tempERPData);
+									Identifier.getInstance().createProduct(
+											tempERPData);
+								}
+							});
+
+					from("activemq:topic:m_opcitems").unmarshal(jaxbOPC)
+							.process(new Processor() {
+
+								@Override
+								public void process(Exchange arg0)
+										throws Exception {
+									@SuppressWarnings("rawtypes")
+									OPCDataItem tempStatus = arg0.getIn()
+											.getBody(OPCDataItem.class);
+									Output.showStatusUpdate(tempStatus);
+
+									Identifier.getInstance().processEvent(
+											tempStatus);
+								}
+							});
+
+					// FileInput reader
+					// Get OutPutPath
+					Path path = Paths.get(QueueConnectionUsingCamel.class
+							.getResource(".").toURI());
+					String dir = path.getParent().getParent().getParent()
+							+ "/output";
 					dir = dir.replace("\\", "/");
 					System.out.println(dir);
-					from("file://"+dir+"?delete=true&antInclude=*.erp")
-					.unmarshal().json(JsonLibrary.Gson, LogFile.class)
-					.process(new Processor() {
-						@Override
-						public void process(Exchange arg0) throws Exception {
-							LogFile tempStatus = arg0.getIn().getBody(LogFile.class);
-							Identifier.getInstance().finishProduct(tempStatus);
-							System.out.println(tempStatus.getOverallStatus());
-							System.out.println("Delete file");
-						}
-					});
-					
-					//Esper 
-					from("activemq:topic:m_orders")
-					.unmarshal(jaxbOPC)
-					.to("esper:heat");
-					
+					from("file://" + dir + "?delete=true&antInclude=*.erp")
+							.unmarshal().json(JsonLibrary.Gson, LogFile.class)
+							.process(new Processor() {
+								@Override
+								public void process(Exchange arg0)
+										throws Exception {
+									LogFile tempStatus = arg0.getIn().getBody(
+											LogFile.class);
+									Identifier.getInstance().finishProduct(
+											tempStatus);
+								}
+							});
 
-					  from("esper:test?eql=select avg(materialNumber) as avg from model.ERPData")
-					  .process(new Processor() {
+					// Esper
+					from("activemq:topic:m_opcitems")
+							.filter(xpath("/OpcDataItem/itemName='Milling Heat'"))
+							.unmarshal(jaxbOPC).to("esper:heat");
 
-					  public void process(Exchange arg0) throws Exception {
-					  com.espertech.esper.event.map.MapEventBean ev = (com.espertech.esper.event.map.MapEventBean) arg0
-					  .getIn().getBody();
+					// from("esper:heat?eql=select avg(CAST(value as INT))  as avg from model.OPCDataItem.win:length(5)")
+					from("esper:heat?eql=select * from model.OPCDataItem")
+							.process(new Processor() {
 
-					  Map map = (Map)ev.getUnderlying();
-					  System.out.println(map.get("avg"));
-					  }
-					 });					  
+								public void process(Exchange arg0)
+										throws Exception {
+									com.espertech.esper.event.map.MapEventBean ev = (com.espertech.esper.event.map.MapEventBean) arg0
+											.getIn().getBody();
+
+									Map map = (Map) ev.getUnderlying();
+									System.out
+											.println("Avg Milling Heat last 5 inputs: "
+													+ map.get("avg"));
+								}
+							});
+
 				}
 			});
 

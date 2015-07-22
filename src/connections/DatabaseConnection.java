@@ -5,8 +5,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import logic.Product;
 import model.ERPData;
+import model.Product;
 
 import com.google.gson.Gson;
 import com.mongodb.BasicDBList;
@@ -44,6 +44,7 @@ public class DatabaseConnection {
 			Gson gson = new Gson();
 			Product product = gson.fromJson(cursor.next().toString(), Product.class);
 			
+			
 		    System.out.println(cursor.next());
 		};
 		
@@ -55,12 +56,10 @@ public class DatabaseConnection {
 	public static void saveProductInformation(int customerNumber, String order){
 		DB db = DatabaseConnection.getConnection();
 		DBCollection table = db.getCollection("bigdata");
-		System.out.println(order);
+		System.out.println("Upload order: "+ order);
 		
 		DBObject orderObject = (DBObject) JSON.parse(order);
 		table.save(orderObject);	
-		
-		
 
 	}
 

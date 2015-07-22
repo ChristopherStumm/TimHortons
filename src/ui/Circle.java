@@ -4,15 +4,15 @@ import java.awt.Graphics;
 
 public class Circle extends Shape {
 
-	public Circle() {
-		super();
+	public Circle(int id) {
+		super(id);
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.setColor(color);
-		g.fillOval(50, 50, 50, 50);
+		g.fillOval(50, 0, 50, 50);
 	}
 
 	public Dimension getPreferredSize() {
