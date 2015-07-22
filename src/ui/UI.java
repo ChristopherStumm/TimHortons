@@ -80,6 +80,7 @@ public class UI extends JFrame implements ListSelectionListener {
 		r1 = new Rect(1);
 		r1.setBounds(210, 75, 100, 100);
 		l1.setBounds(210, 65, 60, 80);
+		topPanel.add(l1);
 		topPanel.add(r1);
 		shapeList.add(r1);
 
@@ -130,7 +131,8 @@ public class UI extends JFrame implements ListSelectionListener {
 				listData.get(i).getStation();
 				registerShapes(listData.get(i));
 				for (int j = 0; j < shapeList.size(); j++) {
-					shapeList.get(j).update(listData.get(i).getStation());
+					shapeList.get(j).update(listData.get(i).getStation(), src.getSelectedValue().toString());
+					shapeList.get(j).setProductId(src.getSelectedValue().toString());
 				}
 			}
 		}

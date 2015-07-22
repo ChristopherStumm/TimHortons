@@ -13,8 +13,7 @@ public abstract class Shape extends JComponent {
 	private int shapeID = 0;
 	protected Color color = Color.BLACK;
 	private int productStation;
-
-	// Product product = new ArrayList<>();
+	private String productId;
 
 	public Shape(int id) {
 		shapeID = id;
@@ -30,7 +29,8 @@ public abstract class Shape extends JComponent {
 		repaint();
 	}
 
-	public void update(int station) {
+	public void update(int station, String id) {
+		if (id.equals(productId)){
 		this.setDeactive();
 		switch (station) {
 		case 0:
@@ -81,7 +81,7 @@ public abstract class Shape extends JComponent {
 			break;
 
 		case 8:
-			if (shapeID == 4) {
+			if (shapeID == 3) {
 				this.setActive();
 			}
 			break;
@@ -105,7 +105,7 @@ public abstract class Shape extends JComponent {
 			break;
 
 		case 12:
-			if (shapeID == 6) {
+			if (shapeID == 5) {
 				this.setActive();
 			}
 			break;
@@ -121,9 +121,14 @@ public abstract class Shape extends JComponent {
 			}
 			break;
 		}
+		}
 	}
 
 	public void setProductStation(int station) {
 		productStation = station;
+	}
+	
+	public void setProductId(String productId){
+		this.productId = productId;
 	}
 }

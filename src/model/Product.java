@@ -79,7 +79,7 @@ public class Product {
 
 		for (int i = 0; i < ProductObserverList.getInstance().observerList.size(); i++) {
 			Shape shape = ProductObserverList.getInstance().observerList.get(i);
-			shape.update(station);
+			shape.update(station, orderNumber);
 		}
 	}
 	
