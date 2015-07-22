@@ -79,38 +79,50 @@ public class UI extends JFrame implements ListSelectionListener {
 		
 		r1 = new Rect(1);
 		r1.setBounds(210, 75, 100, 100);
-		l1.setBounds(210, 65, 60, 80);
+		l1.setBounds(272, 20, 60, 80);
 		topPanel.add(l1);
 		topPanel.add(r1);
 		shapeList.add(r1);
 
 		r2 = new Rect(2);
 		r2.setBounds(320, 75, 100, 100);
+		l2.setBounds(382, 20, 60, 80);
+		topPanel.add(l2);
 		topPanel.add(r2);
 		shapeList.add(r2);
 
 		r3 = new Rect(3);
 		r3.setBounds(430, 75, 100, 100);
+		l3.setBounds(492, 20, 60, 80);
+		topPanel.add(l3);
 		topPanel.add(r3);
 		shapeList.add(r3);
 
 		r4 = new Circle(4);
 		r4.setBounds(430, 155, 100, 100);
+		ms.setBounds(478, 187, 60, 80);
+		topPanel.add(ms);
 		topPanel.add(r4);
 		shapeList.add(r4);
 
 		r5 = new Rect(5);
 		r5.setBounds(540, 75, 100, 100);
+		l4.setBounds(602, 20, 60, 80);
+		topPanel.add(l4);
 		topPanel.add(r5);
 		shapeList.add(r5);
 
 		r6 = new Circle(6);
 		r6.setBounds(540, 155, 100, 100);
+		ds.setBounds(588, 187, 60, 80);
+		topPanel.add(ds);
 		topPanel.add(r6);
 		shapeList.add(r6);
 
 		r7 = new Rect(7);
 		r7.setBounds(650, 75, 100, 100);
+		l5.setBounds(712, 20, 60, 80);
+		topPanel.add(l5);
 		topPanel.add(r7);
 		shapeList.add(r7);
 
