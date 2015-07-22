@@ -19,14 +19,11 @@ angular.module('TimHortons', [
     function ($scope, $timeout, $http, $rootScope)
     {
         (function tick() {
-            console.log("Requesting with timestamp: " + timestamp)
-            console.log(getProductRequest());
             $http.get(getProductRequest()).success(function (data) {
                 timestamp = new Date().getTime();
                 requestedData = requestedData.concat(data);
                 $rootScope.requestedData = requestedData;
-                console.log("DATA");
-                console.log($rootScope.requestedData);
+                console.log("new Data in rootscope");
                 $timeout(tick, 5000);
             }).error(function (error) {
                 console.log(error)

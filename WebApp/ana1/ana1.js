@@ -16,8 +16,12 @@ angular.module('timHortons.Ana1', ['ngRoute', 'chart.js'])
     function ($scope, $rootScope, $timeout) {
         $scope.labels = ['1234', '2345', '3456', '4567', '5678', '6789', '7890'];
         $scope.series = ['Series A'];
+        var running = true;
 
         (function tick() {
+            if (!running) {
+                return;
+            }
             setData();
             $timeout(tick, 5000);
         })()
@@ -45,4 +49,8 @@ angular.module('timHortons.Ana1', ['ngRoute', 'chart.js'])
             $scope.data = [allValues];
             $scope.labels = allKeys;
         }
+
+        $scope.$on('$routeChangeStart', function (next, current) {
+            running = false;
+        });
 }])

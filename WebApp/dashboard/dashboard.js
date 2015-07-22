@@ -16,6 +16,7 @@ var app = angular.module('timHortons.Dashboard', ['ngRoute', 'angularCharts'])
 
 .controller('DashboardController', ['$scope', '$http', '$timeout', 'getAverageData', '$rootScope',
     function ($scope, $http, $timeout, getAverageData, $rootScope) {
+        var running = true;
         $scope.avMillSpeed = 20;
         $scope.avDrillSpeed = 30;
         $scope.avMillHeat = 40;
@@ -50,6 +51,9 @@ var app = angular.module('timHortons.Dashboard', ['ngRoute', 'angularCharts'])
 
         var allData = getAverageData.query();
         (function tickAverageData() {
+            if (!running) {
+                return;
+            }
             allData.$promise.then(function (data) {
                 console.log("Average-Data is now available.");
                 $scope.avDrillHeat = data.drillingHeat.avg.toFixed(2);
@@ -76,7 +80,9 @@ var app = angular.module('timHortons.Dashboard', ['ngRoute', 'angularCharts'])
 
         function setData() {
             if (typeof $rootScope.requestedData === "undefined") {
-                return
+                return;
+            } else if ($rootScope.requestedData.length < 20) {
+                return;
             }
 
             var heatData = [[0], [0]];
@@ -99,4 +105,8 @@ var app = angular.module('timHortons.Dashboard', ['ngRoute', 'angularCharts'])
             $scope.heatData = heatData;
             $scope.speedData = speedData;
         }
+
+        $scope.$on('$routeChangeStart', function (next, current) {
+            running = false;
+        });
 }]);

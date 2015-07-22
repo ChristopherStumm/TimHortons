@@ -1,13 +1,20 @@
 <!-- Definieren das der Inhalt gscrollt werden darf -->
 <div class="scrollable">
     <div class="scrollable-content section">
-        <h1>Drilling Speed</h1>
+        <h1>Product and Material Information</h1>
         <div class="single-chart-container">
             <div id="chartdiv"></div>
         </div>
         <br>
         <div class="single-chart-container">
             <div id="chartdiv2"></div>
+            Prognostizierte Materialbedarf für die nächsten
+            <input type="number" name="input" ng-model="hours" min="0" max="99" required>Stunden mit
+            <input type="number" name="input" ng-model="machines" min="0" max="99" required>Maschinen
+
+            <div ng-repeat="(key, value) in predictiveData">
+                {{key}} : {{value}}
+            </div>
         </div>
     </div>
 </div>

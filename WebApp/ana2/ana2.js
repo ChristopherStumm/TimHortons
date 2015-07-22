@@ -21,24 +21,28 @@ angular.module('timHortons.Ana2', ['ngRoute'])
 
 .controller('Ana2Controller', ['$scope', '$rootScope', '$timeout',
     function ($scope, $rootScope, $timeout) {
+        var running = true;
         if (typeof $rootScope.requestedData === "undefined") {
             $rootScope.requestedData = [];
         }
 
         (function tick() {
+            if (!running) {
+                return;
+            }
             udpateData();
+            console.log("updated graphic 1");
             udpateData2();
+            console.log("updated graphic 2");
             $timeout(tick, 5000);
         })()
 
+        $scope.hours = 12;
+        $scope.machines = 6;
+
         function udpateData() {
-            var data = google.visualization.arrayToDataTable([
-              ['Year', 'Status OK', 'Status NOK'],
-              ['12:00', getTotalOkProducts(), getTotalNokProducts()],
-              ['13:00', 2, 4],
-              ['14:00', 3, 5],
-              ['15:00', 4, 6]
-            ]);
+            var allHourData = getTotalOkProducts()
+            var data = google.visualization.arrayToDataTable(allHourData);
 
             var options = {
                 title: 'Total Production',
@@ -51,7 +55,7 @@ angular.module('timHortons.Ana2', ['ngRoute'])
 
         function udpateData2() {
             var allMaterials = getAllMaterials();
-            console.log(allMaterials);
+            calculateMaterialPredictive();
             var data = google.visualization.arrayToDataTable(allMaterials);
 
             var options = {
@@ -71,6 +75,7 @@ angular.module('timHortons.Ana2', ['ngRoute'])
             var allMaterials = [];
             var goodProducts = [];
             var badProducts = [];
+            var totalProducts = [];
 
             for (var i = 0; i < $rootScope.requestedData.length; i++) {
                 var dataset = $rootScope.requestedData[i];
@@ -81,9 +86,11 @@ angular.module('timHortons.Ana2', ['ngRoute'])
                     if (overallStatus == "OK") {
                         goodProducts.push(1);
                         badProducts.push(0);
+                        totalProducts.push(1);
                     } else {
                         goodProducts.push(0);
                         badProducts.push(1);
+                        totalProducts.push(1);
                     }
                 } else {
                     if (overallStatus == "OK") {
@@ -91,8 +98,11 @@ angular.module('timHortons.Ana2', ['ngRoute'])
                     } else {
                         badProducts[allMaterials.indexOf(materialNumber)]++;
                     }
+                    totalProducts[allMaterials.indexOf(materialNumber)]++;
                 }
             }
+            $scope.allMaterials = allMaterials;
+            $scope.totalProducts = totalProducts;
 
             var data = [['Material', 'Status OK', 'Status NOK']];
             for (var i = 0; i < allMaterials.length; i++) {
@@ -102,31 +112,63 @@ angular.module('timHortons.Ana2', ['ngRoute'])
                 arrayToAdd[2] = badProducts[i];
                 data.push(arrayToAdd);
             }
-            console.log(data);
             if (data.length > 1) return data
             else {
                 return [
                   ['Material', 'Status OK', 'Status NOK'],
-                  ['Material 1', 1, 2],
-                  ['Material 2', 2, 4],
-                  ['Material 3', 3, 5],
-                  ['Material 4', 4, 6]
+                  ['Material 1', 0, 0],
+                  ['Material 2', 0, 0],
+                  ['Material 3', 0, 0],
+                  ['Material 4', 0, 0]
                 ];
             }
-            return data;
+        }
+
+        function calculateMaterialPredictive() {
+            var obj = {};
+            if ($scope.allMaterials.length > 0) {
+                for (var i = 0; i < $scope.allMaterials.length; i++) {
+                    obj[$scope.allMaterials[i]] = ($scope.totalProducts[i] / 12 / 5) * ($scope.machines * $scope.hours);
+                }
+            }
+            $scope.predictiveData = obj;
         }
 
         function getTotalOkProducts() {
             var ctr = 0;
+            var currentHour = new Date().getHours();
+            var data = [
+              ['Year', 'Status OK', 'Status NOK'],
+              ['-1 hour', 0, 0],
+              ['-2 hours', 0, 0],
+              ['-3 hours', 0, 0],
+              ['-4 hours', 0, 0],
+              ['-5 hours', 0, 0],
+              ['-6 hours', 0, 0]
+            ]
             for (var i = 0; i < $rootScope.requestedData.length; i++) {
-                if ($rootScope.requestedData[i].overallStatus == 'OK') {
-                    ctr++;
+                var hourOfProduct = new Date(Number($rootScope.requestedData[i].endTime)).getHours();
+                var difference = currentHour - hourOfProduct;
+                //CHANGE!!!!!! difference < 6 AND data [difference + 1]
+                //if (difference < 12 && difference > 6) {
+                if (difference < 6) {
+                    if ($rootScope.requestedData[i].overallStatus == 'OK') {
+                        //data[difference - 5][1]++;
+                        data[difference + 1][1]++;
+                    } else {
+                        //data[difference - 5][2]++;
+                        data[difference + 1][2]++;
+                    }
                 }
             }
-            return ctr;
+            return data;
         }
 
         function getTotalNokProducts() {
             return $rootScope.requestedData.length - getTotalOkProducts();
         }
+
+        $scope.$on('$routeChangeStart', function (next, current) {
+            running = false;
+        });
 }]);
