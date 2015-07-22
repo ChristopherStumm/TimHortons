@@ -4,8 +4,8 @@ import java.awt.Graphics;
 
 public class Circle extends Shape {
 
-	public Circle() {
-		super();
+	public Circle(int id) {
+		super(id);
 	}
 
 	@Override

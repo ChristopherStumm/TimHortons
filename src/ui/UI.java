@@ -19,16 +19,19 @@ public class UI extends JFrame implements ListSelectionListener {
 	private JList listbox;
 	private JScrollPane scrollPane;
 	private DefaultListModel model;
-
-	protected ArrayList<Product> listData;
-
-	// = { "Product 1", "Product 2", "Product 3",
-	// "Product 4", "Product 1", "Product 2", "Product 3",
-	// "Product 4", "Product 1", "Product 2", "Product 3",
-	// "Product 4", "Product 1", "Product 2", "Product 3", "Product 4" };
+	private ArrayList<Shape> shapeList = new ArrayList<>();
+	protected ArrayList<Product> listData = new ArrayList<>();
 
 	// Other shapes need to be instanced here as well
-	Rect r1;
+	private Shape r1;
+	private Shape r2;
+	private Shape r3;
+	private Shape r4;
+	private Shape r5;
+	private Shape r6;
+	private Shape r7;
+
+	Product currentProduct;
 
 	// Constructor of main frame
 	public UI() {
@@ -39,8 +42,8 @@ public class UI extends JFrame implements ListSelectionListener {
 
 		// Create a panel to hold all other components
 		topPanel = new JPanel();
-		topPanel.setLayout(new BorderLayout());
-		getContentPane().add(topPanel, BorderLayout.WEST);
+		topPanel.setLayout(new WrapLayout());
+		getContentPane().add(topPanel, BorderLayout.CENTER);
 
 		// Create a new listbox control
 
@@ -48,49 +51,52 @@ public class UI extends JFrame implements ListSelectionListener {
 		listbox = new JList(model);
 		listbox.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		listbox.addListSelectionListener(this);
+
 		scrollPane = new JScrollPane(listbox);
-		topPanel.add(scrollPane, BorderLayout.WEST);
+		listbox.setSize(200, 300);
+		scrollPane
+				.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane
+				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		topPanel.setBorder(BorderFactory.createEmptyBorder());
+		topPanel.add(scrollPane);
 
 		model.addElement("Test");
 
 		// adding elements
 
-		listData = new ArrayList<Product>();
-
-		// for (int i = 0; i < listData.size(); i++) {
-		// model.addElement(listData.get(i));
-		// }
-
 		drawPanel = new JPanel();
-		drawPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
-		getContentPane().add(drawPanel, BorderLayout.CENTER);
+		drawPanel.setLayout(new BorderLayout());
+		drawPanel.setBorder(BorderFactory.createEmptyBorder());
+
+		topPanel.add(drawPanel);
 
 		fabricPanel = new JPanel();
 		fabricPanel.setLayout(new FlowLayout());
 		drawPanel.add(fabricPanel, BorderLayout.CENTER);
 
-		r1 = new Rect();
+		r1 = new Rect(1);
 		fabricPanel.add(r1);
 
-		Rect r2 = new Rect();
+		r2 = new Rect(2);
 		fabricPanel.add(r2);
 
-		Rect r3 = new Rect();
+		r3 = new Rect(3);
 		fabricPanel.add(r3);
 
-		Shape r4 = new Circle();
+		r4 = new Circle(4);
 		fabricPanel.add(r4);
 
-		Shape r5 = new Circle();
+		r5 = new Circle(5);
 		fabricPanel.add(r5);
 
-		Rect r6 = new Rect();
+		r6 = new Rect(6);
 		fabricPanel.add(r6);
 
-		Rect r7 = new Rect();
+		r7 = new Rect(7);
 		fabricPanel.add(r7);
 
-		System.out.println(r1);
+		setBounds(400, 400, 900, 300);
 
 		drawPanel.validate();
 
@@ -109,23 +115,51 @@ public class UI extends JFrame implements ListSelectionListener {
 
 		// für jedes Product getCurrentStatus() L1, L2, Milling etc.
 
-		r1.setActive();
-		repaint();
+		JList src = (JList) e.getSource();
+		String selected = src.getSelectedValue().toString();
+		System.out.println("Selected product: " + selected);
 
-		// int index = listbox.getSelectedIndex();
-		// System.out.println(model.getElementAt(index));
-
-		// switch to product that should be shown
+		for (int i = 0; i < listData.size(); i++) {
+			if (listData.get(i).getId().equals(selected)) {
+				listData.get(i).getStation();
+				registerShapes(listData.get(i));
+			}
+		}
 	}
 
 	// getProduct
 	public void update(Product p) {
-		System.out.println("UPDATE DER UI / " + p.getId() + " wurde geändert");
-
 		if (model.contains(p.getId()) == false) {
+			listData.add(p);
+			System.out.println(p.getId() + " wurde hinzugefügt.");
 			model.addElement(p.getId());
 		} else {
+			System.out.println(p.getId() + " ist fertig und wurde entfernt.");
+			listData.remove(p);
 			model.removeElement(p.getId());
+		}
+	}
+
+	private void registerShapes(Product p) {
+		p.attach(r1);
+		p.attach(r2);
+		p.attach(r3);
+		p.attach(r4);
+		p.attach(r5);
+		p.attach(r6);
+		p.attach(r7);
+
+		if (currentProduct != null) {
+
+			currentProduct.detach(r1);
+			currentProduct.detach(r2);
+			currentProduct.detach(r3);
+			currentProduct.detach(r4);
+			currentProduct.detach(r5);
+			currentProduct.detach(r6);
+			currentProduct.detach(r7);
+
+			currentProduct = p;
 		}
 	}
 }

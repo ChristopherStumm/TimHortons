@@ -44,6 +44,7 @@ public class DatabaseConnection {
 			Gson gson = new Gson();
 			Product product = gson.fromJson(cursor.next().toString(), Product.class);
 			
+			
 		    System.out.println(cursor.next());
 		};
 		
@@ -59,8 +60,6 @@ public class DatabaseConnection {
 		
 		DBObject orderObject = (DBObject) JSON.parse(order);
 		table.save(orderObject);	
-		
-		
 
 	}
 

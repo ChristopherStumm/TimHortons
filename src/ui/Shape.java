@@ -10,15 +10,14 @@ import logic.*;
 
 public abstract class Shape extends JComponent {
 
-	private static int shapeID = 0;
-
-	protected Product prod;
+	private int shapeID = 0;
 	protected Color color = Color.BLACK;
+	private int productStation;
 
-	public Shape() {
-		shapeID++;
-		prod = new Product();
-		prod.attach(this);
+	// Product product = new ArrayList<>();
+
+	public Shape(int id) {
+		shapeID = id;
 	}
 
 	public void setActive() {
@@ -31,18 +30,100 @@ public abstract class Shape extends JComponent {
 		repaint();
 	}
 
-	public void update() {
-		// getStatus() // int zurück bei vincent
-		if (prod.getStation() == shapeID) {
-			this.setActive();
-		} else {
-			this.setDeactive();
+	public void update(int station) {
+		this.setDeactive();
+		switch (station) {
+		case 0:
+			// nichts
+			break;
+
+		case 1:
+			if (shapeID == 1) {
+				this.setActive();
+			}
+			break;
+
+		case 2:
+			if (shapeID == 1) {
+				this.setActive();
+			}
+			break;
+
+		case 3:
+			if (shapeID == 2) {
+				this.setActive();
+			}
+
+			break;
+
+		case 4:
+			if (shapeID == 2) {
+				this.setActive();
+			}
+			break;
+
+		case 5:
+			if (shapeID == 3) {
+				this.setActive();
+			}
+			break;
+
+		case 6:
+			if (shapeID == 4) {
+				this.setActive();
+			}
+			break;
+
+		case 7:
+			if (shapeID == 4) {
+				this.setActive();
+			}
+			break;
+
+		case 8:
+			if (shapeID == 4) {
+				this.setActive();
+			}
+			break;
+
+		case 9:
+			if (shapeID == 5) {
+				this.setActive();
+			}
+			break;
+
+		case 10:
+			if (shapeID == 6) {
+				this.setActive();
+			}
+			break;
+
+		case 11:
+			if (shapeID == 6) {
+				this.setActive();
+			}
+			break;
+
+		case 12:
+			if (shapeID == 6) {
+				this.setActive();
+			}
+			break;
+		case 13:
+			if (shapeID == 7) {
+				this.setActive();
+			}
+			break;
+
+		case 14:
+			if (shapeID == 7) {
+				this.setActive();
+			}
+			break;
 		}
 	}
 
-	public int getStation() {
-		// return identifier.getStatus(); // oder direkt in update meth im
-		// abgleich
-		return 0;
+	public void setProductStation(int station) {
+		productStation = station;
 	}
 }
