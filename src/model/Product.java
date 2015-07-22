@@ -86,6 +86,7 @@ public class Product {
 	
 	public String getJSONString(){
 		String json = "{\"a1\" : \"" + a1 + "\",";
+		json = json + "\"name\" : \"" + name + "\",";
 		json = json + "\"a2\" : \"" + a2 + "\",";
 		json = json + "\"b1\" : \"" + b1 + "\",";
 		json = json + "\"b2\" : \"" + b2 + "\",";

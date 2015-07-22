@@ -26,6 +26,7 @@ public class Identifier {
 	private QueueConnectionUsingCamel occupyListener;
 
 	Product[] productList = new Product[14];
+	
 
 	protected Identifier() {
 		// Exists only to defeat instantiation.
@@ -62,10 +63,29 @@ public class Identifier {
 	}
 
 	public String processEvent(OPCDataItem item) {
-		occupied = true;
 		int stationId;
 		String itemName = item.getItemName();
-
+		boolean productCreated = false;
+		
+		for(int i = 0; i < productList.length; i++){
+			if (productList[i] != null){
+				productCreated = true;
+			}
+		}
+		
+		while (!productCreated){
+			try {
+				Thread.sleep(100);
+				for(int i = 0; i < productList.length; i++){
+					if (productList[i] != null){
+						productCreated = true;
+					}
+				}
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} 
 		if (item.getValue() instanceof Boolean) {
 			boolean finished = (boolean) item.getValue();
 
@@ -171,6 +191,9 @@ public class Identifier {
 
 	private String findOutId(int stationOfEvent, boolean finished,
 			OPCDataItem item) {
+		if (item == null){
+			System.out.println("OPC Data is null");
+		}
 		int index = -1;
 		System.out.println("Station of Event: " + stationOfEvent);
 		for (int i = 0; i < productList.length; i++) {
