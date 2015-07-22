@@ -27,6 +27,9 @@ public class Identifier {
 
 	Product[] productList = new Product[14];
 	
+	String lastFinishedProduct = "";
+	
+	boolean lock = false;
 
 	protected Identifier() {
 		// Exists only to defeat instantiation.
@@ -58,7 +61,7 @@ public class Identifier {
 		if (!alreadyCreated) {
 			Product product = new Product(erpData);
 			productList[indexOfFirstNull] = product;
-			notifyObservers(product);
+			notifyObserversCreated(product.getId());
 		}
 	}
 
@@ -222,9 +225,7 @@ public class Identifier {
 				productList[index].setStation(stationOfEvent);
 			}
 			productList[index].notifyObservers();
-			//index is wrong
-			productList[0].addOPCData(item);
-			occupied = false;
+			productList[index].addOPCData(item);
 			return productList[index].getId();
 		} else {
 			System.err.println("Product could not be identified. Sorry!");
@@ -235,15 +236,14 @@ public class Identifier {
 	}
 
 	public void finishProduct(LogFile logFile) {
-		occupied = true;
+		if (!lock){
+			lock = true;
 		for (int i = 0; i < productList.length; i++) {
 			if (productList[i] != null) {
-				System.out.println("Station of Product: "
-						+ productList[i].getStation());
-				if (productList[i].getStation() == 14) {
-					System.out
-							.println("Product will now upload data to database");
+				if (productList[i].getStation() == 14 ) {
 					Product product = productList[i];
+					String productId = product.getId();
+					System.out.println("Product " + product + " will now upload data to database");
 					
 					// Daten ins Product schreiben
 					product.setA1(logFile.getA1());
@@ -265,14 +265,18 @@ public class Identifier {
 
 					DatabaseConnection.saveProductInformation(
 							productList[i].getCustomerNumber(), productString);
-					notifyObservers(product);
-					productList[i] = null;
+					System.out.println("ProductId: " + productId);
+					
 
+					productList[i] = null;	
+									
+					notifyObserversDeleted(productId);
 				}
 
 			}
 		}
-		occupied = false;
+		}
+		lock = false;
 	}
 
 	public void attach(UI ui) {
@@ -283,10 +287,29 @@ public class Identifier {
 		observerList.remove(ui);
 	}
 
-	public void notifyObservers(Product product) {
+	public void notifyObserversCreated(String productId) {
 		for (int i = 0; i < observerList.size(); i++) {
-			observerList.get(i).update(product);
+			observerList.get(i).update(productId);
+		}
+	}
+	
+	public void notifyObserversDeleted(String id) {
+		for (int i = 0; i < observerList.size(); i++) {
+			observerList.get(i).updateDeleted(id);
 		}
 	}
 
+	public Product getProductById(String id){
+		Product p = new Product();
+		for (int i=0; i < productList.length; i++){
+			if (productList[i] != null){
+			if (productList[i].getId().equals(id)){
+				p = productList[i];
+				return p;
+			}
+			}
+		}
+		return p;
+	}
+	
 }

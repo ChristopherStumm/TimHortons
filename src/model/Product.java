@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import ui.Shape;
 import logic.ProductObserverList;
 
-public class Product {
+public class Product implements Cloneable {
 	private String name = "Vincent";
 	private int station;
 	private int customerNumber;
@@ -243,5 +243,12 @@ public class Product {
 		this.materialNumber = materialNumber;
 	}
 
-
+	public Object clone(){
+		try{
+			return super.clone();
+		} catch(Exception e){
+			System.out.println("Could not be cloned");
+			return null;
+		}
+	}
 }

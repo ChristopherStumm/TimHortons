@@ -23,7 +23,7 @@ public class UI extends JFrame implements ListSelectionListener {
 	private JScrollPane scrollPane;
 	private DefaultListModel model;
 	private ArrayList<Shape> shapeList = new ArrayList<>();
-	protected ArrayList<Product> listData = new ArrayList<>();
+	private ArrayList<String> idList = new ArrayList<>();
 
 	// Other shapes need to be instanced here as well
 	private Shape r1;
@@ -43,7 +43,7 @@ public class UI extends JFrame implements ListSelectionListener {
 	private JLabel ds = new JLabel("Drilling St.");
 	
 
-	Product currentProduct;
+	String currentProductId;
 
 	// Constructor of main frame
 	public UI() {
@@ -138,12 +138,11 @@ public class UI extends JFrame implements ListSelectionListener {
 		String selected = src.getSelectedValue().toString();
 		System.out.println("Selected product: " + selected);
 
-		for (int i = 0; i < listData.size(); i++) {
-			if (listData.get(i).getId().equals(selected)) {
-				listData.get(i).getStation();
-				registerShapes(listData.get(i));
+		for (int i = 0; i < idList.size(); i++) {
+			if (idList.get(i).equals(selected)) {
+				registerShapes(Identifier.getInstance().getProductById(idList.get(i)));
 				for (int j = 0; j < shapeList.size(); j++) {
-					shapeList.get(j).update(listData.get(i).getStation(), src.getSelectedValue().toString());
+					shapeList.get(j).update(Identifier.getInstance().getProductById(idList.get(i)).getStation(), src.getSelectedValue().toString());
 					shapeList.get(j).setProductId(src.getSelectedValue().toString());
 				}
 			}
@@ -151,16 +150,30 @@ public class UI extends JFrame implements ListSelectionListener {
 	}
 
 	// getProduct
-	public void update(Product p) {
-		if (model.contains(p.getId()) == false) {
-			listData.add(p);
-			System.out.println(p.getId() + " wurde hinzugefügt.");
-			model.addElement(p.getId());
-		} else {
-			model.removeElement(p.getId());
-			listData.remove(p);
-			System.out.println(p.getId() + " ist fertig und wurde entfernt.");
+	public void update(String id) {
+		if (!model.contains(id)) {
+			idList.add(id);
+			System.out.println(id + " wurde hinzugefügt.");
+			model.addElement(id);
 		}
+	}
+	
+	public void updateDeleted(String id){
+		if (model.contains(id)) {
+		model.removeElement(id);
+		for (int i=0; i < idList.size(); i++){
+			if(idList.equals(id)){
+				idList.remove(i);
+			}
+		}
+		validate();
+		if (currentProductId == id) {
+
+			currentProductId = null;
+
+		}
+		System.out.println(id + " ist fertig und wurde entfernt.");
+	}
 	}
 
 	private void registerShapes(Product p) {
@@ -172,7 +185,9 @@ public class UI extends JFrame implements ListSelectionListener {
 		p.attach(r6);
 		p.attach(r7);
 
-		if (currentProduct != null) {
+		if (currentProductId != null) {
+			
+			Product currentProduct = Identifier.getInstance().getProductById(currentProductId);
 
 			currentProduct.detach(r1);
 			currentProduct.detach(r2);
@@ -183,6 +198,6 @@ public class UI extends JFrame implements ListSelectionListener {
 			currentProduct.detach(r7);
 
 		}
-		currentProduct = p;
+		currentProductId = p.getId();
 	}
 }
