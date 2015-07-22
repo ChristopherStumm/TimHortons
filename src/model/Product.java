@@ -6,6 +6,7 @@ import ui.Shape;
 import logic.ProductObserverList;
 
 public class Product {
+	private String name = "Vincent";
 	private int station;
 	private int customerNumber;
 	private String orderNumber;
@@ -86,6 +87,7 @@ public class Product {
 	public String getJSONString(){
 		System.out.println(data);
 		String json = "{\"a1\" : \"" + a1 + "\",";
+		json = json + "\"name\" : \"" + name + "\",";
 		json = json + "\"a2\" : \"" + a2 + "\",";
 		json = json + "\"b1\" : \"" + b1 + "\",";
 		json = json + "\"b2\" : \"" + b2 + "\",";
