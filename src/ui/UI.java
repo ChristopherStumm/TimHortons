@@ -4,11 +4,14 @@ package ui;
 import java.awt.*;
 import java.util.ArrayList;
 
+
 //import java.awt.event.*;
 import javax.swing.*;
 // import javax.swing.border.Border;
 import javax.swing.event.*;
+
 import logic.*;
+import model.Product;
 
 public class UI extends JFrame implements ListSelectionListener {
 
@@ -48,6 +51,7 @@ public class UI extends JFrame implements ListSelectionListener {
 		setTitle("Fabric UI");
 		setBounds(400, 400, 900, 300);
 		setResizable(false);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		// Create a panel to hold all other components
 		
@@ -75,7 +79,7 @@ public class UI extends JFrame implements ListSelectionListener {
 		
 		r1 = new Rect(1);
 		r1.setBounds(210, 75, 100, 100);
-		ls1.setBounds(210, 65, 60, 80);
+		l1.setBounds(210, 65, 60, 80);
 		topPanel.add(r1);
 		shapeList.add(r1);
 

@@ -1,25 +1,25 @@
-package logic;
+package model;
 
 import java.util.ArrayList;
 
 import ui.Shape;
-import model.ERPData;
-import model.OPCDataItem;
+import logic.ProductObserverList;
 
 public class Product {
 	private int station;
 	private int customerNumber;
 	private String orderNumber;
 
-	float a1;
-	float a2;
-	float b1;
-	float b2;
-	float em1;
-	float em2;
-	String overallStatus;
-	long ts_start;
-	long ts_stop;
+	private float a1;
+	private float a2;
+	private float b1;
+	private float b2;
+	private float em1;
+	
+	private float em2;
+	private String overallStatus;
+	private long ts_start;
+	private long ts_stop;
 
 	// for Database
 	private long startTime;
@@ -27,13 +27,11 @@ public class Product {
 	private int materialNumber;
 	private ArrayList<OPCDataItem> data = new ArrayList<>();
 
-	ArrayList<Shape> observerList = new ArrayList<>();
-
 	public String getId() {
 		return orderNumber;
 	}
 
-	Product(ERPData erpData) {
+	public Product(ERPData erpData) {
 		this.orderNumber = erpData.getOrderNumber();
 		this.materialNumber = erpData.getMaterialNumber();
 		this.customerNumber = erpData.getCustomerNumber();
@@ -43,9 +41,7 @@ public class Product {
 	}
 
 	public Product() {
-		for (int i = 0; i < observerList.size(); i++) {
-			System.out.println(observerList.get(i).getName());
-		}
+		
 	}
 
 	public int getStation() {
@@ -72,18 +68,17 @@ public class Product {
 	}
 
 	public void attach(Shape s) {
-		observerList.add(s);
+		ProductObserverList.getInstance().observerList.add(s);
 	}
 
 	public void detach(Shape s) {
-		observerList.remove(s);
+		ProductObserverList.getInstance().observerList.remove(s);
 	}
 
 	public void notifyObservers() {
-		for (int i = 0; i < observerList.size(); i++) {
-			observerList.get(i).update(station);
-			
-			Shape shape = observerList.get(i);
+
+		for (int i = 0; i < ProductObserverList.getInstance().observerList.size(); i++) {
+			Shape shape = ProductObserverList.getInstance().observerList.get(i);
 			shape.update(station);
 		}
 	}
@@ -128,5 +123,122 @@ public class Product {
 		System.out.println(json);
 		return json;
 	}
+	
+	public float getA1() {
+		return a1;
+	}
+
+	public void setA1(float a1) {
+		this.a1 = a1;
+	}
+
+	public float getA2() {
+		return a2;
+	}
+
+	public void setA2(float a2) {
+		this.a2 = a2;
+	}
+
+	public float getB1() {
+		return b1;
+	}
+
+	public void setB1(float b1) {
+		this.b1 = b1;
+	}
+
+	public float getB2() {
+		return b2;
+	}
+
+	public void setB2(float b2) {
+		this.b2 = b2;
+	}
+
+	public float getEm1() {
+		return em1;
+	}
+
+	public void setEm1(float em1) {
+		this.em1 = em1;
+	}
+
+	public ArrayList<OPCDataItem> getData() {
+		return data;
+	}
+
+	public void setData(ArrayList<OPCDataItem> data) {
+		this.data = data;
+	}
+
+	public void setCustomerNumber(int customerNumber) {
+		this.customerNumber = customerNumber;
+	}
+
+	public String getOrderNumber() {
+		return orderNumber;
+	}
+
+	public void setOrderNumber(String orderNumber) {
+		this.orderNumber = orderNumber;
+	}
+
+	public float getEm2() {
+		return em2;
+	}
+
+	public void setEm2(float em2) {
+		this.em2 = em2;
+	}
+
+	public String getOverallStatus() {
+		return overallStatus;
+	}
+
+	public void setOverallStatus(String overallStatus) {
+		this.overallStatus = overallStatus;
+	}
+
+	public long getTs_start() {
+		return ts_start;
+	}
+
+	public void setTs_start(long ts_start) {
+		this.ts_start = ts_start;
+	}
+
+	public long getTs_stop() {
+		return ts_stop;
+	}
+
+	public void setTs_stop(long ts_stop) {
+		this.ts_stop = ts_stop;
+	}
+
+	public long getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(long startTime) {
+		this.startTime = startTime;
+	}
+
+	public long getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(long endTime) {
+		this.endTime = endTime;
+	}
+
+	public int getMaterialNumber() {
+		return materialNumber;
+	}
+
+	public void setMaterialNumber(int materialNumber) {
+		this.materialNumber = materialNumber;
+	}
+
 
 }
