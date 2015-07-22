@@ -244,6 +244,7 @@ public class Identifier {
 				DatabaseConnection.saveProductInformation(productList[i].getCustomerNumber(), productString);
 				
 				notifyObservers(product);
+				System.out.println("Product sollte hier rausgeworfen sein");
 				
 				productList[i] = null;
 				

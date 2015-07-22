@@ -16,7 +16,7 @@ public class Rect extends Shape {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.setColor(color);
-		g.fillRect(50, 50, 50, 50);
+		g.fillRect(50, 0, 50, 50);
 	}
 
 	public Dimension getPreferredSize() {

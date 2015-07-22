@@ -30,6 +30,15 @@ public class UI extends JFrame implements ListSelectionListener {
 	private Shape r5;
 	private Shape r6;
 	private Shape r7;
+	
+	private JLabel l1 = new JLabel("LS 1");
+	private JLabel l2 = new JLabel("LS 2");
+	private JLabel l3 = new JLabel("LS 3");
+	private JLabel l4 = new JLabel("LS 4");
+	private JLabel l5 = new JLabel("LS 5");
+	private JLabel ms = new JLabel("Milling St.");
+	private JLabel ds = new JLabel("Drilling St.");
+	
 
 	Product currentProduct;
 
@@ -38,12 +47,13 @@ public class UI extends JFrame implements ListSelectionListener {
 		// Set the frame characteristics
 		setTitle("Fabric UI");
 		setBounds(400, 400, 900, 300);
-		setBackground(Color.RED);
+		setResizable(false);
 
 		// Create a panel to hold all other components
+		
 		topPanel = new JPanel();
-		topPanel.setLayout(new WrapLayout());
-		getContentPane().add(topPanel, BorderLayout.CENTER);
+		topPanel.setLayout(null);
+		add(topPanel);
 
 		// Create a new listbox control
 
@@ -53,62 +63,54 @@ public class UI extends JFrame implements ListSelectionListener {
 		listbox.addListSelectionListener(this);
 
 		scrollPane = new JScrollPane(listbox);
-		listbox.setSize(200, 300);
 		scrollPane
 				.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane
 				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		topPanel.setBorder(BorderFactory.createEmptyBorder());
+		scrollPane.setBounds(5, 5, 200, 263);
 		topPanel.add(scrollPane);
 
-		model.addElement("Test");
-
 		// adding elements
-
-		drawPanel = new JPanel();
-		drawPanel.setLayout(new BorderLayout());
-		drawPanel.setBorder(BorderFactory.createEmptyBorder());
-
-		topPanel.add(drawPanel);
-
-		fabricPanel = new JPanel();
-		fabricPanel.setLayout(new FlowLayout());
-		drawPanel.add(fabricPanel, BorderLayout.CENTER);
-
+		
 		r1 = new Rect(1);
-		fabricPanel.add(r1);
+		r1.setBounds(210, 75, 100, 100);
+		ls1.setBounds(210, 65, 60, 80);
+		topPanel.add(r1);
+		shapeList.add(r1);
 
 		r2 = new Rect(2);
-		fabricPanel.add(r2);
+		r2.setBounds(320, 75, 100, 100);
+		topPanel.add(r2);
+		shapeList.add(r2);
 
 		r3 = new Rect(3);
-		fabricPanel.add(r3);
+		r3.setBounds(430, 75, 100, 100);
+		topPanel.add(r3);
+		shapeList.add(r3);
 
 		r4 = new Circle(4);
-		fabricPanel.add(r4);
+		r4.setBounds(430, 155, 100, 100);
+		topPanel.add(r4);
+		shapeList.add(r4);
 
-		r5 = new Circle(5);
-		fabricPanel.add(r5);
+		r5 = new Rect(5);
+		r5.setBounds(540, 75, 100, 100);
+		topPanel.add(r5);
+		shapeList.add(r5);
 
-		r6 = new Rect(6);
-		fabricPanel.add(r6);
+		r6 = new Circle(6);
+		r6.setBounds(540, 155, 100, 100);
+		topPanel.add(r6);
+		shapeList.add(r6);
 
 		r7 = new Rect(7);
-		fabricPanel.add(r7);
-
-		setBounds(400, 400, 900, 300);
-
-		drawPanel.validate();
+		r7.setBounds(650, 75, 100, 100);
+		topPanel.add(r7);
+		shapeList.add(r7);
 
 		Identifier.getInstance().attach(this);
 	}
-
-	// // Main entry point for this example
-	// public static void main(String args[]) {
-	// // Create an instance of the test application
-	// UI mainFrame = new UI();
-	// mainFrame.setVisible(true);
-	// }
 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
@@ -123,6 +125,9 @@ public class UI extends JFrame implements ListSelectionListener {
 			if (listData.get(i).getId().equals(selected)) {
 				listData.get(i).getStation();
 				registerShapes(listData.get(i));
+				for (int j = 0; j < shapeList.size(); j++) {
+					shapeList.get(j).update(listData.get(i).getStation());
+				}
 			}
 		}
 	}
@@ -134,9 +139,9 @@ public class UI extends JFrame implements ListSelectionListener {
 			System.out.println(p.getId() + " wurde hinzugefügt.");
 			model.addElement(p.getId());
 		} else {
-			System.out.println(p.getId() + " ist fertig und wurde entfernt.");
-			listData.remove(p);
 			model.removeElement(p.getId());
+			listData.remove(p);
+			System.out.println(p.getId() + " ist fertig und wurde entfernt.");
 		}
 	}
 
@@ -159,7 +164,7 @@ public class UI extends JFrame implements ListSelectionListener {
 			currentProduct.detach(r6);
 			currentProduct.detach(r7);
 
-			currentProduct = p;
 		}
+		currentProduct = p;
 	}
 }
