@@ -23,7 +23,7 @@ function getAveragesRequest() {
 
 
 function getProductRequest() {
-    var time = "products?time=12&";
+    var time = "products?time=6&";
     var status = "status=TOTAL&";
     var sum = "sum=false&";
     if (typeof timestamp === "undefined") {
