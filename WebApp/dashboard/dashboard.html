@@ -5,7 +5,7 @@
         <div class="quad-chart-container">
             <div class="quad-chart-row">
                 <div class="quad-chart-col col1">
-                    <h3>KPIs der letzten 4 Stunden:</h3>
+                    <h3>KPIs</h3>
                     <ul>
                         <li>
                             <div class="left">&#216 Milling Speed:</div>
@@ -34,12 +34,18 @@
 
                 </div>
                 <div class="quad-chart-col col2">
-                    Fehlerhafte Produkte der letzten 4 Stunden
+                    <h3>Faulty Products</h3>
 
                     <table>
+                        <tr>
+                            <th>Order Number</th>
+                            <th>Customer Number</th>
+                            <th>Material Number</th>
+                        </tr>
                         <tr ng-repeat="x in names">
-                            <td>{{ x.Name }}</td>
-                            <td>{{ x.Country }}</td>
+                            <td>{{ x.OrderNumber }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                            <td>{{ x.Customer }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                            <td>{{ x.Material }}</td>
                         </tr>
                     </table>
                 </div>
@@ -47,12 +53,12 @@
 
             <div class="quad-chart-row">
                 <div class="quad-chart-col col1">
-                    Letzte Werte Drilling/Milling Speed
+                    <h3>Last Drilling/Milling Speed Values</h3>
                     <canvas id="speedGraph" class="chart chart-line" data="speedData" labels="speedLabels" legend="true" series="series">
                     </canvas>
                 </div>
                 <div class="quad-chart-col col2">
-                    Letzte Werte Drilling/Milling Heat
+                    <h3>Last Drilling/Milling Values</h3>
                     <canvas id="heatGraph" class="chart chart-line" data="heatData" labels="heatLabels" legend="true" series="series">
                     </canvas>
                 </div>

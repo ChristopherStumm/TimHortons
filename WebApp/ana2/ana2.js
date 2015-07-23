@@ -60,7 +60,8 @@ angular.module('timHortons.Ana2', ['ngRoute'])
 
             var options = {
                 title: 'Production view - Material',
-                isStacked: true
+                isStacked: true,
+                height: 400
             };
 
             var chart = new google.visualization.BarChart(document.getElementById('chartdiv2'));

@@ -22,31 +22,6 @@ var app = angular.module('timHortons.Dashboard', ['ngRoute', 'angularCharts'])
         $scope.avMillHeat = 40;
         $scope.avDrillHeat = 50;
         $scope.avRuntime = 60;
-        $scope.names = [{
-            "Name": "Alfreds Futterkiste",
-            "City": "Berlin",
-            "Country": "Germany"
-            }, {
-            "Name": "Ana Trujillo Emparedados y helados",
-            "City": "México D.F.",
-            "Country": "Mexico"
-            }, {
-            "Name": "Antonio Moreno Taquería",
-            "City": "México D.F.",
-            "Country": "Mexico"
-            }, {
-            "Name": "Around the Horn",
-            "City": "London",
-            "Country": "UK"
-            }, {
-            "Name": "B's Beverages",
-            "City": "London",
-            "Country": "UK"
-            }, {
-            "Name": "Berglunds snabbköp",
-            "City": "Luleå",
-            "Country": "Sweden"
-            }];
 
 
         var allData = getAverageData.query();
@@ -81,14 +56,15 @@ var app = angular.module('timHortons.Dashboard', ['ngRoute', 'angularCharts'])
         function setData() {
             if (typeof $rootScope.requestedData === "undefined") {
                 return;
-            } else if ($rootScope.requestedData.length < 20) {
+            } else if ($rootScope.requestedData.length < 30) {
                 return;
             }
 
             var heatData = [[0], [0]];
             var speedData = [[0], [0]];
+            var notOkProducts = [];
 
-            for (var i = $rootScope.requestedData.length - 20; i < $rootScope.requestedData.length; i++) {
+            for (var i = $rootScope.requestedData.length - 30; i < $rootScope.requestedData.length; i++) {
                 for (var j = 0; j < $rootScope.requestedData[i].data.length; j++) {
                     var item = $rootScope.requestedData[i].data[j]
                     if (item.itemName == "Milling Speed") {
@@ -102,11 +78,28 @@ var app = angular.module('timHortons.Dashboard', ['ngRoute', 'angularCharts'])
                     }
                 }
             }
+
+            for (var i = ($rootScope.requestedData.length - 1); i >= 0; i--) {
+                if ($rootScope.requestedData[i].overallStatus != "OK") {
+                    notOkProducts.push({
+                        "OrderNumber": $rootScope.requestedData[i].orderNumber,
+                        "Customer": $rootScope.requestedData[i].customerNumber,
+                        "Material": $rootScope.requestedData[i].materialNumber
+                    });
+                    if (notOkProducts.length >= 10) {
+                        break;
+                    }
+                }
+            }
+            console.log("Failures");
+            console.log(notOkProducts);
+
             $scope.heatData = heatData;
             $scope.speedData = speedData;
+            $scope.names = notOkProducts;
         }
 
         $scope.$on('$routeChangeStart', function (next, current) {
             running = false;
         });
-}]);
+            }]);
