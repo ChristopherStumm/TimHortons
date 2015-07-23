@@ -19,11 +19,34 @@ angular.module('TimHortons', [
     function ($scope, $timeout, $http, $rootScope)
     {
         (function tick() {
+            console.log("Requesting");
             $http.get(getProductRequest()).success(function (data) {
+                console.log("GOT DATA WITH " + getProductRequest());
+                console.log(data);
                 timestamp = new Date().getTime();
-                requestedData = requestedData.concat(data);
-                $rootScope.requestedData = requestedData;
-                console.log("new Data in rootscope");
+                var addToRootScope = [];
+
+                if (data.length > 5) {
+                    $rootScope.requestedData = data;
+                } else {
+                    for (var j = 0; j < data.length; j++) {
+                        var alreadyFetched = false;
+                        for (var i = 0; i < $rootScope.requestedData.length; i++) {
+                            if ($rootScope.requestedData[i].orderNumber == data[j].orderNumber) {
+                                alreadyFetched = true;
+                                console.log("Match found");
+                            }
+                        }
+                        if (!alreadyFetched) {
+                            addToRootScope.push(data[j]);
+                            console.log(data[j].endTime);
+                        }
+                    }
+                    for (var l = 0; l < addToRootScope.length; l++) {
+                        $rootScope.requestedData.push(addToRootScope[l]);
+                    }
+                }
+                console.log("new Data in rootscope, new length: " + $rootScope.requestedData.length);
                 $timeout(tick, 5000);
             }).error(function (error) {
                 console.log(error)
@@ -32,13 +55,14 @@ angular.module('TimHortons', [
 }]);
 
 function getProductRequest() {
-    var time = "products?time=24&";
+    var time = "products?time=6&";
     var status = "status=TOTAL&";
     var sum = "sum=false&";
     if (typeof timestamp === "undefined") {
         timestamp = 0;
     }
-    var timestampString = "timestamp=" + timestamp
+    //var timestampString = "timestamp=" + timestamp
+    var timestampString = "timestamp=0";
     var request = url + time + status + sum + timestampString;
     return request
 }

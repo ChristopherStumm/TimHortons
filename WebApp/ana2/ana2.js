@@ -128,7 +128,7 @@ angular.module('timHortons.Ana2', ['ngRoute'])
             var obj = {};
             if ($scope.allMaterials.length > 0) {
                 for (var i = 0; i < $scope.allMaterials.length; i++) {
-                    obj[$scope.allMaterials[i]] = ($scope.totalProducts[i] / 12 / 5) * ($scope.machines * $scope.hours);
+                    obj[$scope.allMaterials[i]] = ($scope.totalProducts[i] / 6 / 5) * ($scope.machines * $scope.hours);
                 }
             }
             $scope.predictiveData = obj;
@@ -137,21 +137,38 @@ angular.module('timHortons.Ana2', ['ngRoute'])
         function getTotalOkProducts() {
             var ctr = 0;
             var currentHour = new Date().getHours();
+            var hours = [];
+            hours[0] = currentHour - 1;
+            hours[1] = currentHour - 2;
+            hours[2] = currentHour - 3;
+            hours[3] = currentHour - 4;
+            hours[4] = currentHour - 5;
+            hours[5] = currentHour - 6;
+
+            for (var i = 0; i < hours.length; i++) {
+                if (hours[i] < 0) {
+                    hours[i] += 24;
+                }
+            }
+
             var data = [
               ['Year', 'Status OK', 'Status NOK'],
-              ['-1 hour', 0, 0],
-              ['-2 hours', 0, 0],
-              ['-3 hours', 0, 0],
-              ['-4 hours', 0, 0],
-              ['-5 hours', 0, 0],
-              ['-6 hours', 0, 0]
+              [hours[0] + ":00", 0, 0],
+              [hours[1] + ":00", 0, 0],
+              [hours[2] + ":00", 0, 0],
+              [hours[3] + ":00", 0, 0],
+              [hours[4] + ":00", 0, 0],
+              [hours[5] + ":00", 0, 0]
             ]
             for (var i = 0; i < $rootScope.requestedData.length; i++) {
                 var hourOfProduct = new Date(Number($rootScope.requestedData[i].endTime)).getHours();
                 var difference = currentHour - hourOfProduct;
+                if (difference < 0) {
+                    difference = 24 + difference;
+                }
                 //CHANGE!!!!!! difference < 6 AND data [difference + 1]
                 //if (difference < 12 && difference > 6) {
-                if (difference < 6) {
+                if (difference < 6 && 0 <= difference) {
                     if ($rootScope.requestedData[i].overallStatus == 'OK') {
                         //data[difference - 5][1]++;
                         data[difference + 1][1]++;
