@@ -41,14 +41,14 @@ The UI is the graphic interface which represents the status of the production li
 The DatabaseConnection acts as a middle layer to connect to to the database and is called by the identifier to write a complete product to the database. 
 
 #####QueueConnectionUsingCamel#####
-The QueConnectionUsingCamel defines the behaviour of the ([Apache Camel](http://camel.apache.org/).
+The QueConnectionUsingCamel defines the behaviour of the [Apache Camel](http://camel.apache.org/).
  - It receives and queues incoming sensor inputs (XML format), translates them to OPCDataItem objects and informs the Identifier object of the new sensor input
  - It receives and queues incoming orders (XML format), translates them to ERPData objects and informs the Identifier of the new order
  - It receives and queues incoming results of the spectral analysis (.erp file with JSON format), translates them to LogFile objects and informs the Identifier of the new spectral analysis result
 
  
-The described class diagram is a simplified version of the real class diagram. 
-[full class diagram](https://raw.githubusercontent.com/ChristopherStumm/TimHortons/master/Presentation%20materials/Full_UML.png)
+The described class diagram is a simplified version of the real class diagram.
+[Go to full class diagram](https://raw.githubusercontent.com/ChristopherStumm/TimHortons/master/Presentation%20materials/Full_UML.png)
 
 ##The State Machine##
 
