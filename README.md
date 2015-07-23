@@ -19,40 +19,32 @@ The main task is to collect all sensor inputs of the production line and to map 
 
 ![](https://raw.githubusercontent.com/ChristopherStumm/TimHortons/master/Presentation%20materials/Full_UML_p.png "Architectural Application")
 
-**OPCDataItem<T>**
-
+#####OPCDataItem<T>#####
 The OPCDataItem is a simple Java bean representing the the incoming data from the production line sensors.
 
-**ERPData**
-
+#####ERPData#####
 The ERPData is a simple Java bean representing the incoming customer orders.
 
-**LogFile**
-
+#####LogFile#####
 The LogFile is a simple Java bean representing the results of the spectral analysis performed at the end of the production line.
 
-**QueueConnectionUsingCamel**
-
+#####QueueConnectionUsingCamel#####
 The QueConnectionUsingCamel defines the behaviour of the ([Apache Camel](http://camel.apache.org/).
  - It receives and queues incoming sensor inputs (XML format), translates them to OPCDataItem objects and informs the Identifier object of the new sensor input
  - It receives and queues incoming orders (XML format), translates them to ERPData objects and informs the Identifier of the new order
  - It receives and queues incoming results of the spectral analysis (.erp file with JSON format), translates them to LogFile objects and informs the Identifier of the new spectral analysis result
  
- **Identifier**
-
- The Identifier is a part of the State Machine (more information: The State Machine) it acts as the logic core to identify which sensor input belongs to which product of the production line to map all sensor inputs, the order itself and the spectral analysis to one single object containing all these information (called Product).
+ #####Identifier#####
+The Identifier is a part of the State Machine (more information: The State Machine) it acts as the logic core to identify which sensor input belongs to which product of the production line to map all sensor inputs, the order itself and the spectral analysis to one single object containing all these information (called Product).
  
- **Product**
+ #####Product#####
+The Product is a simple Java bean containing all information of an order, sensor input and the result of the spectral analysis.
  
- The Product is a simple Java bean containing all information of an order, sensor input and the result of the spectral analysis.
- 
- **UI**
- 
+ #####UI#####
  The UI is the graphic interface which represents the status of the production line
  
- **DatabaseConnection**
- 
- The DatabaseConnection acts as a middle layer to connect to to the database and is called by the identifier to write a complete product to the database. 
+ #####DatabaseConnection#####
+The DatabaseConnection acts as a middle layer to connect to to the database and is called by the identifier to write a complete product to the database. 
  
  The described class diagram is a simplified version of the real class diagram. 
 [full class diagram](https://raw.githubusercontent.com/ChristopherStumm/TimHortons/master/Presentation%20materials/Full_UML.png)
