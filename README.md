@@ -28,12 +28,6 @@ The ERPData is a simple Java bean representing the incoming customer orders.
 #####LogFile#####
 The LogFile is a simple Java bean representing the results of the spectral analysis performed at the end of the production line.
 
-#####QueueConnectionUsingCamel#####
-The QueConnectionUsingCamel defines the behaviour of the ([Apache Camel](http://camel.apache.org/).
- - It receives and queues incoming sensor inputs (XML format), translates them to OPCDataItem objects and informs the Identifier object of the new sensor input
- - It receives and queues incoming orders (XML format), translates them to ERPData objects and informs the Identifier of the new order
- - It receives and queues incoming results of the spectral analysis (.erp file with JSON format), translates them to LogFile objects and informs the Identifier of the new spectral analysis result
- 
  #####Identifier#####
 The Identifier is a part of the State Machine (more information: The State Machine) it acts as the logic core to identify which sensor input belongs to which product of the production line to map all sensor inputs, the order itself and the spectral analysis to one single object containing all these information (called Product).
  
@@ -48,6 +42,12 @@ The DatabaseConnection acts as a middle layer to connect to to the database and 
  
  The described class diagram is a simplified version of the real class diagram. 
 [full class diagram](https://raw.githubusercontent.com/ChristopherStumm/TimHortons/master/Presentation%20materials/Full_UML.png)
+
+#####QueueConnectionUsingCamel#####
+The QueConnectionUsingCamel defines the behaviour of the ([Apache Camel](http://camel.apache.org/).
+ - It receives and queues incoming sensor inputs (XML format), translates them to OPCDataItem objects and informs the Identifier object of the new sensor input
+ - It receives and queues incoming orders (XML format), translates them to ERPData objects and informs the Identifier of the new order
+ - It receives and queues incoming results of the spectral analysis (.erp file with JSON format), translates them to LogFile objects and informs the Identifier of the new spectral analysis result
 
 ##The State Machine##
 
