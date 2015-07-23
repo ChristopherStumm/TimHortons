@@ -28,16 +28,16 @@ The ERPData is a simple Java bean representing the incoming customer orders.
 #####LogFile#####
 The LogFile is a simple Java bean representing the results of the spectral analysis performed at the end of the production line.
 
- #####Identifier#####
+#####Identifier#####
 The Identifier is a part of the State Machine (more information: The State Machine) it acts as the logic core to identify which sensor input belongs to which product of the production line to map all sensor inputs, the order itself and the spectral analysis to one single object containing all these information (called Product).
  
- #####Product#####
+#####Product#####
 The Product is a simple Java bean containing all information of an order, sensor input and the result of the spectral analysis.
  
- #####UI#####
- The UI is the graphic interface which represents the status of the production line
+#####UI#####
+The UI is the graphic interface which represents the status of the production line
  
- #####DatabaseConnection#####
+#####DatabaseConnection#####
 The DatabaseConnection acts as a middle layer to connect to to the database and is called by the identifier to write a complete product to the database. 
  
  The described class diagram is a simplified version of the real class diagram. 
