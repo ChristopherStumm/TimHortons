@@ -42,7 +42,7 @@
                             <th>Customer Number</th>
                             <th>Material Number</th>
                         </tr>
-                        <tr ng-repeat="x in names">
+                        <tr ng-repeat="x in names | limitTo:10">
                             <td>{{ x.OrderNumber }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                             <td>{{ x.Customer }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                             <td>{{ x.Material }}</td>
