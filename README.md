@@ -1,7 +1,8 @@
 # TimHortons
-UOIT / DHBW Project Summer School 2015
+University of Ontario Institute of Technology / DHBW Mannheim
+Project Industry / Big Data - Summer School 2015
 
-Link for the presentation held in DHBW Mannheim: [click here] (https://docs.google.com/presentation/d/1ptnTii_kZqtrl_G6JCvVv2jaxookzrxZ5K-czQudQxE/edit#slide=id.p)
+Link to the presentation held on July 24, 2015: [click here] (https://docs.google.com/presentation/d/1ptnTii_kZqtrl_G6JCvVv2jaxookzrxZ5K-czQudQxE/edit#slide=id.p)
 
 This Industry 4.0 Summer School Project simulates a production line which is supposed to teach us how to handle big data of the line.
 The goals were to aggregate that data, find hidden pattern and visualize the results.
@@ -30,7 +31,7 @@ In order to run good analysis on historic data to find pattern or create strateg
 ##User Interface - Operative View
 Within the meaning of business informatics we decided to implement an user interface that will be used in particular by employees with direct to the production line. With the help of that user interface the employee will be able to see all current items that are currently part of the production process. The list of these products will be updated dynamically (added / removed). The right part of the windows shows a scheme of the production line. By selecting a product an employee will see the current location of the product through a red flashing station. All other stations will remain black. By changing the production station the following station will light up. By changing the product in the list the 'factory' will adjust dynamically. The following figure shows an example of this view. 
 
-![Operative UI](https://github.com/ChristopherStumm/TimHortons/blob/master/Presentation%20materials/Fabric_UI.png)
+![](https://github.com/ChristopherStumm/TimHortons/blob/master/Presentation%20materials/Fabric_UI.png)
 
 We implemented this by using the observer pattern. With the help of this pattern the UI will be attached as an observer to the identifier class. In case of any changes a notify method in this class will be called. This results in updating the list model of the JList on the left side of the window. The factory shapes (stations) are updated in this way as well.  
 
