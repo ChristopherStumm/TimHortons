@@ -33,3 +33,13 @@ Within the meaning of business informatics we decided to implement an user inter
 ![Operative UI](https://github.com/ChristopherStumm/TimHortons/blob/master/Presentation%20materials/Fabric_UI.png)
 
 We implemented this by using the observer pattern. With the help of this pattern the UI will be attached as an observer to the identifier class. In case of any changes a notify method in this class will be called. This results in updating the list model of the JList on the left side of the window. The factory shapes (stations) are updated in this way as well.  
+
+
+## Saving the data ##
+Saving the data takes place after the product has been fully produced and went through the spectral analysis. An Object containing all the data coming from the ERPData queue as well as the data from the different events (light barriers, drilling / milling stations). This Java object is then marshalled to a JSON object.
+
+The JSON-Object is then inserted into a remotely available MongoDB installation via the native MongoDB driver for Java into a collection for the orders. 
+
+The NodeJS backend serves as the data provider for the executive view. It serves the data for the most recent orders inserted into the database to be shown in the view.
+
+There are background jobs running on the remote machine aggregating the data and calculating average values that are then placed in a different document in a different collection. This facilitates the possibility to provide a faster request of those aggregated values without having to recalculate all the averages with every request. This makes it possible to provide an application for the manager enabling him to have a quick look at all the data without having to drill into the details
