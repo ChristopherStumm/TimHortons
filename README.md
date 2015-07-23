@@ -1,6 +1,6 @@
 # TimHortons
 University of Ontario Institute of Technology / DHBW Mannheim
-Project Industry / Big Data - Summer School 2015
+Project Industry 4.0 / Big Data - Summer School 2015
 
 Link to the presentation held on July 24, 2015: [click here] (https://docs.google.com/presentation/d/1ptnTii_kZqtrl_G6JCvVv2jaxookzrxZ5K-czQudQxE/edit#slide=id.p)
 
