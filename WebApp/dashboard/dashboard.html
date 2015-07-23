@@ -9,26 +9,26 @@
                     <ul>
                         <li>
                             <div class="left">&#216 Milling Speed:</div>
-                            <div class="right">{{avMillSpeed}}</div>
+                            <div class="right">{{avMillSpeed}} U/Min</div>
                         </li>
 
                         <li>
                             <div class="left">&#216 Drilling Speed:</div>
-                            <div class="right">{{avDrillSpeed}}</div>
+                            <div class="right">{{avDrillSpeed}} U/Min</div>
                         </li>
 
                         <li>
                             <div class="left">&#216 Milling Heat:</div>
-                            <div class="right">{{avMillHeat}}</div>
+                            <div class="right">{{avMillHeat}} &deg;C</div>
                         </li>
 
                         <li>
                             <div class="left">&#216 Drilling Heat:</div>
-                            <div class="right">{{avDrillHeat}}</div>
+                            <div class="right">{{avDrillHeat}} &deg;C</div>
                         </li>
                         <li>
                             <div class="left">&#216 Runtime:</div>
-                            <div class="right">{{avRuntime}}</div>
+                            <div class="right">{{avRuntime}} s</div>
                         </li>
                     </ul>
 
@@ -58,7 +58,7 @@
                     </canvas>
                 </div>
                 <div class="quad-chart-col col2">
-                    <h3>Last Drilling/Milling Values</h3>
+                    <h3>Last Drilling/Milling Heat Values</h3>
                     <canvas id="heatGraph" class="chart chart-line" data="heatData" labels="heatLabels" legend="true" series="series">
                     </canvas>
                 </div>

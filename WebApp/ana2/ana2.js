@@ -108,7 +108,7 @@ angular.module('timHortons.Ana2', ['ngRoute'])
             var data = [['Material', 'Status OK', 'Status NOK']];
             for (var i = 0; i < allMaterials.length; i++) {
                 var arrayToAdd = [];
-                arrayToAdd[0] = 'Matetial ' + allMaterials[i];
+                arrayToAdd[0] = 'Material ' + allMaterials[i];
                 arrayToAdd[1] = goodProducts[i];
                 arrayToAdd[2] = badProducts[i];
                 data.push(arrayToAdd);
@@ -129,7 +129,7 @@ angular.module('timHortons.Ana2', ['ngRoute'])
             var obj = {};
             if ($scope.allMaterials.length > 0) {
                 for (var i = 0; i < $scope.allMaterials.length; i++) {
-                    obj[$scope.allMaterials[i]] = ($scope.totalProducts[i] / 6 / 5) * ($scope.machines * $scope.hours);
+                    obj[$scope.allMaterials[i]] = (($scope.totalProducts[i] / 6 / 5) * ($scope.machines * $scope.hours)).toFixed(2);
                 }
             }
             $scope.predictiveData = obj;

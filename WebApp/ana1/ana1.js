@@ -40,7 +40,6 @@ angular.module('timHortons.Ana1', ['ngRoute', 'chart.js'])
                     customers_numberOfOrders[String(customerNumber)] = 1;
                 }
             }
-            console.log("CUSTOMERS")
             var allKeys = Object.keys(customers_numberOfOrders);
             var allValues = []
             for (var i = 0; i < allKeys.length; i++) {

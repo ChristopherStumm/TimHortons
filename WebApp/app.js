@@ -22,7 +22,6 @@ angular.module('TimHortons', [
             console.log("Requesting");
             $http.get(getProductRequest()).success(function (data) {
                 console.log("GOT DATA WITH " + getProductRequest());
-                console.log(data);
                 timestamp = new Date().getTime();
                 var addToRootScope = [];
 
@@ -34,12 +33,10 @@ angular.module('TimHortons', [
                         for (var i = 0; i < $rootScope.requestedData.length; i++) {
                             if ($rootScope.requestedData[i].orderNumber == data[j].orderNumber) {
                                 alreadyFetched = true;
-                                console.log("Match found");
                             }
                         }
                         if (!alreadyFetched) {
                             addToRootScope.push(data[j]);
-                            console.log(data[j].endTime);
                         }
                     }
                     for (var l = 0; l < addToRootScope.length; l++) {
@@ -47,7 +44,7 @@ angular.module('TimHortons', [
                     }
                 }
                 console.log("new Data in rootscope, new length: " + $rootScope.requestedData.length);
-                $timeout(tick, 5000);
+                $timeout(tick, 20000);
             }).error(function (error) {
                 console.log(error)
             });

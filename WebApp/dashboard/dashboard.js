@@ -17,11 +17,11 @@ var app = angular.module('timHortons.Dashboard', ['ngRoute', 'angularCharts'])
 .controller('DashboardController', ['$scope', '$http', '$timeout', 'getAverageData', '$rootScope',
     function ($scope, $http, $timeout, getAverageData, $rootScope) {
         var running = true;
-        $scope.avMillSpeed = 20;
-        $scope.avDrillSpeed = 30;
-        $scope.avMillHeat = 40;
-        $scope.avDrillHeat = 50;
-        $scope.avRuntime = 60;
+        $scope.avMillSpeed = 0;
+        $scope.avDrillSpeed = 0;
+        $scope.avMillHeat = 0;
+        $scope.avDrillHeat = 0;
+        $scope.avRuntime = 0;
 
 
         var allData = getAverageData.query();
@@ -35,6 +35,7 @@ var app = angular.module('timHortons.Dashboard', ['ngRoute', 'angularCharts'])
                 $scope.avDrillSpeed = data.drillingSpeed.avg.toFixed(2);
                 $scope.avMillHeat = data.millingHeat.avg.toFixed(2);
                 $scope.avMillSpeed = data.millingSpeed.avg.toFixed(2);
+                $scope.avRuntime = 99.04;
                 $timeout(tickAverageData, 25000);
             })
         })()
@@ -45,8 +46,7 @@ var app = angular.module('timHortons.Dashboard', ['ngRoute', 'angularCharts'])
         }
         $scope.speedLabels = labels;
         $scope.heatLabels = labels;
-        $scope.speedSeries = ['abc', 'def'];
-        $scope.heatSeries = ['Milling', 'Drilling'];
+        $scope.series = ['Milling', 'Drilling'];
 
         (function tick() {
             setData()
@@ -91,8 +91,6 @@ var app = angular.module('timHortons.Dashboard', ['ngRoute', 'angularCharts'])
                     }
                 }
             }
-            console.log("Failures");
-            console.log(notOkProducts);
 
             $scope.heatData = heatData;
             $scope.speedData = speedData;
