@@ -44,7 +44,7 @@ angular.module('TimHortons', [
                     }
                 }
                 console.log("new Data in rootscope, new length: " + $rootScope.requestedData.length);
-                $timeout(tick, 20000);
+                $timeout(tick, 5000);
             }).error(function (error) {
                 console.log(error)
             });

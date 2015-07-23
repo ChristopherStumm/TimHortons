@@ -129,7 +129,7 @@ angular.module('timHortons.Ana2', ['ngRoute'])
             var obj = {};
             if ($scope.allMaterials.length > 0) {
                 for (var i = 0; i < $scope.allMaterials.length; i++) {
-                    obj[$scope.allMaterials[i]] = (($scope.totalProducts[i] / 6 / 5) * ($scope.machines * $scope.hours)).toFixed(2);
+                    obj[$scope.allMaterials[i]] = (($scope.totalProducts[i] / 5 / 2) * ($scope.machines * $scope.hours)).toFixed(2);
                 }
             }
             $scope.predictiveData = obj;
@@ -139,12 +139,12 @@ angular.module('timHortons.Ana2', ['ngRoute'])
             var ctr = 0;
             var currentHour = new Date().getHours();
             var hours = [];
-            hours[0] = currentHour - 1;
-            hours[1] = currentHour - 2;
-            hours[2] = currentHour - 3;
-            hours[3] = currentHour - 4;
-            hours[4] = currentHour - 5;
-            hours[5] = currentHour - 6;
+            hours[0] = currentHour;
+            hours[1] = currentHour - 1;
+            hours[2] = currentHour - 2;
+            hours[3] = currentHour - 3;
+            hours[4] = currentHour - 4;
+            hours[5] = currentHour - 5;
 
             for (var i = 0; i < hours.length; i++) {
                 if (hours[i] < 0) {
