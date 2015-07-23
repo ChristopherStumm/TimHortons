@@ -197,7 +197,7 @@ public class Identifier {
 		if (item == null){
 			System.out.println("OPC Data is null");
 		}
-		int index = -1;
+		ArrayList<Integer> indexes = new ArrayList<>();
 		System.out.println("Station of Event: " + stationOfEvent);
 		for (int i = 0; i < productList.length; i++) {
 			if (productList[i] != null) {
@@ -205,33 +205,29 @@ public class Identifier {
 						+ productList[i].getStation());
 				if (stationOfEvent != 6 && stationOfEvent != 10) {
 					if (productList[i].getStation() == (stationOfEvent - 1)) {
-						index = i;
+						indexes.add(i);
 					}
 				} else {
 					if (productList[i].getStation() == stationOfEvent
 							&& heatOrSpeed) {
-						index = i;
+						indexes.add(i);
 					} else if (productList[i].getStation() == (stationOfEvent - 1)
 							&& !heatOrSpeed) {
-						index = i;
+						indexes.add(i);
 					}
 				}
 			}
 
 		}
-
-		if (index != -1) {
-			if (productList[index].getStation() != 14) {
-				productList[index].setStation(stationOfEvent);
+		for (int i = 0; i < indexes.size(); i++){
+			if (productList[indexes.get(i)].getStation() != 14) {
+				productList[indexes.get(i)].setStation(stationOfEvent);
 			}
-			productList[index].notifyObservers();
-			productList[index].addOPCData(item);
-			return productList[index].getId();
-		} else {
-			System.err.println("Product could not be identified. Sorry!");
-			occupied = false;
-			return null;
+			productList[indexes.get(i)].notifyObservers();
+			productList[indexes.get(i)].addOPCData(item);
+			return productList[indexes.get(i)].getId();
 		}
+		return null;
 
 	}
 
