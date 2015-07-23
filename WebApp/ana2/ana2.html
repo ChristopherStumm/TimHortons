@@ -11,9 +11,9 @@
         </div>
         <br>
         <div class="single-chart-container">
-            Prognostizierte Materialbedarf für die nächsten
-            <input type="number" name="input" ng-model="hours" min="0" max="99" required>Stunden mit
-            <input type="number" name="input" ng-model="machines" min="0" max="99" required>Maschinen
+            Predicted material demand within the next
+            <input type="number" name="input" ng-model="hours" min="0" max="99" required>hours with
+            <input type="number" name="input" ng-model="machines" min="0" max="99" required>machines:
 
             <div ng-repeat="(key, value) in predictiveData">
                 {{key}} : {{value}}
